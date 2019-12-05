@@ -4,32 +4,42 @@ $v->layout('layouts/default')
 /**
  * @var \Php\Domain\Book\Book[] $books
  * @var int $booksCount
- * @var int $page
- * @var int $lastPage
+ * @var \Pagerfanta\Pagerfanta $pager
+ * @var string $pagerHtml
  */
 ?>
-<h1>Books Total: <?= $booksCount ?> Page: <?= $page ?> / <?= $lastPage ?> </h1>
-<form action="/seeds" method="post">
-    <button type="submit" class="btn btn-primary">テーブル再生性</button>
-</form>
-
-<table class="table">
-    <thead>
-    <tr>
-        <th scope="col">#</th>
-        <th scope="col">title</th>
-        <th scope="col">year</th>
-        <th scope="col">author</th>
-    </tr>
-    </thead>
-    <tbody>
-    <?php foreach ($books as $book): ?>
+<div class="row">
+    <h1>Books Total: <?= $booksCount ?> Page: <?= $pager->getCurrentPage() ?> / <?= $pager->getNbPages() ?> </h1>
+</div>
+<div class="row">
+    <form action="/seeds" method="post">
+        <button type="submit" class="btn btn-primary">テーブル再生性</button>
+    </form>
+</div>
+<div class="row">
+    <table class="table">
+        <thead>
         <tr>
-            <th scope="row"><?= $book->id ?></th>
-            <td><?= $book->title ?></td>
-            <td><?= $book->year ?></td>
-            <td><?= $book->author->name ?></td>
+            <th scope="col">#</th>
+            <th scope="col">title</th>
+            <th scope="col">year</th>
+            <th scope="col">author</th>
         </tr>
-    <?php endforeach; ?>
-    </tbody>
-</table>
+        </thead>
+        <tbody>
+        <?php foreach ($books as $book): ?>
+            <tr>
+                <th scope="row"><?= $book->id ?></th>
+                <td><?= $book->title ?></td>
+                <td><?= $book->year ?></td>
+                <td><?= $book->author->name ?></td>
+            </tr>
+        <?php endforeach; ?>
+        </tbody>
+    </table>
+</div>
+<div class="row">
+    <div class="mx-auto">
+        <?= $pagerHtml ?>
+    </div>
+</div>

@@ -4,6 +4,8 @@ declare(strict_types=1);
 namespace Php\Controller;
 
 use League\Plates\Engine;
+use Pagerfanta\Adapter\FixedAdapter;
+use Pagerfanta\Pagerfanta;
 use Psr\Http\Message\RequestInterface;
 use Psr\Http\Message\ResponseInterface;
 use Zend\Diactoros\Response;
@@ -26,6 +28,18 @@ abstract class Controller
         $output = $this->templates->render($template, $data);
         $response->getBody()->write($output);
         return $response;
+    }
+
+    protected function pager(int $totalCount, array $items): Pagerfanta
+    {
+        $adapter = new FixedAdapter($totalCount, $items);
+        return new Pagerfanta($adapter);
+    }
+
+    protected function pagerHtml(Pagerfanta $pager, callable $routeGenerator): string
+    {
+        $pagerView = new \Pagerfanta\View\TwitterBootstrap4View();
+        return $pagerView->render($pager, $routeGenerator);
     }
 
     protected function redirectBack(RequestInterface $req, ResponseInterface $res): ResponseInterface
