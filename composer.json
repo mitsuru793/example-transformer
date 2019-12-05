@@ -1,0 +1,33 @@
+{
+    "name": "mitsuru793/TODO",
+    "description": "",
+    "type": "library",
+    "scripts": {
+      "test": "phpunit --color=always",
+      "analyze": "phpstan analyze $(git diff --diff-filter=ACMR --name-only --find-renames=0% $(git merge-base origin/master HEAD))",
+      "fix": "php-cs-fixer fix ."
+    },
+    "require": {
+        "tightenco/collect": "^6.5",
+        "symfony/console": "^4.2"
+    },
+    "require-dev": {
+        "phpunit/phpunit": "^8.4",
+        "mikey179/vfsStream": "^1.6",
+        "mihaeu/html-formatter": "^1.0",
+        "symfony/var-dumper": "^4.2",
+        "friendsofphp/php-cs-fixer": "^2.16",
+        "phpstan/phpstan": "^0.11.19"
+    },
+    "autoload": {
+        "psr-4": {
+            "Php\\": "src/"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "Helper\\": "tests/Helper",
+            "Php\\": "tests/"
+        }
+    }
+}
