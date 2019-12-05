@@ -20,7 +20,13 @@ final class PageController extends Controller
 
     public function index(ServerRequestInterface $req): ResponseInterface
     {
-        $books = $this->bookRepo->paging(1, 5);
-        return $this->view($this->response, 'index', ['books' => $books]);
+        $page = 1;
+        $perPage =  5;
+        $booksCount = $this->bookRepo->count();
+        $books = $this->bookRepo->paging($page, $perPage);
+        $lastPage = ceil($booksCount / $perPage);
+        return $this->view($this->response, 'index', compact(
+            'booksCount', 'books', 'page', 'lastPage',
+        ));
     }
 }

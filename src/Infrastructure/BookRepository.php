@@ -27,15 +27,20 @@ final class BookRepository
         ]);
     }
 
-    public function paging(int $page, int $count): array
+    public function count(): int
     {
-        $offset = ($page -1 ) * $count;
+        return (int)$this->db->single('SELECT count(*) FROM books');
+    }
+
+    public function paging(int $page, int $perPage): array
+    {
+        $offset = ($page -1 ) * $perPage;
         $rows = $this->db->run(<<<SQL
             SELECT {$this->columnsStr()}, {$this->userRepo->columnsStr()}
             FROM books
             INNER JOIN users ON users.id = books.author_id
             ORDER BY books_id ASC
-            LIMIT $count OFFSET $offset
+            LIMIT $perPage OFFSET $offset
             SQL
         );
         return array_map(function ($row) {

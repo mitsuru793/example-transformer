@@ -3,9 +3,12 @@ $v->layout('layouts/default')
 
 /**
  * @var \Php\Domain\Book\Book[] $books
+ * @var int $booksCount
+ * @var int $page
+ * @var int $lastPage
  */
 ?>
-<h1>Books</h1>
+<h1>Books Total: <?= $booksCount ?> Page: <?= $page ?> / <?= $lastPage ?> </h1>
 <form action="/seeds" method="post">
     <button type="submit" class="btn btn-primary">テーブル再生性</button>
 </form>
