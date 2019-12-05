@@ -9,7 +9,8 @@
     },
     "require": {
         "tightenco/collect": "^6.5",
-        "symfony/console": "^4.2"
+        "symfony/console": "^4.2",
+        "league/fractal": "^0.18.0"
     },
     "require-dev": {
         "phpunit/phpunit": "^8.4",
@@ -17,7 +18,8 @@
         "mihaeu/html-formatter": "^1.0",
         "symfony/var-dumper": "^4.2",
         "friendsofphp/php-cs-fixer": "^2.16",
-        "phpstan/phpstan": "^0.11.19"
+        "phpstan/phpstan": "^0.11.19",
+        "fzaninotto/faker": "^1.9"
     },
     "autoload": {
         "psr-4": {
