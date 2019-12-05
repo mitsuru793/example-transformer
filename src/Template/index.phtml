@@ -17,8 +17,8 @@ $v->layout('layouts/default')
     <thead>
     <tr>
         <th scope="col">#</th>
-        <th scope="col">id</th>
         <th scope="col">title</th>
+        <th scope="col">year</th>
         <th scope="col">author</th>
     </tr>
     </thead>
@@ -27,6 +27,7 @@ $v->layout('layouts/default')
         <tr>
             <th scope="row"><?= $book->id ?></th>
             <td><?= $book->title ?></td>
+            <td><?= $book->year ?></td>
             <td><?= $book->author->name ?></td>
         </tr>
     <?php endforeach; ?>
