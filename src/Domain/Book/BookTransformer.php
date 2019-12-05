@@ -1,9 +1,11 @@
 <?php
 declare(strict_types=1);
 
-namespace Php;
+namespace Php\Domain\Book;
 
 use League\Fractal\TransformerAbstract;
+use Php\Domain\User\User;
+use Php\Domain\User\UserTransformer;
 
 final class BookTransformer extends TransformerAbstract
 {
@@ -13,8 +15,9 @@ final class BookTransformer extends TransformerAbstract
 
     private User $viewer;
 
-    public function __construct(User $viewer)
+    public function setViewer(User $viewer)
     {
+
         $this->viewer = $viewer;
     }
 
@@ -24,7 +27,7 @@ final class BookTransformer extends TransformerAbstract
             'id'    => (int) $book->id,
             'title' => $book->title,
             'year'    => (int) $book->year,
-            'viewable' => in_array($this->viewer->id, $book->viewableUserIds),
+            'viewable' => in_array($this->viewer->id ?? null, $book->viewableUserIds),
             'links'   => [
                 [
                     'rel' => 'self',
@@ -38,6 +41,6 @@ final class BookTransformer extends TransformerAbstract
     {
         $author = $book->author;
 
-        return $this->item($author, new AuthorTransformer);
+        return $this->item($author, new UserTransformer);
     }
 }

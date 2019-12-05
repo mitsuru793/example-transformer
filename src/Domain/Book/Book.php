@@ -1,11 +1,13 @@
 <?php
 declare(strict_types=1);
 
-namespace Php;
+namespace Php\Domain\Book;
+
+use Php\Domain\User\User;
 
 final class Book
 {
-    public int $id;
+    public ?int $id;
 
     public string $title;
 
@@ -15,7 +17,7 @@ final class Book
 
     public array $viewableUserIds;
 
-    public function __construct(int $id, string $title, int $year, User $author, array $viewableUserIds = [])
+    public function __construct(?int $id, string $title, int $year, User $author, array $viewableUserIds = [])
     {
         $this->id = $id;
         $this->title = $title;
@@ -27,6 +29,6 @@ final class Book
     public static function fake(\Faker\Generator $f): self
     {
         static $id = 1;
-        return new self($id++, $f->sentence, (int)$f->year, User::fake($f));
+        return new self(null, $f->sentence, (int)$f->year, User::fake($f));
     }
 }

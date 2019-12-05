@@ -1,0 +1,31 @@
+<?php
+$v->layout('layouts/default')
+
+/**
+ * @var \Php\Domain\Book\Book[] $books
+ */
+?>
+<h1>Books</h1>
+<form action="/seeds" method="post">
+    <button type="submit" class="btn btn-primary">テーブル再生性</button>
+</form>
+
+<table class="table">
+    <thead>
+    <tr>
+        <th scope="col">#</th>
+        <th scope="col">id</th>
+        <th scope="col">title</th>
+        <th scope="col">author</th>
+    </tr>
+    </thead>
+    <tbody>
+    <?php foreach ($books as $book): ?>
+        <tr>
+            <th scope="row"><?= $book->id ?></th>
+            <td><?= $book->title ?></td>
+            <td><?= $book->author->name ?></td>
+        </tr>
+    <?php endforeach; ?>
+    </tbody>
+</table>
