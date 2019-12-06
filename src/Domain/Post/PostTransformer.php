@@ -1,13 +1,13 @@
 <?php
 declare(strict_types=1);
 
-namespace Php\Domain\Book;
+namespace Php\Domain\Post;
 
 use League\Fractal\TransformerAbstract;
 use Php\Domain\User\User;
 use Php\Domain\User\UserTransformer;
 
-final class BookTransformer extends TransformerAbstract
+final class PostTransformer extends TransformerAbstract
 {
     protected $availableIncludes = [
         'author',
@@ -21,25 +21,25 @@ final class BookTransformer extends TransformerAbstract
         return $this;
     }
 
-    public function transform(Book $book): array
+    public function transform(Post $post): array
     {
         return [
-            'id' => (int)$book->id,
-            'title' => $book->title,
-            'year' => (int)$book->year,
-            'viewable' => in_array($this->viewer->id ?? null, $book->viewableUserIds),
+            'id' => (int)$post->id,
+            'title' => $post->title,
+            'year' => (int)$post->year,
+            'viewable' => in_array($this->viewer->id ?? null, $post->viewableUserIds),
             'links' => [
                 [
                     'rel' => 'self',
-                    'uri' => '/books/' . $book->id,
+                    'uri' => '/posts/' . $post->id,
                 ],
             ],
         ];
     }
 
-    public function includeAuthor(Book $book): \League\Fractal\Resource\Item
+    public function includeAuthor(Post $post): \League\Fractal\Resource\Item
     {
-        $author = $book->author;
+        $author = $post->author;
 
         return $this->item($author, new UserTransformer);
     }

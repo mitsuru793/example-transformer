@@ -2,19 +2,23 @@
 $v->layout('layouts/default')
 
 /**
- * @var \Php\Domain\User\User $loginUser
- * @var \Php\Domain\Book\Book[] $books
+ * @var \Php\Domain\User\User|null $loginUser
+ * @var \Php\Domain\Post\Post[] $posts
  * @var array $transformed
- * @var int $booksCount
+ * @var int $postsCount
  * @var \Pagerfanta\Pagerfanta $pager
  * @var string $pagerHtml
  */
 ?>
 <div class="row">
-    <p>login user: <?= $loginUser->name ?></p>
+    <?php if (is_null($loginUser)): ?>
+        <p>login user: non</p>
+    <?php else: ?>
+        <p>login user: <?= $loginUser->name ?></p>
+    <?php endif ?>
 </div>
 <div class="row">
-    <h1>Books Total: <?= $booksCount ?> Page: <?= $pager->getCurrentPage() ?> / <?= $pager->getNbPages() ?> </h1>
+    <h1>Posts Total: <?= $postsCount ?> Page: <?= $pager->getCurrentPage() ?> / <?= $pager->getNbPages() ?> </h1>
 </div>
 <div class="row">
     <form action="/seeds" method="post">
@@ -35,12 +39,12 @@ $v->layout('layouts/default')
         </tr>
         </thead>
         <tbody>
-        <?php foreach ($books as $book): ?>
+        <?php foreach ($posts as $post): ?>
             <tr>
-                <th scope="row"><?= $book->id ?></th>
-                <td><?= $book->title ?></td>
-                <td><?= $book->year ?></td>
-                <td><?= $book->author->name ?></td>
+                <th scope="row"><?= $post->id ?></th>
+                <td><?= $post->title ?></td>
+                <td><?= $post->year ?></td>
+                <td><?= $post->author->name ?></td>
             </tr>
         <?php endforeach; ?>
         </tbody>

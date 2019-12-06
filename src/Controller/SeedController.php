@@ -5,9 +5,9 @@ namespace Php\Controller;
 
 use Faker\Factory;
 use League\Plates\Engine;
-use Php\Domain\Book\Book;
+use Php\Domain\Post\Post;
 use Php\Domain\User\User;
-use Php\Infrastructure\BookRepository;
+use Php\Infrastructure\PostRepository;
 use Php\Infrastructure\Database;
 use Php\Infrastructure\UserRepository;
 use Psr\Http\Message\ResponseInterface;
@@ -19,14 +19,14 @@ final class SeedController extends Controller
 
     private UserRepository $userRepository;
 
-    private BookRepository $bookRepository;
+    private PostRepository $postRepository;
 
-    public function __construct(Engine $templates, Database $db, UserRepository $userRepository, BookRepository $bookRepository)
+    public function __construct(Engine $templates, Database $db, UserRepository $userRepository, PostRepository $postRepository)
     {
         parent::__construct($templates);
         $this->db = $db;
         $this->userRepository = $userRepository;
-        $this->bookRepository = $bookRepository;
+        $this->postRepository = $postRepository;
     }
 
     public function store(ServerRequestInterface $req): ResponseInterface
@@ -42,8 +42,8 @@ final class SeedController extends Controller
 
         for ($i = 0; $i < 200; $i++) {
             $user = collect($users)->random();
-            $book = new Book(null, $faker->sentence, (int)$faker->year, $user);
-            $this->bookRepository->create($book);
+            $post = new Post(null, $faker->sentence, (int)$faker->year, $user);
+            $this->postRepository->create($post);
         }
 
         return $this->redirectBack($req, $this->response);

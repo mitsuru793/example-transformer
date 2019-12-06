@@ -3,9 +3,9 @@ declare(strict_types=1);
 
 namespace Php\Infrastructure;
 
-use Php\Domain\Book\Book;
+use Php\Domain\Post\Post;
 
-final class BookRepository
+final class PostRepository
 {
     private Database $db;
 
@@ -17,19 +17,19 @@ final class BookRepository
         $this->userRepo = $userRepo;
     }
 
-    public function create(Book $book)
+    public function create(Post $post)
     {
-        $this->db->insert('books', [
-            'title' => $book->title,
-            'year' => $book->year,
-            'author_id' => $book->author->id,
-            'viewable_user_ids' => json_encode($book->viewableUserIds),
+        $this->db->insert('posts', [
+            'title' => $post->title,
+            'year' => $post->year,
+            'author_id' => $post->author->id,
+            'viewable_user_ids' => json_encode($post->viewableUserIds),
         ]);
     }
 
     public function count(): int
     {
-        return (int)$this->db->single('SELECT count(*) FROM books');
+        return (int)$this->db->single('SELECT count(*) FROM posts');
     }
 
     public function paging(int $page, int $perPage): array
@@ -37,21 +37,21 @@ final class BookRepository
         $offset = ($page -1 ) * $perPage;
         $rows = $this->db->run(<<<SQL
             SELECT {$this->columnsStr()}, {$this->userRepo->columnsStr()}
-            FROM books
-            INNER JOIN users ON users.id = books.author_id
-            ORDER BY books_id ASC
+            FROM posts
+            INNER JOIN users ON users.id = posts.author_id
+            ORDER BY posts_id ASC
             LIMIT $perPage OFFSET $offset
             SQL
         );
         return array_map(function ($row) {
-            return $this->toBook($row);
+            return $this->toPost($row);
         }, $rows);
     }
 
     public function columns(): array
     {
         $columns = ['id', 'title', 'year', 'author_id', 'viewable_user_ids'];
-        return array_map(fn($v) => "books.$v AS books_$v", $columns);
+        return array_map(fn($v) => "posts.$v AS posts_$v", $columns);
     }
 
     public function columnsStr(): string
@@ -59,9 +59,9 @@ final class BookRepository
         return implode(',', $this->columns());
     }
 
-    public function toBook(array $row): Book
+    public function toPost(array $row): Post
     {
         $author = $this->userRepo->toUser($row);
-        return new Book((int)$row['books_id'], $row['books_title'], $row['books_year'], $author, json_decode($row['books_viewable_user_ids']));
+        return new Post((int)$row['posts_id'], $row['posts_title'], $row['posts_year'], $author, json_decode($row['posts_viewable_user_ids']));
     }
 }

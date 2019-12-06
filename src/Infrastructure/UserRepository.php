@@ -15,12 +15,15 @@ final class UserRepository
         $this->db = $db;
     }
 
-    public function find(int $id): User
+    public function find(int $id): ?User
     {
         $row = $this->db->row(
             "SELECT {$this->columnsStr()} FROM users WHERE users.id = ?",
             $id,
             );
+        if (!$row) {
+            return null;
+        }
         return new User((int)$row['users_id'], $row['users_name']);
     }
 

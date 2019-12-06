@@ -3,7 +3,7 @@ declare(strict_types=1);
 
 namespace Php\Domain\User;
 
-use Php\Domain\Book\Book;
+use Php\Domain\Post\Post;
 
 final class User
 {

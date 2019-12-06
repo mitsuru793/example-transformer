@@ -1,11 +1,11 @@
 <?php
 declare(strict_types=1);
 
-namespace Php\Domain\Book;
+namespace Php\Domain\Post;
 
 use Php\Domain\User\User;
 
-final class Book
+final class Post
 {
     public ?int $id;
 
