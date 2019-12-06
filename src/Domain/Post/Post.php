@@ -25,10 +25,4 @@ final class Post
         $this->author = $author;
         $this->viewableUserIds = $viewableUserIds;
     }
-
-    public static function fake(\Faker\Generator $f): self
-    {
-        static $id = 1;
-        return new self(null, $f->sentence, (int)$f->year, User::fake($f));
-    }
 }
