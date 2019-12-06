@@ -10,29 +10,29 @@ use Php\Domain\User\UserTransformer;
 final class BookTransformer extends TransformerAbstract
 {
     protected $availableIncludes = [
-        'author'
+        'author',
     ];
 
     private User $viewer;
 
-    public function setViewer(User $viewer)
+    public function setViewer(User $viewer): self
     {
-
         $this->viewer = $viewer;
+        return $this;
     }
 
     public function transform(Book $book): array
     {
         return [
-            'id'    => (int) $book->id,
+            'id' => (int)$book->id,
             'title' => $book->title,
-            'year'    => (int) $book->year,
+            'year' => (int)$book->year,
             'viewable' => in_array($this->viewer->id ?? null, $book->viewableUserIds),
-            'links'   => [
+            'links' => [
                 [
                     'rel' => 'self',
-                    'uri' => '/books/'.$book->id,
-                ]
+                    'uri' => '/books/' . $book->id,
+                ],
             ],
         ];
     }

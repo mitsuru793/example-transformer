@@ -2,12 +2,17 @@
 $v->layout('layouts/default')
 
 /**
+ * @var \Php\Domain\User\User $loginUser
  * @var \Php\Domain\Book\Book[] $books
+ * @var array $transformed
  * @var int $booksCount
  * @var \Pagerfanta\Pagerfanta $pager
  * @var string $pagerHtml
  */
 ?>
+<div class="row">
+    <p>login user: <?= $loginUser->name ?></p>
+</div>
 <div class="row">
     <h1>Books Total: <?= $booksCount ?> Page: <?= $pager->getCurrentPage() ?> / <?= $pager->getNbPages() ?> </h1>
 </div>
@@ -15,6 +20,9 @@ $v->layout('layouts/default')
     <form action="/seeds" method="post">
         <button type="submit" class="btn btn-primary">テーブル再生性</button>
     </form>
+</div>
+<div class="row">
+    <?php dump($transformed) ?>
 </div>
 <div class="row">
     <table class="table">
