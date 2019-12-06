@@ -1,7 +1,7 @@
 <?php
 declare(strict_types=1);
 
-namespace Php\Controller;
+namespace Php\Application\Actions\Post;
 
 use League\Fractal\Manager;
 use League\Fractal\Pagination\Cursor;
@@ -10,10 +10,9 @@ use League\Plates\Engine;
 use Php\Domain\Post\PostTransformer;
 use Php\Infrastructure\PostRepository;
 use Php\Infrastructure\UserRepository;
-use Psr\Http\Message\ResponseInterface;
-use Psr\Http\Message\ServerRequestInterface;
+use Psr\Http\Message\ResponseInterface as Response;
 
-final class PageController extends Controller
+final class ListPostsAction extends PostAction
 {
     private UserRepository $userRepository;
 
@@ -29,10 +28,10 @@ final class PageController extends Controller
         $this->postTransformer = $postTransformer;
     }
 
-    public function index(ServerRequestInterface $req): ResponseInterface
+    protected function action(): Response
     {
         $loginUser = $this->userRepository->find(1);
-        $query = $req->getQueryParams();
+        $query = $this->request->getQueryParams();
         $page = (int)($query['page'] ?? 1);
         $perPage = 5;
 
@@ -58,7 +57,7 @@ final class PageController extends Controller
             ->setMaxPerPage($perPage)
             ->setCurrentPage($page);
         $pagerHtml = $this->pagerHtml($pager, fn($page) => "/?page=$page&perPage=$perPage");
-        return $this->view($this->response, 'index', compact(
+        return $this->renderView($this->response, 'index', compact(
             'loginUser', 'postsCount', 'posts', 'page', 'lastPage', 'pager', 'pagerHtml', 'transformed'
         ));
     }
