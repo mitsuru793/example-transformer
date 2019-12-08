@@ -1,38 +1,38 @@
 <?php
 declare(strict_types=1);
 
-namespace Php\Controller;
+namespace Php\Application\Actions\Seed;
 
 use Faker\Factory;
 use League\Plates\Engine;
 use Php\Domain\Post\Post;
 use Php\Domain\User\User;
-use Php\Infrastructure\PostRepository;
 use Php\Infrastructure\Database;
+use Php\Infrastructure\PostRepository;
 use Php\Infrastructure\UserRepository;
-use Psr\Http\Message\ResponseInterface;
-use Psr\Http\Message\ServerRequestInterface;
+use Psr\Http\Message\ResponseInterface as Response;
 
-final class SeedController extends Controller
+final class StoreSeedAction extends SeedAction
 {
-    private Database $db;
-
     private UserRepository $userRepository;
 
     private PostRepository $postRepository;
 
-    public function __construct(Engine $templates, Database $db, UserRepository $userRepository, PostRepository $postRepository)
+    private Database $db;
+
+    public function __construct(Engine $templates, UserRepository $userRepository, PostRepository $postRepository, Database $db)
     {
         parent::__construct($templates);
-        $this->db = $db;
         $this->userRepository = $userRepository;
         $this->postRepository = $postRepository;
+        $this->db = $db;
     }
 
-    public function store(ServerRequestInterface $req): ResponseInterface
+
+    protected function action(): Response
     {
         $faker = Factory::create();
-        $this->db->runSqlFile(__DIR__ . '/../../config/create_tables.sql');
+        $this->db->runSqlFile(__DIR__ . '/../../../../config/create_tables.sql');
 
         $users = [];
         for ($i = 0; $i < 30; $i++) {
@@ -46,6 +46,6 @@ final class SeedController extends Controller
             $this->postRepository->create($post);
         }
 
-        return $this->redirectBack($req, $this->response);
+        return $this->redirectBack($this->request, $this->response);
     }
 }
