@@ -13,8 +13,9 @@ CREATE TABLE IF NOT EXISTS posts
 (
     id        INTEGER AUTO_INCREMENT,
     author_id INTEGER,
-    viewable_user_ids TEXT,
     title     VARCHAR(100),
+    content     VARCHAR(400),
+    viewable_user_ids TEXT,
     year      INTEGER,
     PRIMARY KEY (id),
     FOREIGN KEY (author_id) REFERENCES users (id)

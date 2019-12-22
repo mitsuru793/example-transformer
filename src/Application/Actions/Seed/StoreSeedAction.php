@@ -44,7 +44,8 @@ final class StoreSeedAction extends SeedAction
 
         for ($i = 0; $i < 200; $i++) {
             $user = collect($users)->random();
-            $post = new Post(null, $faker->sentence, (int)$faker->year, $user);
+            $content = implode('', $faker->sentences(5));
+            $post = new Post(null, $user, $faker->sentence, $content, (int)$faker->year);
             $this->postRepository->create($post);
         }
 

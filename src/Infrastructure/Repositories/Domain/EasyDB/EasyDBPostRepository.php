@@ -23,6 +23,7 @@ final class EasyDBPostRepository implements PostRepository
     {
         $this->db->insert('posts', [
             'title' => $post->title,
+            'content' => $post->content,
             'year' => $post->year,
             'author_id' => $post->author->id,
             'viewable_user_ids' => json_encode($post->viewableUserIds),
@@ -54,7 +55,7 @@ final class EasyDBPostRepository implements PostRepository
 
     public function columns(): array
     {
-        $columns = ['id', 'title', 'year', 'author_id', 'viewable_user_ids'];
+        $columns = ['id', 'author_id', 'title', 'content', 'year', 'viewable_user_ids'];
         return array_map(fn($v) => "posts.$v AS posts_$v", $columns);
     }
 
@@ -66,6 +67,6 @@ final class EasyDBPostRepository implements PostRepository
     public function toPost(array $row): Post
     {
         $author = $this->userRepo->toUser($row);
-        return new Post((int)$row['posts_id'], $row['posts_title'], $row['posts_year'], $author, json_decode($row['posts_viewable_user_ids']));
+        return new Post((int)$row['posts_id'], $author, $row['posts_title'], $row['posts_content'], $row['posts_year'], json_decode($row['posts_viewable_user_ids']));
     }
 }

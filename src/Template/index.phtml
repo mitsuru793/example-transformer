@@ -34,6 +34,7 @@ $v->layout('layouts/default')
         <tr>
             <th scope="col">#</th>
             <th scope="col">title</th>
+            <th scope="col">content</th>
             <th scope="col">year</th>
             <th scope="col">author</th>
         </tr>
@@ -43,6 +44,7 @@ $v->layout('layouts/default')
             <tr>
                 <th scope="row"><?= $post->id ?></th>
                 <td><?= $post->title ?></td>
+                <td><?= $post->content ?></td>
                 <td><?= $post->year ?></td>
                 <td><?= $post->author->name ?></td>
             </tr>
