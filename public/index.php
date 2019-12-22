@@ -16,6 +16,9 @@ $strategy->setContainer($container);
 $add = require_once __DIR__ . '/../config/dependencies.php';
 $add($container);
 
+$add = require_once __DIR__ . '/../config/repositories.php';
+$add($container);
+
 $router = new League\Route\Router;
 $router->setStrategy($strategy);
 

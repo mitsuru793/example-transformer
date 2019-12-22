@@ -1,11 +1,11 @@
 <?php
 declare(strict_types=1);
 
-namespace Php\Infrastructure;
+namespace Php\Infrastructure\Repositories\Domain\EasyDB;
 
 use ParagonIE\EasyDB\EasyDB;
 
-final class Database extends EasyDB
+final class ExtendedEasyDB extends EasyDB
 {
     public function runSqlFile(string $path): void
     {

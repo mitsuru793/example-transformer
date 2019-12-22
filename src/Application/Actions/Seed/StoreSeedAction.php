@@ -6,10 +6,12 @@ namespace Php\Application\Actions\Seed;
 use Faker\Factory;
 use League\Plates\Engine;
 use Php\Domain\Post\Post;
+use Php\Domain\Post\PostRepository;
 use Php\Domain\User\User;
-use Php\Infrastructure\Database;
-use Php\Infrastructure\PostRepository;
-use Php\Infrastructure\UserRepository;
+use Php\Domain\User\UserRepository;
+use Php\Infrastructure\Repositories\Domain\EasyDB\ExtendedEasyDB;
+use Php\Infrastructure\Repositories\Domain\EasyDB\EasyDBPostRepository;
+use Php\Infrastructure\Repositories\Domain\EasyDB\EasyDBUserRepository;
 use Psr\Http\Message\ResponseInterface as Response;
 
 final class StoreSeedAction extends SeedAction
@@ -18,9 +20,9 @@ final class StoreSeedAction extends SeedAction
 
     private PostRepository $postRepository;
 
-    private Database $db;
+    private ExtendedEasyDB $db;
 
-    public function __construct(Engine $templates, UserRepository $userRepository, PostRepository $postRepository, Database $db)
+    public function __construct(Engine $templates, UserRepository $userRepository, PostRepository $postRepository, ExtendedEasyDB $db)
     {
         parent::__construct($templates);
         $this->userRepository = $userRepository;

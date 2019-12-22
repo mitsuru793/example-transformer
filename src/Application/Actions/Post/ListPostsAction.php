@@ -7,9 +7,9 @@ use League\Fractal\Manager;
 use League\Fractal\Pagination\Cursor;
 use League\Fractal\Resource\Collection;
 use League\Plates\Engine;
+use Php\Domain\Post\PostRepository;
 use Php\Domain\Post\PostTransformer;
-use Php\Infrastructure\PostRepository;
-use Php\Infrastructure\UserRepository;
+use Php\Domain\User\UserRepository;
 use Psr\Http\Message\ResponseInterface as Response;
 
 final class ListPostsAction extends PostAction

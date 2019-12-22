@@ -1,16 +1,17 @@
 <?php
 declare(strict_types=1);
 
-namespace Php\Infrastructure;
+namespace Php\Infrastructure\Repositories\Domain\EasyDB;
 
 use Php\Domain\User\User;
+use Php\Domain\User\UserRepository;
 
-final class UserRepository
+final class EasyDBUserRepository implements UserRepository
 {
-    /** @var Database */
+    /** @var ExtendedEasyDB */
     private $db;
 
-    public function __construct(Database $db)
+    public function __construct(ExtendedEasyDB $db)
     {
         $this->db = $db;
     }

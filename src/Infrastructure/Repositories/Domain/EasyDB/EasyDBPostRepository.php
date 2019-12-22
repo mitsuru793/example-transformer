@@ -1,23 +1,25 @@
 <?php
 declare(strict_types=1);
 
-namespace Php\Infrastructure;
+namespace Php\Infrastructure\Repositories\Domain\EasyDB;
 
 use Php\Domain\Post\Post;
+use Php\Domain\Post\PostRepository;
+use Php\Domain\User\UserRepository;
 
-final class PostRepository
+final class EasyDBPostRepository implements PostRepository
 {
-    private Database $db;
+    private ExtendedEasyDB $db;
 
     private UserRepository $userRepo;
 
-    public function __construct(Database $db, UserRepository $userRepo)
+    public function __construct(ExtendedEasyDB $db, UserRepository $userRepo)
     {
         $this->db = $db;
         $this->userRepo = $userRepo;
     }
 
-    public function create(Post $post)
+    public function create(Post $post): Post
     {
         $this->db->insert('posts', [
             'title' => $post->title,
@@ -25,6 +27,8 @@ final class PostRepository
             'author_id' => $post->author->id,
             'viewable_user_ids' => json_encode($post->viewableUserIds),
         ]);
+        $post->id = (int)$this->db->lastInsertId();
+        return $post;
     }
 
     public function count(): int
@@ -34,7 +38,7 @@ final class PostRepository
 
     public function paging(int $page, int $perPage): array
     {
-        $offset = ($page -1 ) * $perPage;
+        $offset = ($page - 1) * $perPage;
         $rows = $this->db->run(<<<SQL
             SELECT {$this->columnsStr()}, {$this->userRepo->columnsStr()}
             FROM posts
