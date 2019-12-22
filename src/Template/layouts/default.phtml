@@ -1,6 +1,7 @@
 <?php
 /**
  * @var \League\Plates\Template $v
+ * @var \Php\Domain\User\User|null $loginUser
  */
 ?>
 <html lang="ja">
@@ -10,6 +11,13 @@
 </head>
 <body>
 <div class="container">
+    <div class="row">
+        <?php if (is_null($loginUser)): ?>
+            <p>login user: non</p>
+        <?php else: ?>
+            <p>login user: <?= $loginUser->name ?></p>
+        <?php endif ?>
+    </div>
     <?= $v->section('content') ?>
 </div>
 </body>

@@ -11,13 +11,6 @@ $v->layout('layouts/default')
  */
 ?>
 <div class="row">
-    <?php if (is_null($loginUser)): ?>
-        <p>login user: non</p>
-    <?php else: ?>
-        <p>login user: <?= $loginUser->name ?></p>
-    <?php endif ?>
-</div>
-<div class="row">
     <h1>Posts Total: <?= $postsCount ?> Page: <?= $pager->getCurrentPage() ?> / <?= $pager->getNbPages() ?> </h1>
 </div>
 <div class="row">
