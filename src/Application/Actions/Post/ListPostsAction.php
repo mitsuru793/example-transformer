@@ -9,6 +9,7 @@ use League\Fractal\Resource\Collection;
 use League\Plates\Engine;
 use Php\Domain\Post\PostRepository;
 use Php\Domain\Post\PostTransformer;
+use Php\Domain\Tag\TagRepository;
 use Php\Domain\User\UserRepository;
 use Psr\Http\Message\ResponseInterface as Response;
 
@@ -20,12 +21,15 @@ final class ListPostsAction extends PostAction
 
     private PostTransformer $postTransformer;
 
-    public function __construct(Engine $templates, PostRepository $postRepo, PostTransformer $postTransformer, UserRepository $userRepository)
+    private TagRepository $tagRepo;
+
+    public function __construct(Engine $templates, PostRepository $postRepo, PostTransformer $postTransformer, UserRepository $userRepository, TagRepository $tagRepo)
     {
         parent::__construct($templates);
         $this->userRepository = $userRepository;
         $this->postRepo = $postRepo;
         $this->postTransformer = $postTransformer;
+        $this->tagRepo = $tagRepo;
     }
 
     protected function action(): Response
@@ -38,6 +42,11 @@ final class ListPostsAction extends PostAction
         $postsCount = $this->postRepo->count();
         $posts = $this->postRepo->paging($page, $perPage);
         $lastPage = ceil($postsCount / $perPage);
+
+        $postItems = array_map(fn ($post) => [
+            'post' => $post,
+            'tags' => $this->tagRepo->findByPostId($post->id)
+        ], $posts);
 
         $fractal = new Manager();
         $fractal->parseIncludes('author');
@@ -58,7 +67,7 @@ final class ListPostsAction extends PostAction
             ->setCurrentPage($page);
         $pagerHtml = $this->pagerHtml($pager, fn($page) => "/?page=$page&perPage=$perPage");
         return $this->renderView($this->response, 'index', compact(
-            'loginUser', 'postsCount', 'posts', 'page', 'lastPage', 'pager', 'pagerHtml', 'transformed'
+            'loginUser', 'postsCount', 'postItems', 'page', 'lastPage', 'pager', 'pagerHtml', 'transformed'
         ));
     }
 }

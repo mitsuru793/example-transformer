@@ -5,6 +5,8 @@ namespace Php\Infrastructure\Repositories\Domain\EasyDB;
 
 use Php\Domain\Post\Post;
 use Php\Domain\Post\PostRepository;
+use Php\Domain\Tag\Tag;
+use Php\Domain\Tag\TagRepository;
 use Php\Domain\User\UserRepository;
 
 final class EasyDBPostRepository implements PostRepository
@@ -12,6 +14,8 @@ final class EasyDBPostRepository implements PostRepository
     private ExtendedEasyDB $db;
 
     private UserRepository $userRepo;
+
+    private TagRepository $tagRepo;
 
     public function __construct(ExtendedEasyDB $db, UserRepository $userRepo)
     {
@@ -30,6 +34,19 @@ final class EasyDBPostRepository implements PostRepository
         ]);
         $post->id = (int)$this->db->lastInsertId();
         return $post;
+    }
+
+    public function addTags(int $postId, array $tags): void
+    {
+        $data = array_map(fn(Tag $tag) => [
+            'post_id' => $postId,
+            'tag_id' => $tag->id,
+        ], $tags);
+
+        if (empty($data)) {
+            return;
+        }
+        $this->db->insertMany('posts_tags', $data);
     }
 
     public function count(): int
