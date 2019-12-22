@@ -43,10 +43,7 @@ final class ListPostsAction extends PostAction
         $posts = $this->postRepo->paging($page, $perPage);
         $lastPage = ceil($postsCount / $perPage);
 
-        $postItems = array_map(fn ($post) => [
-            'post' => $post,
-            'tags' => $this->tagRepo->findByPostId($post->id)
-        ], $posts);
+        $posts = $this->tagRepo->findByPosts($posts);
 
         $fractal = new Manager();
         $fractal->parseIncludes('author');
@@ -67,7 +64,7 @@ final class ListPostsAction extends PostAction
             ->setCurrentPage($page);
         $pagerHtml = $this->pagerHtml($pager, fn($page) => "/?page=$page&perPage=$perPage");
         return $this->renderView($this->response, 'index', compact(
-            'loginUser', 'postsCount', 'postItems', 'page', 'lastPage', 'pager', 'pagerHtml', 'transformed'
+            'loginUser', 'postsCount', 'posts', 'page', 'lastPage', 'pager', 'pagerHtml', 'transformed'
         ));
     }
 }

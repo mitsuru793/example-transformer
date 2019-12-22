@@ -3,6 +3,7 @@ declare(strict_types=1);
 
 namespace Php\Infrastructure\Repositories\Domain\EasyDB;
 
+use Php\Domain\Post\Post;
 use Php\Domain\Tag\Tag;
 use Php\Domain\Tag\TagRepository;
 
@@ -46,6 +47,31 @@ final class EasyDBTagRepository implements TagRepository
             SQL
         );
         return array_map(fn ($row) => $this->toTag($row), $rows);
+    }
+
+    /**
+     * @param Post[] $posts
+     * @return Post[]
+     */
+    public function findByPosts(array $posts): array
+    {
+        $postIds = array_map(fn(Post $p) => $p->id, $posts);
+        $postIdsStr = implode(', ', $postIds);
+        $rows = $this->db->run(<<<SQL
+            SELECT {$this->columnsStr()}, posts_tags.post_id as post_id
+            FROM tags
+            INNER JOIN posts_tags ON posts_tags.tag_id = tags.id
+            WHERE post_id IN ($postIdsStr)
+            SQL
+        );
+
+        $tags = [];
+        foreach ($rows as $row) {
+            $postId = $row['post_id'];
+            $tags[$postId] ??= [];
+            array_push($tags[$postId], $this->toTag($row));
+        }
+        return array_map(fn(Post $p) => $p->addTags($tags[$p->id] ?? []), $posts);
     }
 
     public function columns(): array

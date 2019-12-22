@@ -3,7 +3,7 @@ $v->layout('layouts/default')
 
 /**
  * @var \Php\Domain\User\User|null $loginUser
- * @var array $postItems
+ * @var \Php\Domain\Post\Post[] $posts
  * @var array $transformed
  * @var int $postsCount
  * @var \Pagerfanta\Pagerfanta $pager
@@ -34,14 +34,14 @@ $v->layout('layouts/default')
         </tr>
         </thead>
         <tbody>
-        <?php foreach ($postItems as $item): ?>
+        <?php foreach ($posts as $post): ?>
             <tr>
-                <th scope="row"><?= $item['post']->id ?></th>
-                <td><?= $item['post']->title ?></td>
-                <td><?= implode(', ', array_map(fn ($tag) => $tag->name, $item['tags'])) ?></td>
-                <td><?= $item['post']->content ?></td>
-                <td><?= $item['post']->year ?></td>
-                <td><?= $item['post']->author->name ?></td>
+                <th scope="row"><?= $post->id ?></th>
+                <td><a href="/posts/<?= $post->id ?>"><?= $post->title ?></a></td>
+                <td><?= implode(', ', array_map(fn($tag) => $tag->name, $post->tags)) ?></td>
+                <td><?= $post->content ?></td>
+                <td><?= $post->year ?></td>
+                <td><?= $post->author->name ?></td>
             </tr>
         <?php endforeach; ?>
         </tbody>
