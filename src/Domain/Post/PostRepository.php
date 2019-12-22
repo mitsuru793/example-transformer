@@ -9,6 +9,8 @@ interface PostRepository
 {
     public function create(Post $post): Post;
 
+    public function find(int $postId): Post;
+
     /**
      * @param Tag[] $tags
      */

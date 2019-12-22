@@ -74,6 +74,11 @@ final class EasyDBTagRepository implements TagRepository
         return array_map(fn(Post $p) => $p->addTags($tags[$p->id] ?? []), $posts);
     }
 
+    public function findByPost(Post $post): Post
+    {
+        return $this->findByPosts([$post])[0];
+    }
+
     public function columns(): array
     {
         $columns = ['id', 'name'];

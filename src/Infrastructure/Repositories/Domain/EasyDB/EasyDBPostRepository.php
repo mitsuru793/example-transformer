@@ -7,6 +7,7 @@ use Php\Domain\Post\Post;
 use Php\Domain\Post\PostRepository;
 use Php\Domain\Tag\Tag;
 use Php\Domain\Tag\TagRepository;
+use Php\Domain\User\User;
 use Php\Domain\User\UserRepository;
 
 final class EasyDBPostRepository implements PostRepository
@@ -36,6 +37,22 @@ final class EasyDBPostRepository implements PostRepository
         return $post;
     }
 
+    public function find(int $postId): Post
+    {
+        $row = $this->db->row(<<<SQL
+            SELECT {$this->columnsStr()}, {$this->userRepo->columnsStr()}
+            FROM posts
+            INNER JOIN users ON users.id = posts.author_id
+            WHERE posts.id = ?
+            SQL,
+            $postId,
+            );
+        if (!$row) {
+            return null;
+        }
+        return $this->toPost($row);
+    }
+
     public function addTags(int $postId, array $tags): void
     {
         $data = array_map(fn(Tag $tag) => [
@@ -47,11 +64,6 @@ final class EasyDBPostRepository implements PostRepository
             return;
         }
         $this->db->insertMany('posts_tags', $data);
-    }
-
-    public function count(): int
-    {
-        return (int)$this->db->single('SELECT count(*) FROM posts');
     }
 
     public function paging(int $page, int $perPage): array
@@ -70,6 +82,11 @@ final class EasyDBPostRepository implements PostRepository
         }, $rows);
     }
 
+    public function count(): int
+    {
+        return (int)$this->db->single('SELECT count(*) FROM posts');
+    }
+
     public function columns(): array
     {
         $columns = ['id', 'author_id', 'title', 'content', 'year', 'viewable_user_ids'];
@@ -78,7 +95,7 @@ final class EasyDBPostRepository implements PostRepository
 
     public function columnsStr(): string
     {
-        return implode(',', $this->columns());
+        return implode(', ', $this->columns());
     }
 
     public function toPost(array $row): Post

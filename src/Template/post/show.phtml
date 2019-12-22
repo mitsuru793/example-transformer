@@ -1,0 +1,20 @@
+<?php
+$v->layout('layouts/default')
+
+/**
+ * @var \Php\Domain\User\User|null $loginUser
+ * @var \Php\Domain\Post\Post $post
+ */
+?>
+<div class="row">
+    <h1><?= $post->title ?></h1>
+</div>
+<div class="row">
+    <p>Author: <?= $post->author->name ?></p>
+</div>
+<div class="row">
+    <p><?= implode(', ', array_map(fn($tag) => $tag->name, $post->tags)) ?></p>
+</div>
+<div class="row">
+    <p><?= $post->content ?></p>
+</div>

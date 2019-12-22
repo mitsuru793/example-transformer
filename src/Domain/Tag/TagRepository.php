@@ -24,4 +24,6 @@ interface TagRepository
      * @return Post[]
      */
     public function findByPosts(array $posts): array;
+
+    public function findByPost(Post $post): Post;
 }

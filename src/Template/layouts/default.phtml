@@ -12,11 +12,16 @@
 <body>
 <div class="container">
     <div class="row">
-        <?php if (is_null($loginUser)): ?>
-            <p>login user: non</p>
-        <?php else: ?>
-            <p>login user: <?= $loginUser->name ?></p>
-        <?php endif ?>
+        <div class="col">
+            <p><a href="/">Home</a></p>
+        </div>
+        <div class="col">
+            <?php if (is_null($loginUser)): ?>
+                <p>login user: non</p>
+            <?php else: ?>
+                <p>login user: <?= $loginUser->name ?></p>
+            <?php endif ?>
+        </div>
     </div>
     <?= $v->section('content') ?>
 </div>
