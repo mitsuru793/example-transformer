@@ -3,6 +3,7 @@ declare(strict_types=1);
 
 namespace Php\Infrastructure\Repositories\Domain\EasyDB;
 
+use ParagonIE\EasyDB\EasyStatement;
 use Php\Domain\Post\Post;
 use Php\Domain\Tag\Tag;
 use Php\Domain\Tag\TagRepository;
@@ -25,6 +26,33 @@ final class EasyDBTagRepository implements TagRepository
         return $tag;
     }
 
+    public function findOrCreateMany(array $names): array
+    {
+        $inNames = EasyStatement::open()->in('tags.name IN (?*)', $names);
+        $existedRows = $this->db->run(<<<SQL
+        SELECT {$this->columnsStr()}
+        FROM tags
+        WHERE $inNames
+        SQL, ...$inNames->values());
+
+        $existedNames = array_map(fn($row) => $row['tags_name'], $existedRows);
+        $newNames = array_filter($names, fn($name) => !in_array($name, $existedNames));
+
+        $newTagMap = array_map(fn($n) => ['name' => $n], $newNames);
+        $newTagMap = array_values($newTagMap);
+        if (empty($newTagMap)) {
+            return array_map(fn($row) => $this->toTag($row), $existedRows);
+        }
+        $this->db->insertMany('tags', $newTagMap);
+
+        $rows = $this->db->run(<<<SQL
+        SELECT {$this->columnsStr()}
+        FROM tags
+        WHERE $inNames
+        SQL, ...$inNames->values());
+        return array_map(fn($row) => $this->toTag($row), $rows);
+    }
+
     public function findRandoms(int $count): array
     {
         $rows = $this->db->run(<<<SQL
@@ -34,7 +62,7 @@ final class EasyDBTagRepository implements TagRepository
             LIMIT $count
             SQL
         );
-        return array_map(fn ($row) =>$this->toTag($row), $rows);
+        return array_map(fn($row) => $this->toTag($row), $rows);
     }
 
     public function findByPostId(int $postId): array
@@ -46,7 +74,7 @@ final class EasyDBTagRepository implements TagRepository
             WHERE posts_tags.post_id = $postId
             SQL
         );
-        return array_map(fn ($row) => $this->toTag($row), $rows);
+        return array_map(fn($row) => $this->toTag($row), $rows);
     }
 
     /**

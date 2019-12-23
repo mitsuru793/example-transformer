@@ -1,0 +1,21 @@
+<?php
+$v->layout('layouts/default')
+
+/**
+ * @var \Php\Domain\User\User|null $loginUser
+ * @var \Php\Domain\Post\Post $post
+ */
+?>
+<form action="/posts/<?= $post->id ?>" method="post">
+    <input type="hidden" name="_method" value="PUT">
+    <div class="form-group row">
+        <input name="title" type="text" class="form-control" value="<?= $post->title ?>">
+    </div>
+    <div class="form-group row">
+        <input name="tags" type="text" class="form-control" value="<?= implode(',', array_map(fn(\Php\Domain\Tag\Tag $t) => $t->name, $post->tags)) ?>">
+    </div>
+    <div class="form-group row">
+        <textarea name="content" type="textarea" class="form-control" rows="5"><?= $post->content ?></textarea>
+    </div>
+    <button type="submit" class="btn btn-primary">Post</button>
+</form>

@@ -10,6 +10,9 @@ $v->layout('layouts/default')
     <h1><?= $post->title ?></h1>
 </div>
 <div class="row">
+    <a href="/posts/<?=$post->id?>/edit">Edit</a>
+</div>
+<div class="row">
     <p>Author: <?= $post->author->name ?></p>
 </div>
 <div class="row">

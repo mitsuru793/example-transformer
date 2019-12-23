@@ -3,11 +3,11 @@ declare(strict_types=1);
 
 namespace Php\Infrastructure\Repositories\Domain\EasyDB;
 
+use ParagonIE\EasyDB\EasyStatement;
 use Php\Domain\Post\Post;
 use Php\Domain\Post\PostRepository;
 use Php\Domain\Tag\Tag;
 use Php\Domain\Tag\TagRepository;
-use Php\Domain\User\User;
 use Php\Domain\User\UserRepository;
 
 final class EasyDBPostRepository implements PostRepository
@@ -37,6 +37,16 @@ final class EasyDBPostRepository implements PostRepository
         return $post;
     }
 
+    public function store(Post $post): void
+    {
+        $this->db->update('posts', [
+            'title' => $post->title,
+            'content' => $post->content,
+        ], [
+            'id' => $post->id,
+        ]);
+    }
+
     public function find(int $postId): Post
     {
         $row = $this->db->row(<<<SQL
@@ -53,17 +63,32 @@ final class EasyDBPostRepository implements PostRepository
         return $this->toPost($row);
     }
 
-    public function addTags(int $postId, array $tags): void
+    public function updateTags(int $postId, array $tags): void
     {
+        $rows = $this->db->run(<<<SQL
+        SELECT tag_id
+        FROM posts_tags 
+        WHERE post_id = ?
+        SQL, $postId);
+
+        $existedIds = array_map(fn($row) => (int)$row['tag_id'], $rows);
+
+        $newTags = array_filter($tags, fn(Tag $tag) => !in_array($tag->id, $existedIds));
         $data = array_map(fn(Tag $tag) => [
             'post_id' => $postId,
             'tag_id' => $tag->id,
-        ], $tags);
-
-        if (empty($data)) {
-            return;
+        ], $newTags);
+        $data = array_values($data);
+        if (!empty($data)) {
+            $this->db->insertMany('posts_tags', $data);
         }
-        $this->db->insertMany('posts_tags', $data);
+
+        $newTagIds = array_map(fn($tag) => $tag->id, $tags);
+        $removeTagIds = array_filter($existedIds, fn(int $existedId) => !in_array($existedId, $newTagIds));
+        if (!empty($removeTagIds)) {
+            $statement = EasyStatement::open()->in('tag_id IN (?*)', $removeTagIds);
+            $this->db->delete('posts_tags', $statement);
+        }
     }
 
     public function paging(int $page, int $perPage): array

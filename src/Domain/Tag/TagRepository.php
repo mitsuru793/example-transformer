@@ -10,6 +10,12 @@ interface TagRepository
     public function create(Tag $tag): Tag;
 
     /**
+     * @param string $tagNames
+     * @return Tag[]
+     */
+    public function findOrCreateMany(array $tagNames): array;
+
+    /**
      * @return Tag[]
      */
     public function findRandoms(int $count): array;

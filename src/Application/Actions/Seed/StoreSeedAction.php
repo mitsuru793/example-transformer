@@ -57,7 +57,7 @@ final class StoreSeedAction extends SeedAction
 
             $count = random_int(0, 3);
             $tags = $this->tagRepository->findRandoms($count);
-            $this->postRepository->addTags($post->id, $tags);
+            $this->postRepository->updateTags($post->id, $tags);
         }
 
         return $this->redirectBack($this->request, $this->response);
