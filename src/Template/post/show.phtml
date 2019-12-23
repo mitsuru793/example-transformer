@@ -13,7 +13,9 @@ $v->layout('layouts/default')
     <p>Author: <?= $post->author->name ?></p>
 </div>
 <div class="row">
-    <p><?= implode(', ', array_map(fn($tag) => $tag->name, $post->tags)) ?></p>
+    <?php foreach ($post->tags as $tag): ?>
+        <span class="badge badge-primary ml-1"><?= $tag->name ?></span>
+    <?php endforeach ?>
 </div>
 <div class="row">
     <p><?= $post->content ?></p>
