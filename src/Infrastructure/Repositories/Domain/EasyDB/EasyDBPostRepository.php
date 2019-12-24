@@ -7,7 +7,6 @@ use ParagonIE\EasyDB\EasyStatement;
 use Php\Domain\Post\Post;
 use Php\Domain\Post\PostRepository;
 use Php\Domain\Tag\Tag;
-use Php\Domain\Tag\TagRepository;
 use Php\Domain\User\UserRepository;
 
 final class EasyDBPostRepository implements PostRepository
@@ -15,8 +14,6 @@ final class EasyDBPostRepository implements PostRepository
     private ExtendedEasyDB $db;
 
     private UserRepository $userRepo;
-
-    private TagRepository $tagRepo;
 
     public function __construct(ExtendedEasyDB $db, UserRepository $userRepo)
     {
