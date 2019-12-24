@@ -83,6 +83,10 @@ final class EasyDBTagRepository implements TagRepository
      */
     public function findByPosts(array $posts): array
     {
+        if (empty($posts)) {
+            return [];
+        }
+
         $postIds = array_map(fn(Post $p) => $p->id, $posts);
         $postIdsStr = implode(', ', $postIds);
         $rows = $this->db->run(<<<SQL
