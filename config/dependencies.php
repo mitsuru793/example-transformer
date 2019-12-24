@@ -14,4 +14,9 @@ return function (\League\Container\Container $c) {
     $c->add(\League\Plates\Engine::class, function () {
         return League\Plates\Engine::create(__DIR__ . '/../src/Template');
     }, true);
+
+    $c->add(\Php\Library\UIFaces\Client::class, function () {
+        $apiKey = getenv('UI_FACES_API_KEY');
+        return new \Php\Library\UIFaces\Client($apiKey);
+    }, true);
 };

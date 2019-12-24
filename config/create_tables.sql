@@ -8,6 +8,17 @@ CREATE TABLE IF NOT EXISTS users
     PRIMARY KEY (id)
 );
 
+DROP TABLE IF EXISTS ui_faces_users;
+CREATE TABLE IF NOT EXISTS ui_faces_users
+(
+    id   INTEGER AUTO_INCREMENT,
+    name VARCHAR(50),
+    email VARCHAR(50),
+    position VARCHAR(50),
+    photo_url VARCHAR(500),
+    PRIMARY KEY (id)
+);
+
 DROP TABLE IF EXISTS posts;
 CREATE TABLE IF NOT EXISTS posts
 (

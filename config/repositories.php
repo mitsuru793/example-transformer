@@ -7,6 +7,7 @@ use Php\Infrastructure\Repositories\Domain\EasyDB\ExtendedEasyDB;
 use Php\Infrastructure\Repositories\Domain\EasyDB\EasyDBPostRepository;
 use Php\Infrastructure\Repositories\Domain\EasyDB\EasyDBUserRepository;
 use Php\Infrastructure\Repositories\Domain\EasyDB\EasyDBTagRepository;
+use Php\Infrastructure\Repositories\Domain\Eloquent\EloquentUIFacesUserRepository;
 
 return function (\League\Container\Container $c) {
     $c->add(UserRepository::class, EasyDBUserRepository::class)
@@ -18,4 +19,6 @@ return function (\League\Container\Container $c) {
 
     $c->add(\Php\Domain\Tag\TagRepository::class, EasyDBTagRepository::class)
         ->addArgument(ExtendedEasyDB::class);
+
+    $c->add(\Php\Domain\UIFacesUser\UIFacesUserRepository::class, EloquentUIFacesUserRepository::class);
 };

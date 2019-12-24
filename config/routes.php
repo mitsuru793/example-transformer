@@ -14,4 +14,8 @@ return function (League\Route\Router $router) {
     $router->group('/seeds', function (\League\Route\RouteGroup $r) {
         $r->post('/', \Php\Application\Actions\Seed\StoreSeedAction::class);
     });
+
+    $router->group('/UIFacesUsers', function (\League\Route\RouteGroup $r) {
+        $r->post(':fetch', \Php\Application\Actions\UIFacesUser\RequestGetApiAction::class);
+    });
 };
