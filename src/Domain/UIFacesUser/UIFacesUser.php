@@ -5,6 +5,8 @@ namespace Php\Domain\UIFacesUser;
 
 final class UIFacesUser
 {
+    public ?int $id;
+
     public string $name;
 
     public string $email;
@@ -13,8 +15,9 @@ final class UIFacesUser
 
     public string $photoUrl;
 
-    public function __construct(string $name, string $email, string $position, string $photoUrl)
+    public function __construct(?int $id, string $name, string $email, string $position, string $photoUrl)
     {
+        $this->id = $id;
         $this->name = $name;
         $this->email = $email;
         $this->position = $position;

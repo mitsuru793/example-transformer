@@ -1,0 +1,32 @@
+<?php
+$v->layout('layouts/default')
+
+/**
+ * @var \Php\Domain\User\User|null $loginUser
+ * @var \Php\Domain\UIFacesUser\UIFacesUser[] $users;
+ */
+?>
+<div class="row">
+    <table class="table">
+        <thead>
+        <tr>
+            <th scope="col">#</th>
+            <th scope="col">name</th>
+            <th scope="col">email</th>
+            <th scope="col">position</th>
+            <th scope="col">photo</th>
+        </tr>
+        </thead>
+        <tbody>
+        <?php foreach ($users as $user): ?>
+            <tr>
+                <th scope="row"><?= $user->id ?></th>
+                <td><?= $user->name ?></a></td>
+                <td><?= $user->email ?></td>
+                <td><?= $user->position ?></td>
+                <td><img width="50px" src="<?= $user->photoUrl ?>"></td>
+            </tr>
+        <?php endforeach; ?>
+        </tbody>
+    </table>
+</div>

@@ -9,4 +9,9 @@ interface UIFacesUserRepository
      * @param UIFacesUser[] $users
      */
     public function createMany(array $users): void;
+
+    /**
+     * @return  UIFacesUser[] $users
+     */
+    public function findAll(): array;
 }

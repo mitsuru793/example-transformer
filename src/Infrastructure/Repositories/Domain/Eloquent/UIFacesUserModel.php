@@ -3,13 +3,17 @@ declare(strict_types=1);
 
 namespace Php\Infrastructure\Repositories\Domain\Eloquent;
 
+use Php\Domain\Models\Domainable;
+use Php\Domain\UIFacesUser\UIFacesUser;
+
 /**
+ * @property int $id
  * @property string $name
  * @property string $email
  * @property string $position
- * @property string $photoUrl
+ * @property string $photo_url
  */
-final class UIFacesUserModel extends EloquentBaseModel
+final class UIFacesUserModel extends EloquentBaseModel implements Domainable
 {
     /** @var string */
     protected $table = 'ui_faces_users';
@@ -19,4 +23,15 @@ final class UIFacesUserModel extends EloquentBaseModel
         'id',
         'data',
     ];
+
+    public function toDomain(): UIFacesUser
+    {
+        return new UIFacesUser(
+            $this->id,
+            $this->name,
+            $this->email,
+            $this->position,
+            $this->photo_url,
+        );
+    }
 }

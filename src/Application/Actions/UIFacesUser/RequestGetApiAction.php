@@ -33,7 +33,7 @@ final class RequestGetApiAction extends UIFacesUserAction
         }
 
         $users = array_map(fn(User $user) => new UIFacesUser(
-            $user->name, $user->email, $user->position, $user->photo,
+            null, $user->name, $user->email, $user->position, $user->photo,
         ), $users);
 
         $this->UIFacesUserRepository->createMany($users);
