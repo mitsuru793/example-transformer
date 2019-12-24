@@ -1,0 +1,25 @@
+<?php
+/**
+ * @var \League\Plates\Template $v
+ */
+
+$items = [
+    'Home' => '/',
+    'Post' => '/',
+    'UIFaces' => '/UIFacesUsers',
+]
+?>
+<nav id="sidebar">
+    <header>
+        <h1></h1>
+    </header>
+    <ul>
+        <?php foreach ($items as $label => $path): ?>
+            <li>
+                <a href="<?= $path ?>">
+                    <?= $label ?>
+                </a>
+            </li>
+        <? endforeach ?>
+    </ul>
+</nav>

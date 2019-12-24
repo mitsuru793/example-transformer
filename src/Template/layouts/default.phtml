@@ -23,7 +23,14 @@
             <?php endif ?>
         </div>
     </div>
-    <?= $v->section('content') ?>
+    <div class="row">
+        <div class="col-2">
+            <?php $v->insert('partials/sidebar') ?>
+        </div>
+        <div class="col-10">
+            <?= $v->section('content') ?>
+        </div>
+    </div>
 </div>
 </body>
 </html>
