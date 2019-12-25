@@ -25,15 +25,10 @@ function extendFormHttpMethod(ServerRequestInterface $request): ServerRequestInt
 {
     $body = $request->getParsedBody();
     $formMethod = $body['_method'] ?? null;
-    error_log(json_encode([
-        'method' => $request->getMethod(),
-        'form method' => $formMethod,
-    ]));
     if ($request->getMethod() !== 'POST' || is_null($formMethod)) {
         return $request;
     }
 
-    error_log('******' . $formMethod);
     return $request->withMethod($formMethod);
 }
 
