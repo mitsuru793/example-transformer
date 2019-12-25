@@ -44,7 +44,6 @@
     },
     "autoload-dev": {
         "psr-4": {
-            "Helper\\": "tests/Helper",
             "Php\\": "tests/"
         }
     }
