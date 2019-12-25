@@ -1,7 +1,7 @@
 <?php
 declare(strict_types=1);
 
-namespace Helper;
+namespace Php\Helper;
 
 use PHPStan\Testing\TestCase;
 
