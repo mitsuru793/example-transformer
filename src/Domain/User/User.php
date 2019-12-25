@@ -3,8 +3,6 @@ declare(strict_types=1);
 
 namespace Php\Domain\User;
 
-use Php\Domain\Post\Post;
-
 final class User
 {
     public ?int $id;

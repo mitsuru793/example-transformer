@@ -4,7 +4,6 @@ declare(strict_types=1);
 namespace Php\Infrastructure\Repositories\Domain\Eloquent\HttpCache;
 
 use Php\Domain\HttpCache\HttpRequestCache;
-use Php\Domain\HttpCache\HttpResponseCache;
 use Php\Domain\Models\Domainable;
 use Php\Infrastructure\Repositories\Domain\Eloquent\EloquentBaseModel;
 

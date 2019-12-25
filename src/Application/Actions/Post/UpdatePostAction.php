@@ -4,7 +4,6 @@ declare(strict_types=1);
 namespace Php\Application\Actions\Post;
 
 use League\Plates\Engine;
-use Php\Domain\Post\Post;
 use Php\Domain\Post\PostRepository;
 use Php\Domain\Post\PostTransformer;
 use Php\Domain\Tag\TagRepository;
