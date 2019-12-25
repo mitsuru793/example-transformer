@@ -27,13 +27,7 @@ final class HttpCacheTest extends TestBase
 
     public function testStoreRequestAndResponse()
     {
-        $request = new \Php\Domain\HttpCache\HttpRequestCache(
-            null,
-            null,
-            'GET',
-            'http://example.com/',
-            [],
-        );
+        $request = $this->createRequest('GET', 'http://example.com/', [] );
 
         try {
             $this->resRepo->findByRequest($request);
@@ -54,6 +48,17 @@ final class HttpCacheTest extends TestBase
         }
 
         $this->assertSame((string)$response->getBody(), $storedResCache->body);
+    }
+
+    private function createRequest(string $method, string $path, array $options): HttpRequestCache
+    {
+        return new HttpRequestCache(
+            null,
+            null,
+            $method,
+            $path,
+            $options,
+        );
     }
 
     private function createCache(HttpRequestCache $req, ResponseInterface $res)
