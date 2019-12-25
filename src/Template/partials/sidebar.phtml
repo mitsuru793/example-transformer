@@ -1,23 +1,27 @@
 <?php
 /**
  * @var \League\Plates\Template $v
+ * @var array $pageItems
  */
 
+use Php\Presenter\Link;
+
+/** @var Link[] $items */
 $items = [
-    'Home' => '/',
-    'Post' => '/',
-    'UIFaces' => '/UIFacesUsers',
-]
+    new Link('Home', '/'),
+    new Link('Post', '/'),
+    new Link('UIFaces', '/UIFacesUsers'),
+];
 ?>
 <nav id="sidebar">
     <header>
         <h1></h1>
     </header>
     <ul>
-        <?php foreach ($items as $label => $path): ?>
+        <?php foreach ($items as $item): ?>
             <li>
-                <a href="<?= $path ?>">
-                    <?= $label ?>
+                <a href="<?= $item->url ?>">
+                    <?= $item->label ?>
                 </a>
             </li>
         <? endforeach ?>
