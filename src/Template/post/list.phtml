@@ -1,6 +1,4 @@
 <?php
-$v->layout('layouts/default')
-
 /**
  * @var \Php\Domain\User\User|null $loginUser
  * @var \Php\Domain\Post\Post[] $posts
@@ -9,14 +7,18 @@ $v->layout('layouts/default')
  * @var \Pagerfanta\Pagerfanta $pager
  * @var string $pagerHtml
  */
+
+use Php\Presenter\Button;
+
+/** @var Button[] $pageItems */
+$pageItems = [
+    new Button('Reset Tables', 'POST', '/seeds'),
+];
+
+$v->layout('layouts/default', compact('pageItems'));
 ?>
 <div class="row">
     <h1>Posts Total: <?= $postsCount ?> Page: <?= $pager->getCurrentPage() ?> / <?= $pager->getNbPages() ?> </h1>
-</div>
-<div class="row">
-    <form action="/seeds" method="post">
-        <button type="submit" class="btn btn-primary">テーブル再生性</button>
-    </form>
 </div>
 <div class="row">
     <?php dump($transformed) ?>

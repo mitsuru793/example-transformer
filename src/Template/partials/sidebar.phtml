@@ -1,9 +1,10 @@
 <?php
 /**
  * @var \League\Plates\Template $v
- * @var array $pageItems
+ * @var Link[] $pageItems
  */
 
+use Php\Presenter\Button;
 use Php\Presenter\Link;
 
 /** @var Link[] $items */
@@ -24,6 +25,25 @@ $items = [
                     <?= $item->label ?>
                 </a>
             </li>
-        <? endforeach ?>
+        <?php endforeach ?>
     </ul>
+    <?php if (!empty($pageItems)): ?>
+        <hr>
+        <ul>
+            <?php foreach ($pageItems as $item): ?>
+                <li>
+                    <?php if ($item instanceof Link): ?>
+                        <a href="<?= $item->url ?>">
+                            <?= $item->label ?>
+                        </a>
+                    <?php elseif ($item instanceof Button): ?>
+                        <form action="<?= $item->url ?>" method="post">
+                            <input type="hidden" name="_method" value="<?= $item->httpMethod ?>">
+                            <button type="submit" class="badge badge-primary"><?= $item->label ?></button>
+                        </form>
+                    <?php endif ?>
+                </li>
+            <?php endforeach ?>
+        </ul>
+    <?php endif ?>
 </nav>
