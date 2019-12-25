@@ -1,10 +1,17 @@
 <?php
-$v->layout('layouts/default')
-
 /**
  * @var \Php\Domain\User\User|null $loginUser
- * @var \Php\Domain\UIFacesUser\UIFacesUser[] $users;
+ * @var \Php\Domain\UIFacesUser\UIFacesUser[] $users
  */
+
+use Php\Presenter\Button;
+
+/** @var Button[] $pageItems */
+$pageItems = [
+    new Button('Request API', 'POST', '/UIFacesUsers:fetch'),
+];
+
+$v->layout('layouts/default', compact('pageItems'));
 ?>
 <div class="row">
     <table class="table">

@@ -38,6 +38,6 @@ final class RequestGetApiAction extends UIFacesUserAction
 
         $this->UIFacesUserRepository->createMany($users);
 
-        return $this->response;
+        return $this->redirectBack($this->request, $this->response);
     }
 }

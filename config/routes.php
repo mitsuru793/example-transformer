@@ -17,6 +17,6 @@ return function (League\Route\Router $router) {
 
     $router->group('/UIFacesUsers', function (\League\Route\RouteGroup $r) {
         $r->get('/', \Php\Application\Actions\UIFacesUser\ListUIFacesUsersAction::class);
-        $r->post(':fetch', \Php\Application\Actions\UIFacesUser\RequestGetApiAction::class);
     });
+    $router->post('/UIFacesUsers:fetch', \Php\Application\Actions\UIFacesUser\RequestGetApiAction::class);
 };
