@@ -16,6 +16,7 @@ CREATE TABLE IF NOT EXISTS ui_faces_users
     email VARCHAR(50),
     position VARCHAR(50),
     photo_url VARCHAR(500),
+    photo_file VARCHAR(500),
     PRIMARY KEY (id)
 );
 

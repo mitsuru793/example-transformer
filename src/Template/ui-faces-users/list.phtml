@@ -31,7 +31,7 @@ $v->layout('layouts/default', compact('pageItems'));
                 <td><?= $user->name ?></a></td>
                 <td><?= $user->email ?></td>
                 <td><?= $user->position ?></td>
-                <td><img width="50px" src="<?= $user->photoUrl ?>"></td>
+                <td><img width="50px" src="<?= $user->photoFilePath() ?>"></td>
             </tr>
         <?php endforeach; ?>
         </tbody>

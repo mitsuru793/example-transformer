@@ -12,6 +12,7 @@ use Php\Domain\UIFacesUser\UIFacesUser;
  * @property string $email
  * @property string $position
  * @property string $photo_url
+ * @property string $photo_file
  */
 final class UIFacesUserModel extends EloquentBaseModel implements Domainable
 {
@@ -32,6 +33,7 @@ final class UIFacesUserModel extends EloquentBaseModel implements Domainable
             $this->email,
             $this->position,
             $this->photo_url,
+            $this->photo_file,
         );
     }
 }

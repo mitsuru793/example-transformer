@@ -16,6 +16,7 @@ final class EloquentUIFacesUserRepository implements UIFacesUserRepository
             'email' => $user->email,
             'position' => $user->position,
             'photo_url' => $user->photoUrl,
+            'photo_file' => $user->photoFile,
         ], $users);
         UIFacesUserModel::insert($data);
     }

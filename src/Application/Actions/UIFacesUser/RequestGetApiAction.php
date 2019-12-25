@@ -3,6 +3,7 @@ declare(strict_types=1);
 
 namespace Php\Application\Actions\UIFacesUser;
 
+use GuzzleHttp\Client as GuzzleClient;
 use Php\Domain\UIFacesUser\UIFacesUser;
 use Php\Domain\UIFacesUser\UIFacesUserRepository;
 use Php\Library\UIFaces\Client;
@@ -15,28 +16,39 @@ final class RequestGetApiAction extends UIFacesUserAction
 
     private Client $UIFacesClient;
 
-    public function __construct(UIFacesUserRepository $UIFacesUserRepository, Client $UIFacesClient)
+    private GuzzleClient $httpClient;
+
+    public function __construct(UIFacesUserRepository $UIFacesUserRepository, Client $UIFacesClient, GuzzleClient $httpClient)
     {
         $this->UIFacesUserRepository = $UIFacesUserRepository;
         $this->UIFacesClient = $UIFacesClient;
+        $this->httpClient = $httpClient;
     }
 
     protected function action(): Response
     {
+        /** @var UIFacesUser[] $users */
         $users = [];
         $genders = ['male', 'female'];
         foreach ($genders as $gender) {
             $params = new \Php\Library\UIFaces\Parameters();
-            $params->limit(5)->genders([$gender]);
+            $params->limit(1)->genders([$gender]);
             $newUsers = $this->UIFacesClient->getUsers($params);
             $users = array_merge($users, $newUsers);
         }
 
-        $users = array_map(fn(User $user) => new UIFacesUser(
-            null, $user->name, $user->email, $user->position, $user->photo,
-        ), $users);
+        $users = array_map(function (User $user) {
+            $faceUser = new UIFacesUser(null, $user->name, $user->email, $user->position, $user->photo, '');
+            $faceUser->addPhotoFile();
+            return $faceUser;
+        }, $users);
 
         $this->UIFacesUserRepository->createMany($users);
+
+        foreach ($users as $user) {
+            $user->photoUrl;
+            $this->httpClient->get($user->photoUrl, ['save_to' => $user->photoFilePath()]);
+        }
 
         return $this->redirectBack($this->request, $this->response);
     }

@@ -4,3 +4,7 @@ vendor
 .phpunit.result.cache
 test.php
 .env
+
+public/assets/images/ui-faces/*
+!public/assets/images/ui-faces/.keep
+
