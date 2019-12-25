@@ -63,7 +63,7 @@ final class ListPostsAction extends PostAction
             ->setMaxPerPage($perPage)
             ->setCurrentPage($page);
         $pagerHtml = $this->pagerHtml($pager, fn($page) => "/?page=$page&perPage=$perPage");
-        return $this->renderView($this->response, 'index', compact(
+        return $this->renderView($this->response, 'post/list', compact(
             'loginUser', 'postsCount', 'posts', 'page', 'lastPage', 'pager', 'pagerHtml', 'transformed'
         ));
     }
