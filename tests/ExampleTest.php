@@ -3,7 +3,7 @@ declare(strict_types=1);
 
 namespace Php;
 
-use Helper\TestBase;
+use Php\Helper\TestBase;
 
 final class ExampleTest extends TestBase
 {
