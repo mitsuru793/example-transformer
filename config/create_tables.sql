@@ -75,4 +75,13 @@ CREATE TABLE IF NOT EXISTS http_response_caches
     FOREIGN KEY (http_request_cache_id) REFERENCES http_request_caches (id)
 );
 
+DROP TABLE IF EXISTS http_request_histories;
+CREATE TABLE IF NOT EXISTS http_request_histories
+(
+    id                    INTEGER AUTO_INCREMENT,
+    http_request_cache_id INTEGER,
+    PRIMARY KEY (id),
+    FOREIGN KEY (http_request_cache_id) REFERENCES http_request_caches (id)
+);
+
 SET FOREIGN_KEY_CHECKS = 1;

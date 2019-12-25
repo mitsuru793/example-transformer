@@ -6,9 +6,12 @@ namespace Helper\Domain\HttpCache;
 use Php\Domain\DomainException\DomainRecordNotFoundException;
 use Php\Domain\HttpCache\HttpRequestCache;
 use Php\Domain\HttpCache\HttpRequestCacheRepository;
+use Php\Domain\HttpCache\HttpRequestHistory;
+use Php\Domain\HttpCache\HttpRequestHistoryRepository;
 use Php\Domain\HttpCache\HttpResponseCacheRepository;
 use Php\Helper\TestBase;
 use Php\Infrastructure\Repositories\Domain\Eloquent\HttpCache\EloquentHttpRequestCacheRepository;
+use Php\Infrastructure\Repositories\Domain\Eloquent\HttpCache\EloquentHttpRequestHistoryRepository;
 use Php\Infrastructure\Repositories\Domain\Eloquent\HttpCache\EloquentHttpResponseCacheRepository;
 use Psr\Http\Message\ResponseInterface;
 
@@ -18,11 +21,14 @@ final class HttpCacheTest extends TestBase
 
     private HttpResponseCacheRepository $resRepo;
 
+    private HttpRequestHistoryRepository $historyRepo;
+
     public function setUp(): void
     {
         parent::setUp();
         $this->reqCacheRepo = new EloquentHttpRequestCacheRepository();
         $this->resRepo = new EloquentHttpResponseCacheRepository();
+        $this->historyRepo = new EloquentHttpRequestHistoryRepository();
     }
 
     public function testStoreRequestAndResponse()
@@ -48,6 +54,19 @@ final class HttpCacheTest extends TestBase
         }
 
         $this->assertSame((string)$response->getBody(), $storedResCache->body);
+    }
+
+    public function testHistory()
+    {
+        $base = 'http://example.com';
+        $req = $this->createRequest('GET', "$base", []);
+        $reqCache = $this->reqCacheRepo->store($req);
+        $this->historyRepo->store($reqCache->toHistory());
+
+        $histories = $this->historyRepo->paging(1, 1);
+        $this->assertCount(1, $histories);
+        $this->assertInstanceOf(HttpRequestHistory::class, $histories[0]);
+        $this->assertSame($reqCache->id, $histories[0]->requestId);
     }
 
     private function createRequest(string $method, string $path, array $options): HttpRequestCache

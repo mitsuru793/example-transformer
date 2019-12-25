@@ -23,4 +23,15 @@ final class HttpRequestCache
         $this->path = $path;
         $this->options = $options;
     }
+
+    public function toHistory(): HttpRequestHistory
+    {
+        return new HttpRequestHistory(
+            null,
+            $this->id,
+            $this->method,
+            $this->path,
+            $this->options
+        );
+    }
 }
