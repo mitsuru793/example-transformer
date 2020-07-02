@@ -8,6 +8,7 @@ use Php\Domain\UIFacesUser\UIFacesUser;
 use Php\Domain\UIFacesUser\UIFacesUserRepository;
 use Php\Library\UIFaces\Client;
 use Php\Library\UIFaces\User;
+use Php\Library\Util\Path;
 use Psr\Http\Message\ResponseInterface as Response;
 
 final class RequestGetApiAction extends UIFacesUserAction
@@ -46,8 +47,8 @@ final class RequestGetApiAction extends UIFacesUserAction
         $this->UIFacesUserRepository->createMany($users);
 
         foreach ($users as $user) {
-            $user->photoUrl;
-            $this->httpClient->get($user->photoUrl, ['save_to' => $user->photoFilePath()]);
+            $file = fopen(Path::webRoot() . $user->photoFilePath(), 'w');
+            $this->httpClient->get($user->photoUrl, ['sink' => $file]);
         }
 
         return $this->redirectBack($this->request, $this->response);
