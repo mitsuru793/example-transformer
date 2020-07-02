@@ -4,9 +4,9 @@ declare(strict_types=1);
 return function (\League\Container\Container $c) {
     $c->add(\Php\Infrastructure\Repositories\Domain\EasyDB\ExtendedEasyDB::class, function () {
         $pdo = new \PDO(
-            'mysql:host=localhost;dbname=development_db',
-            'root',
-            'pass',
+            sprintf('mysql:host=%s;dbname=%s', getenv('DB_HOST'), getenv('DB_DATABASE')),
+            getenv('DB_USER'),
+            getenv('DB_PASS'),
         );
         return new \Php\Infrastructure\Repositories\Domain\EasyDB\ExtendedEasyDB($pdo, 'mysql');
     }, true);
