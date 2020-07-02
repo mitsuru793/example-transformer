@@ -1,17 +1,11 @@
 <?php
 declare(strict_types=1);
 
+use Php\Application\Actions\Auth;
 use Php\Application\Actions\Debug\RenderStringAction;
-use Psr\Http\Message\ResponseInterface;
-use Psr\Http\Message\ServerRequestInterface;
 
 return function (\League\Route\Router $router) {
-    $router->options('/{routes:.*}', function (ServerRequestInterface $request) : ResponseInterface {
-        $response = new \Zend\Diactoros\Response();
-        $response = $response->withAddedHeader('Access-Control-Allow-Methods', 'GET,POST,PUT,DELETE');
-        $response = $response->withAddedHeader('Access-Control-Allow-Headers', 'Content-Type');
-        return $response;
-    });
+    $router->options('/{routes:.*}', Auth\PermitPreflightAction::class);
 
     $router->get('/', new RenderStringAction('welcome!'));
 

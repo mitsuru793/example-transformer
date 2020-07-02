@@ -1,7 +1,11 @@
 <?php
 declare(strict_types=1);
 
-return function (League\Route\Router $router) {
+use \Php\Application\Actions;
+
+global $container;
+
+return function (League\Route\Router $router) use ($container) {
     $router->get('/', \Php\Application\Actions\Post\ListPostsAction::class);
 
     $router->post('/login', \Php\Application\Actions\Auth\LoginAction::class);
@@ -21,4 +25,9 @@ return function (League\Route\Router $router) {
         $r->get('/', \Php\Application\Actions\UIFacesUser\ListUIFacesUsersAction::class);
     });
     $router->post('/UIFacesUsers:fetch', \Php\Application\Actions\UIFacesUser\RequestGetApiAction::class);
+
+    $router->group('/debug', function (\League\Route\RouteGroup $r) use ($container) {
+        $templates = $container->get(\League\Plates\Engine::class);
+        $r->get('/cors-request', new Actions\Debug\RenderStaticPageAction($templates, 'debug/cors-request'));
+    });
 };

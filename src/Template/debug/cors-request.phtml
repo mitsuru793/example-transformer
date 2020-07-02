@@ -1,0 +1,87 @@
+<?php
+$v->layout('layouts/default')
+
+/**
+ * @var \Php\Domain\User\User|null $loginUser
+ * @var \Php\Domain\Post\Post $post
+ */
+?>
+
+<form id="cors-request-form">
+    <div class="form-row">
+        <div class="form-group">
+            <p>Method</p>
+            <?php $methods = ['get', 'post', 'put', 'patch', 'delete', 'option', 'head'] ?>
+            <?php foreach ($methods as $method): ?>
+                <div class="custom-control custom-radio custom-control-inline">
+                    <label class="form-check-label" for="method-<?= $method ?>">
+                        <?= strtoupper($method) ?>
+                    </label>
+                    <input class="form-check-input" id="method-<?= $method ?>" type="radio" name="httpMethod"
+                           value="<?= $method ?>"
+                           <?php if ($method == 'get'): ?>checked<? endif ?>
+                    >
+                </div>
+            <?php endforeach ?>
+        </div>
+    </div>
+    <div class="form-row">
+        <div class="form-group col">
+            <label for="request-path">Path</label>
+            <input type="text" class="form-control" id="request-path" name="requestPath"
+                   value="<?= \Php\Library\Util\Origin::api() ?>/string">
+        </div>
+    </div>
+    <div class="form-group">
+        <button type="submit" class="btn btn-primary">Fetch</button>
+    </div>
+    <div class="result">
+        <h3>Result</h3>
+        <pre>None</pre>
+    </div>
+</form>
+
+<script>
+    'use strict';
+
+    function log($val) {
+        console.log($val)
+    }
+
+    class Form {
+        constructor(selector, successHandler, failedHandler) {
+            this.el = document.querySelector(selector)
+            this.el.addEventListener('submit', (e) => {
+                e.preventDefault()
+                this.submitHandler(e)
+            })
+            this.successHandler = successHandler
+            this.failedHandler = failedHandler
+        }
+
+        submitHandler(e) {
+            const method = this.el.httpMethod.value
+            const uri = this.el.requestPath.value
+            this.requestWithFetch(method, uri)
+        }
+
+        async requestWithFetch(method, uri) {
+            const res = await fetch(uri, {
+                method: method,
+                mode: 'cors',
+                credentials: 'include',
+            })
+                .then(async res => this.successHandler(await res.text()))
+                .catch(res => this.failedHandler(res))
+        }
+    }
+
+    new Form('#cors-request-form',
+        (text) => {
+            document.querySelector('.result pre').textContent = text
+        },
+        (text) => {
+            document.querySelector('.result pre').textContent = text
+        },
+    )
+</script>
