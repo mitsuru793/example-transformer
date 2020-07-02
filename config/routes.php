@@ -1,9 +1,11 @@
 <?php
 declare(strict_types=1);
 
-
 return function (League\Route\Router $router) {
     $router->get('/', \Php\Application\Actions\Post\ListPostsAction::class);
+
+    $router->post('/login', \Php\Application\Actions\Auth\LoginAction::class);
+    $router->post('/logout', \Php\Application\Actions\Auth\LogoutAction::class);
 
     $router->group('/posts', function (\League\Route\RouteGroup $r) {
         $r->get('/{postId}', \Php\Application\Actions\Post\ShowPostAction::class);

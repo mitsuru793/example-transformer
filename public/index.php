@@ -51,6 +51,10 @@ $add($container);
 $router = new League\Route\Router;
 $router->setStrategy($strategy);
 
+$router->middlewares([
+    $container->get(\Php\Application\Middlewares\LoginAuth::class),
+    $container->get(\Php\Application\Middlewares\EnableCors::class),
+]);
 $add = require_once __DIR__ . '/../config/routes.php';
 $add($router);
 

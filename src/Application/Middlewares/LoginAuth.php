@@ -6,9 +6,10 @@ namespace Php\Application\Middlewares;
 use Php\Infrastructure\Repositories\Domain\EasyDB\EasyDBUserRepository;
 use Psr\Http\Message\ResponseInterface as Response;
 use Psr\Http\Message\ServerRequestInterface as Request;
+use Psr\Http\Server\MiddlewareInterface;
 use Psr\Http\Server\RequestHandlerInterface as RequestHandler;
 
-final class LoginAuth
+final class LoginAuth implements MiddlewareInterface
 {
     public const SESSION_KEY = 'session_id';
     public const ATTRIBUTE_KEY = 'loginUser';
@@ -21,16 +22,15 @@ final class LoginAuth
         $this->userRepository = $userRepository;
     }
 
-    public function __invoke(Request $request, RequestHandler $handler): Response
+    public function process(Request $request, RequestHandler $handler): Response
     {
-        // TODO idを暗号化
-        $id = $request->getQueryParams()[self::SESSION_KEY] ?? null;
+        // TODO user idを暗号化
+        $id = $request->getCookieParams()[self::SESSION_KEY] ?? null;
         if (is_null($id)) {
             return $handler->handle($request);
         }
-        assert(is_int($id));
 
-        $user = $this->userRepository->findUserOfId($id);
+        $user = $this->userRepository->find((int)$id);
         $request = $request->withAttribute(self::ATTRIBUTE_KEY, $user);
         return $handler->handle($request);
     }

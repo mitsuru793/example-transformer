@@ -19,4 +19,10 @@ return function (\League\Container\Container $c) {
         $apiKey = getenv('UI_FACES_API_KEY');
         return new \Php\Library\UIFaces\Client($apiKey);
     }, true);
+
+    // Middlewares
+    $c->add(\Php\Application\Middlewares\EnableCors::class, function () {
+        $allowed = sprintf('%s://%s:%s', getenv('SCHEME'), getenv('MYAPP_WEB_DOMAIN'), getenv('MYAPP_WEB_PORT'));
+        return new \Php\Application\Middlewares\EnableCors([$allowed]);
+    }, true);
 };

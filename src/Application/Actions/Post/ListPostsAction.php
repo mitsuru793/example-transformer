@@ -34,7 +34,6 @@ final class ListPostsAction extends PostAction
 
     protected function action(): Response
     {
-        $loginUser = $this->userRepository->find(1);
         $query = $this->request->getQueryParams();
         $page = (int)($query['page'] ?? 1);
         $perPage = 5;
@@ -47,8 +46,8 @@ final class ListPostsAction extends PostAction
 
         $fractal = new Manager();
         $fractal->parseIncludes('author');
-        if (!is_null($loginUser)) {
-            $this->postTransformer->setViewer($loginUser);
+        if (!is_null($this->loginUser)) {
+            $this->postTransformer->setViewer($this->loginUser);
         }
         $resource = new Collection($posts, $this->postTransformer, 'posts');
         if (empty($posts)) {
@@ -64,7 +63,7 @@ final class ListPostsAction extends PostAction
             ->setCurrentPage($page);
         $pagerHtml = $this->pagerHtml($pager, fn($page) => "/?page=$page&perPage=$perPage");
         return $this->renderView($this->response, 'post/list', compact(
-            'loginUser', 'postsCount', 'posts', 'page', 'lastPage', 'pager', 'pagerHtml', 'transformed'
-        ));
+                'postsCount', 'posts', 'page', 'lastPage', 'pager', 'pagerHtml', 'transformed'
+            ) + ['loginUser' => $this->loginUser]);
     }
 }

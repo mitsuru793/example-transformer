@@ -18,8 +18,14 @@
         <div class="col">
             <?php if (is_null($loginUser)): ?>
                 <p>login user: non</p>
+                <form action="/login" method="post">
+                    <button class="btn btn-primary" type="submit">Log in</button>
+                </form>
             <?php else: ?>
                 <p>login user: <?= $loginUser->name ?></p>
+                <form action="/logout" method="post">
+                    <button class="btn btn-primary" type="submit">Logout</button>
+                </form>
             <?php endif ?>
         </div>
     </div>
