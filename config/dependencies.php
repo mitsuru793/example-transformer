@@ -22,7 +22,7 @@ return function (\League\Container\Container $c) {
 
     // Middlewares
     $c->add(\Php\Application\Middlewares\EnableCors::class, function () {
-        $allowed = sprintf('%s://%s:%s', getenv('SCHEME'), getenv('MYAPP_WEB_DOMAIN'), getenv('MYAPP_WEB_PORT'));
+        $allowed = \Php\Library\Util\Origin::api();
         return new \Php\Application\Middlewares\EnableCors([$allowed]);
     }, true);
 };

@@ -5,8 +5,13 @@ namespace Php\Library\Util;
 
 final class Path
 {
+    public static function root(): string
+    {
+        return __DIR__ . '/../../..';
+    }
+
     public static function webRoot(): string
     {
-        return __DIR__ . '/../../../public';
+        return self::root() . '/public';
     }
 }

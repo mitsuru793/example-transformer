@@ -8,4 +8,3 @@ function logs($value): void
    }
     error_log($value);
 }
-

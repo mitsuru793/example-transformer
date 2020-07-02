@@ -10,12 +10,12 @@ $dotenv->load();
 
 $capsule = new \Illuminate\Database\Capsule\Manager();
 $capsule->addConnection([
-    'driver'    => 'mysql',
-    'host'      => getenv('DB_HOST'),
-    'database'  => getenv('DB_DATABASE'),
-    'username'  => getenv('DB_USER'),
-    'password'  => getenv('DB_PASS'),
-    'charset'   => 'utf8',
+    'driver' => 'mysql',
+    'host' => getenv('DB_HOST'),
+    'database' => getenv('DB_DATABASE'),
+    'username' => getenv('DB_USER'),
+    'password' => getenv('DB_PASS'),
+    'charset' => 'utf8',
     'collation' => 'utf8_unicode_ci',
 ]);
 $capsule->setAsGlobal();
@@ -55,7 +55,15 @@ $router->middlewares([
     $container->get(\Php\Application\Middlewares\LoginAuth::class),
     $container->get(\Php\Application\Middlewares\EnableCors::class),
 ]);
-$add = require_once __DIR__ . '/../config/routes.php';
+
+$regexp = sprintf('@^%s$@', \Php\Library\Util\Host::api());
+logs($regexp);
+logs($request->getUri()->getHost());
+if (preg_match($regexp, $request->getUri()->getHost())) {
+    $add = require_once \Php\Library\Util\Path::root() . '/routes/api.php';
+} else {
+    $add = require_once \Php\Library\Util\Path::root() . '/routes/web.php';
+}
 $add($router);
 
 $request = extendFormHttpMethod($request);
