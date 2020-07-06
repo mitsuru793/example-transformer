@@ -25,4 +25,13 @@ return function (\League\Container\Container $c) {
         $allowed = \Php\Library\Util\Origin::web();
         return new \Php\Application\Middlewares\EnableCors([$allowed]);
     }, true);
+
+    $c->add(\Abraham\TwitterOAuth\TwitterOAuth::class, function () {
+        return new \Abraham\TwitterOAuth\TwitterOAuth(
+            getenv('TWITTER_CONSUMER_KEY'),
+            getenv('TWITTER_CONSUMER_SECRET'),
+            getenv('TWITTER_CONSUMER_ACCESS_TOKEN'),
+            getenv('TWITTER_CONSUMER_ACCESS_TOKEN_SECRET'),
+        );
+    }, true);
 };

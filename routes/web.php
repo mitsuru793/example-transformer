@@ -26,6 +26,10 @@ return function (League\Route\Router $router) use ($container) {
     });
     $router->post('/UIFacesUsers:fetch', \Php\Application\Actions\UIFacesUser\RequestGetApiAction::class);
 
+    $router->group('/tweets', function (\League\Route\RouteGroup $r) {
+        $r->get('/home', \Php\Application\Actions\Tweet\ListMyHomeAction::class);
+    });
+
     $router->group('/debug', function (\League\Route\RouteGroup $r) use ($container) {
         $templates = $container->get(\League\Plates\Engine::class);
         $r->get('/cors-request', new Actions\Debug\RenderStaticPageAction($templates, 'debug/cors-request'));
