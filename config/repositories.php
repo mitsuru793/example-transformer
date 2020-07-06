@@ -3,6 +3,7 @@ declare(strict_types=1);
 
 use Php\Domain\Post\PostRepository;
 use Php\Domain\User\UserRepository;
+use Php\Infrastructure\Repositories\Domain\EasyDB\EasyDBTwitterAccessTokenRepository;
 use Php\Infrastructure\Repositories\Domain\EasyDB\ExtendedEasyDB;
 use Php\Infrastructure\Repositories\Domain\EasyDB\EasyDBPostRepository;
 use Php\Infrastructure\Repositories\Domain\EasyDB\EasyDBUserRepository;
@@ -21,4 +22,7 @@ return function (\League\Container\Container $c) {
         ->addArgument(ExtendedEasyDB::class);
 
     $c->add(\Php\Domain\UIFacesUser\UIFacesUserRepository::class, EloquentUIFacesUserRepository::class);
+
+    $c->add(\Php\Domain\Twitter\AccessToken\AccessTokenRepository::class, EasyDBTwitterAccessTokenRepository::class)
+        ->addArgument(ExtendedEasyDB::class);
 };

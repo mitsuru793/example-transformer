@@ -111,6 +111,13 @@ abstract class Action
         return $response;
     }
 
+    protected function renderHtml(Response $response, string $html): Response
+    {
+        $output = $this->templates->render('debug/render-html', compact('html'));
+        $response->getBody()->write($output);
+        return $response;
+    }
+
     protected function pager(int $totalCount, array $items): Pagerfanta
     {
         $adapter = new FixedAdapter($totalCount, $items);

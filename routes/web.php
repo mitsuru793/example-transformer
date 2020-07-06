@@ -26,6 +26,10 @@ return function (League\Route\Router $router) use ($container) {
     });
     $router->post('/UIFacesUsers:fetch', \Php\Application\Actions\UIFacesUser\RequestGetApiAction::class);
 
+    $router->group('/twitter', function (\League\Route\RouteGroup $r) {
+        $r->get('/oauth1/login', \Php\Application\Actions\Twitter\LoginTwitterAction::class);
+        $r->get('/oauth_callback', \Php\Application\Actions\Twitter\CallbackAction::class);
+    });
     $router->group('/tweets', function (\League\Route\RouteGroup $r) {
         $r->get('/home', \Php\Application\Actions\Tweet\ListMyHomeAction::class);
     });

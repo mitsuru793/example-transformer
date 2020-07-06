@@ -20,6 +20,17 @@ CREATE TABLE IF NOT EXISTS ui_faces_users
     PRIMARY KEY (id)
 );
 
+DROP TABLE IF EXISTS twitter_oauth_access_tokens;
+CREATE TABLE IF NOT EXISTS twitter_oauth_access_tokens
+(
+    id              INTEGER AUTO_INCREMENT,
+    twitter_user_id BIGINT UNSIGNED UNIQUE,
+    screen_name VARCHAR(100),
+    token           VARCHAR(100) UNICODE,
+    secret           VARCHAR(100) UNICODE,
+    PRIMARY KEY (id)
+);
+
 DROP TABLE IF EXISTS posts;
 CREATE TABLE IF NOT EXISTS posts
 (
