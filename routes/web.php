@@ -29,6 +29,8 @@ return function (League\Route\Router $router) use ($container) {
     $router->group('/twitter', function (\League\Route\RouteGroup $r) {
         $r->get('/oauth1/login', \Php\Application\Actions\Twitter\LoginTwitterAction::class);
         $r->get('/oauth_callback', \Php\Application\Actions\Twitter\CallbackAction::class);
+
+        $r->get('/users/{name:\w+}/home', \Php\Application\Actions\Tweet\ListUserHome::class);
     });
     $router->group('/tweets', function (\League\Route\RouteGroup $r) {
         $r->get('/home', \Php\Application\Actions\Tweet\ListMyHomeAction::class);

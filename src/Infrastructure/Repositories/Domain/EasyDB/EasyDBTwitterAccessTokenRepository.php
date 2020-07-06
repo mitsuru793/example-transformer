@@ -30,6 +30,21 @@ final class EasyDBTwitterAccessTokenRepository implements AccessTokenRepository
         return $this->toAccessToken($row);
     }
 
+    public function findByScreenName(string $name): ?AccessToken
+    {
+        $row = $this->db->row(<<<SQL
+            SELECT {$this->columnsStr()}
+            FROM twitter_oauth_access_tokens
+            WHERE twitter_oauth_access_tokens.screen_name = ?
+            SQL,
+            $name,
+        );
+        if (!$row) {
+            return null;
+        }
+        return $this->toAccessToken($row);
+    }
+
     public function createOrUpdate(AccessToken $token): AccessToken
     {
         $found = $this->findByTwitterUserId($token->twitterUserId);

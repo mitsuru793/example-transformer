@@ -7,5 +7,7 @@ interface AccessTokenRepository
 {
     public function findByTwitterUserId(int $userId): ?AccessToken;
 
+    public function findByScreenName(string $name): ?AccessToken;
+
     public function createOrUpdate(AccessToken $token): AccessToken;
 }
