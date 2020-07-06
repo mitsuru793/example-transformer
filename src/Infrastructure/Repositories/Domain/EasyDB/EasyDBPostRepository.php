@@ -44,7 +44,7 @@ final class EasyDBPostRepository implements PostRepository
         ]);
     }
 
-    public function find(int $postId): Post
+    public function find(int $postId): ?Post
     {
         $row = $this->db->row(<<<SQL
             SELECT {$this->columnsStr()}, {$this->userRepo->columnsStr()}

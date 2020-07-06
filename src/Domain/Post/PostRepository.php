@@ -11,7 +11,7 @@ interface PostRepository
 
     public function store(Post $post);
 
-    public function find(int $postId): Post;
+    public function find(int $postId): ?Post;
 
     /**
      * @param Tag[] $tags
