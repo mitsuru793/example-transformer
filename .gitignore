@@ -1,4 +1,5 @@
 vendor
+node_modules
 .idea
 .php_cs.cache
 .phpunit.result.cache
@@ -8,3 +9,4 @@ test.php
 public/assets/images/ui-faces/*
 !public/assets/images/ui-faces/.keep
 
+openapi/generated

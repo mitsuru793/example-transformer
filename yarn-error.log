@@ -1,0 +1,47 @@
+Arguments: 
+  /Users/mitsuru793/.n/bin/node /usr/local/Cellar/yarn/1.22.0/libexec/bin/yarn.js add axious
+
+PATH: 
+  /Users/mitsuru793/.rbenv/bin:/Users/mitsuru793/.cargo/bin:/Users/mitsuru793/go/bin:/Users/mitsuru793/.cargo/bin:/Users/mitsuru793/.git-radar:/Users/mitsuru793/.cargo/bin:/Users/mitsuru793/go/bin:/Users/mitsuru793/.cargo/bin:/Users/mitsuru793/.rbenv/shims:/Users/mitsuru793/.cargo/bin:/Users/mitsuru793/go/bin:/Users/mitsuru793/.cargo/bin:/Users/mitsuru793/.git-radar:/Users/mitsuru793/.cargo/bin:/Users/mitsuru793/go/bin:/Users/mitsuru793/.cargo/bin:/Users/mitsuru793/.composer/vendor/bin:/Users/mitsuru793/.cargo/bin:/Users/mitsuru793/go/bin:/Users/mitsuru793/.cargo/bin:/Users/mitsuru793/.git-radar:/Users/mitsuru793/.cargo/bin:/Users/mitsuru793/go/bin:/Users/mitsuru793/.cargo/bin:/Library/Java/JavaVirtualMachines/adoptopenjdk-13.0.2.jdk/Contents/Home/bin:/Users/mitsuru793/.cargo/bin:/Users/mitsuru793/go/bin:/Users/mitsuru793/.cargo/bin:/Users/mitsuru793/.git-radar:/Users/mitsuru793/.cargo/bin:/Users/mitsuru793/go/bin:/Users/mitsuru793/.cargo/bin:/Users/mitsuru793/.n/bin:/Users/mitsuru793/.cargo/bin:/Users/mitsuru793/go/bin:/Users/mitsuru793/.cargo/bin:/Users/mitsuru793/.git-radar:/Users/mitsuru793/.cargo/bin:/Users/mitsuru793/go/bin:/Users/mitsuru793/.cargo/bin:/Users/mitsuru793/.yarn/bin:/Users/mitsuru793/.cargo/bin:/Users/mitsuru793/go/bin:/Users/mitsuru793/.cargo/bin:/Users/mitsuru793/.git-radar:/Users/mitsuru793/.cargo/bin:/Users/mitsuru793/go/bin:/Users/mitsuru793/.cargo/bin:/Users/mitsuru793/go/bin:/Users/mitsuru793/.cargo/bin:/Users/mitsuru793/go/bin:/Users/mitsuru793/.cargo/bin:/Users/mitsuru793/.git-radar:/Users/mitsuru793/.cargo/bin:/Users/mitsuru793/go/bin:/Users/mitsuru793/.cargo/bin:/Users/mitsuru793/bin:/Users/mitsuru793/.cargo/bin:/Users/mitsuru793/go/bin:/Users/mitsuru793/.cargo/bin:/Users/mitsuru793/.git-radar:/Users/mitsuru793/.cargo/bin:/Users/mitsuru793/go/bin:/Users/mitsuru793/.cargo/bin:/usr/local/bin:/Users/mitsuru793/.cargo/bin:/Users/mitsuru793/go/bin:/Users/mitsuru793/.cargo/bin:/Users/mitsuru793/.git-radar:/Users/mitsuru793/.cargo/bin:/Users/mitsuru793/go/bin:/Users/mitsuru793/.cargo/bin:/usr/bin:/Users/mitsuru793/.cargo/bin:/Users/mitsuru793/go/bin:/Users/mitsuru793/.cargo/bin:/Users/mitsuru793/.git-radar:/Users/mitsuru793/.cargo/bin:/Users/mitsuru793/go/bin:/Users/mitsuru793/.cargo/bin:/bin:/Users/mitsuru793/.cargo/bin:/Users/mitsuru793/go/bin:/Users/mitsuru793/.cargo/bin:/Users/mitsuru793/.git-radar:/Users/mitsuru793/.cargo/bin:/Users/mitsuru793/go/bin:/Users/mitsuru793/.cargo/bin:/usr/sbin:/Users/mitsuru793/.cargo/bin:/Users/mitsuru793/go/bin:/Users/mitsuru793/.cargo/bin:/Users/mitsuru793/.git-radar:/Users/mitsuru793/.cargo/bin:/Users/mitsuru793/go/bin:/Users/mitsuru793/.cargo/bin:/sbin:/Users/mitsuru793/.cargo/bin:/Users/mitsuru793/go/bin:/Users/mitsuru793/.cargo/bin:/Users/mitsuru793/.git-radar:/Users/mitsuru793/.cargo/bin:/Users/mitsuru793/go/bin:/Users/mitsuru793/.cargo/bin:/Library/Apple/usr/bin:/Users/mitsuru793/.cargo/bin:/Users/mitsuru793/go/bin:/Users/mitsuru793/.cargo/bin:/Users/mitsuru793/.git-radar:/Users/mitsuru793/.cargo/bin:/Users/mitsuru793/go/bin:/Users/mitsuru793/.cargo/bin:/Users/mitsuru793/.cargo/bin:/Users/mitsuru793/.cargo/bin:/Users/mitsuru793/go/bin:/Users/mitsuru793/.cargo/bin:/Users/mitsuru793/.git-radar:/Users/mitsuru793/.cargo/bin:/Users/mitsuru793/go/bin:/Users/mitsuru793/.cargo/bin:/Users/mitsuru793/go/bin:/Users/mitsuru793/.cargo/bin:/Users/mitsuru793/go/bin:/Users/mitsuru793/.cargo/bin:/Users/mitsuru793/.git-radar:/Users/mitsuru793/.cargo/bin:/Users/mitsuru793/go/bin:/Users/mitsuru793/.cargo/bin:/Users/mitsuru793/.git-radar:/Users/mitsuru793/.cargo/bin:/Users/mitsuru793/go/bin:/Users/mitsuru793/.cargo/bin:/Users/mitsuru793/.git-radar:/Users/mitsuru793/.cargo/bin:/Users/mitsuru793/go/bin:/Users/mitsuru793/.cargo/bin:/Users/mitsuru793/.rbenv/shims:/Users/mitsuru793/.cargo/bin:/Users/mitsuru793/go/bin:/Users/mitsuru793/.cargo/bin:/Users/mitsuru793/.git-radar:/Users/mitsuru793/.cargo/bin:/Users/mitsuru793/go/bin:/Users/mitsuru793/.cargo/bin:/Users/mitsuru793/.composer/vendor/bin:/Users/mitsuru793/.cargo/bin:/Users/mitsuru793/go/bin:/Users/mitsuru793/.cargo/bin:/Users/mitsuru793/.git-radar:/Users/mitsuru793/.cargo/bin:/Users/mitsuru793/go/bin:/Users/mitsuru793/.cargo/bin:/Library/Java/JavaVirtualMachines/adoptopenjdk-13.0.2.jdk/Contents/Home/bin:/Users/mitsuru793/.cargo/bin:/Users/mitsuru793/go/bin:/Users/mitsuru793/.cargo/bin:/Users/mitsuru793/.git-radar:/Users/mitsuru793/.cargo/bin:/Users/mitsuru793/go/bin:/Users/mitsuru793/.cargo/bin:/Users/mitsuru793/.n/bin:/Users/mitsuru793/.cargo/bin:/Users/mitsuru793/go/bin:/Users/mitsuru793/.cargo/bin:/Users/mitsuru793/.git-radar:/Users/mitsuru793/.cargo/bin:/Users/mitsuru793/go/bin:/Users/mitsuru793/.cargo/bin:/Users/mitsuru793/.yarn/bin:/Users/mitsuru793/.cargo/bin:/Users/mitsuru793/go/bin:/Users/mitsuru793/.cargo/bin:/Users/mitsuru793/.git-radar:/Users/mitsuru793/.cargo/bin:/Users/mitsuru793/go/bin:/Users/mitsuru793/.cargo/bin:/Users/mitsuru793/bin:/Users/mitsuru793/.cargo/bin:/Users/mitsuru793/go/bin:/Users/mitsuru793/.cargo/bin:/Users/mitsuru793/.git-radar:/Users/mitsuru793/.cargo/bin:/Users/mitsuru793/go/bin:/Users/mitsuru793/.cargo/bin
+
+Yarn version: 
+  1.22.0
+
+Node version: 
+  12.16.3
+
+Platform: 
+  darwin x64
+
+Trace: 
+  Error: https://registry.yarnpkg.com/axious: Not found
+      at Request.params.callback [as _callback] (/usr/local/Cellar/yarn/1.22.0/libexec/lib/cli.js:66975:18)
+      at Request.self.callback (/usr/local/Cellar/yarn/1.22.0/libexec/lib/cli.js:140727:22)
+      at Request.emit (events.js:310:20)
+      at Request.<anonymous> (/usr/local/Cellar/yarn/1.22.0/libexec/lib/cli.js:141699:10)
+      at Request.emit (events.js:310:20)
+      at IncomingMessage.<anonymous> (/usr/local/Cellar/yarn/1.22.0/libexec/lib/cli.js:141621:12)
+      at Object.onceWrapper (events.js:416:28)
+      at IncomingMessage.emit (events.js:322:22)
+      at endReadableNT (_stream_readable.js:1187:12)
+      at processTicksAndRejections (internal/process/task_queues.js:84:21)
+
+npm manifest: 
+  {
+    "devDependencies": {
+      "@types/node": "^14.0.18"
+    }
+  }
+
+yarn manifest: 
+  No manifest
+
+Lockfile: 
+  # THIS IS AN AUTOGENERATED FILE. DO NOT EDIT THIS FILE DIRECTLY.
+  # yarn lockfile v1
+  
+  
+  "@types/node@^14.0.18":
+    version "14.0.18"
+    resolved "https://registry.yarnpkg.com/@types/node/-/node-14.0.18.tgz#5111b2285659442f9f95697386a2b42b875bd7e9"
+    integrity sha512-0Z3nS5acM0cIV4JPzrj9g/GH0Et5vmADWtip3YOXOp1NpOLU8V3KoZDc8ny9c1pe/YSYYzQkAWob6dyV/EWg4g==
