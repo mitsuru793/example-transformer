@@ -21,7 +21,7 @@ final class EasyDBUserRepository implements UserRepository
         $row = $this->db->row(
             "SELECT {$this->columnsStr()} FROM users WHERE users.id = ?",
             $id,
-            );
+        );
         if (!$row) {
             return null;
         }
