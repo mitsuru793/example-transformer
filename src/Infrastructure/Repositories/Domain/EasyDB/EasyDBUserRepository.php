@@ -52,10 +52,16 @@ final class EasyDBUserRepository implements UserRepository
         return $user;
     }
 
+    public function delete(int $id): void
+    {
+        $this->db->delete('posts', ['author_id' => $id]);
+        $this->db->delete('users', ['id' => $id]);
+    }
+
     public function columns(): array
     {
         $columns = ['id', 'name'];
-        return array_map(fn($v) => "users.$v AS users_$v ", $columns);
+        return array_map(fn ($v) => "users.$v AS users_$v ", $columns);
     }
 
     public function columnsStr(): string

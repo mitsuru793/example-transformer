@@ -10,4 +10,6 @@ interface UserRepository
     public function paging(int $page, int $perPage): array;
 
     public function create(User $user): User;
+
+    public function delete(int $id);
 }
