@@ -33,8 +33,8 @@
         "mihaeu/html-formatter": "^1.0",
         "symfony/var-dumper": "^4.2",
         "friendsofphp/php-cs-fixer": "^2.16",
-        "phpstan/phpstan": "^0.11.19",
-        "fzaninotto/faker": "^1.9"
+        "fzaninotto/faker": "^1.9",
+        "phpstan/phpstan": "^0.12.32"
     },
     "autoload": {
         "psr-4": {
