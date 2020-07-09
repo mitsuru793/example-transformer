@@ -71,7 +71,6 @@ final class EasyDBUserRepository implements UserRepository
 
     public function toUser(array $row): User
     {
-        logs($row);
         return new User($row['users_id'], $row['users_name']);
     }
 }

@@ -57,8 +57,6 @@ $router->middlewares([
 ]);
 
 $regexp = sprintf('@^%s$@', \Php\Library\Util\Host::api());
-logs($regexp);
-logs($request->getUri()->getHost());
 if (preg_match($regexp, $request->getUri()->getHost())) {
     $add = require_once \Php\Library\Util\Path::root() . '/routes/api.php';
 } else {
