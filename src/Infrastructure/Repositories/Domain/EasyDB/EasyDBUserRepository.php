@@ -28,6 +28,21 @@ final class EasyDBUserRepository implements UserRepository
         return new User((int)$row['users_id'], $row['users_name']);
     }
 
+    public function paging(int $page, int $perPage): array
+    {
+        $offset = ($page - 1) * $perPage;
+        $rows = $this->db->run(<<<SQL
+            SELECT {$this->columnsStr()}
+            FROM users
+            ORDER BY users_id ASC
+            LIMIT $perPage OFFSET $offset
+            SQL
+        );
+        return array_map(function ($row) {
+            return $this->toUser($row);
+        }, $rows);
+    }
+
     public function create(User $user): User
     {
         $this->db->insert('users', [

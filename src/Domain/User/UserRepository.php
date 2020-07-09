@@ -7,5 +7,7 @@ interface UserRepository
 {
     public function find(int $id): ?User;
 
+    public function paging(int $page, int $perPage): array;
+
     public function create(User $user): User;
 }

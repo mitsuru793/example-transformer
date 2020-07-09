@@ -5,8 +5,8 @@ namespace Php\Application\Actions\Twitter;
 
 use Abraham\TwitterOAuth\TwitterOAuth;
 use League\Plates\Engine;
-use Php\Application\Actions\ActionError;
-use Php\Application\Actions\ActionPayload;
+use Php\Application\ActionError;
+use Php\Application\ActionPayload;
 use Psr\Http\Message\ResponseInterface as Response;
 
 final class LoginTwitterAction extends TwitterAction

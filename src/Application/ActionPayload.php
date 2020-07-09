@@ -1,7 +1,7 @@
 <?php
 declare(strict_types=1);
 
-namespace Php\Application\Actions;
+namespace Php\Application;
 
 use JsonSerializable;
 
