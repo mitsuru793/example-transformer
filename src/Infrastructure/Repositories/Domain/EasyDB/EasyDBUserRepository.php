@@ -25,7 +25,7 @@ final class EasyDBUserRepository implements UserRepository
         if (!$row) {
             return null;
         }
-        return new User((int)$row['users_id'], $row['users_name']);
+        return $this->toUser($row);
     }
 
     public function paging(int $page, int $perPage): array
