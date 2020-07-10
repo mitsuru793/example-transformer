@@ -4,23 +4,9 @@ declare(strict_types=1);
 namespace Php\Infrastructure\Repositories\Domain\EasyDB;
 
 use Php\Infrastructure\Tables\Table;
-use PHPUnit\Framework\TestCase;
 
 final class ExtendedEasyDBTest extends TestCase
 {
-    private ExtendedEasyDB $db;
-
-    protected function setUp(): void
-    {
-        parent::setUp();
-        $pdo = new \PDO(
-            sprintf('mysql:host=%s;dbname=%s', getenv('TEST_DB_HOST'), getenv('TEST_DB_DATABASE')),
-            getenv('TEST_DB_USER'),
-            getenv('TEST_DB_PASS'),
-        );
-        $this->db = new ExtendedEasyDB($pdo, 'mysql');
-    }
-
     public function testFind()
     {
         $this->db->insertMany('users', [

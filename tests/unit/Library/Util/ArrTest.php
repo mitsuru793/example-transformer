@@ -3,9 +3,9 @@ declare(strict_types=1);
 
 namespace Php\Library\Util;
 
-use Php\Helper\TestBase;
+use Php\TestCase;
 
-final class ArrTest extends TestBase
+final class ArrTest extends TestCase
 {
     public function testSortDeepByKey()
     {
