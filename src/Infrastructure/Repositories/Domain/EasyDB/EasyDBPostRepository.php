@@ -8,22 +8,26 @@ use Php\Domain\Post\Post;
 use Php\Domain\Post\PostRepository;
 use Php\Domain\Tag\Tag;
 use Php\Domain\User\UserRepository;
+use Php\Infrastructure\Tables\PostTable;
 
 final class EasyDBPostRepository implements PostRepository
 {
     private ExtendedEasyDB $db;
 
+    private PostTable $postTable;
+
     private UserRepository $userRepo;
 
-    public function __construct(ExtendedEasyDB $db, UserRepository $userRepo)
+    public function __construct(ExtendedEasyDB $db, PostTable $postTable, UserRepository $userRepo)
     {
         $this->db = $db;
+        $this->postTable = $postTable;
         $this->userRepo = $userRepo;
     }
 
     public function create(Post $post): Post
     {
-        $this->db->insert('posts', [
+        $this->db->insert($this->postTable->name(), [
             'title' => $post->title,
             'content' => $post->content,
             'year' => $post->year,
@@ -36,7 +40,7 @@ final class EasyDBPostRepository implements PostRepository
 
     public function store(Post $post): void
     {
-        $this->db->update('posts', [
+        $this->db->update($this->postTable->name(), [
             'title' => $post->title,
             'content' => $post->content,
         ], [
@@ -106,18 +110,12 @@ final class EasyDBPostRepository implements PostRepository
 
     public function count(): int
     {
-        return (int)$this->db->single('SELECT count(*) FROM posts');
-    }
-
-    public function columns(): array
-    {
-        $columns = ['id', 'author_id', 'title', 'content', 'year', 'viewable_user_ids'];
-        return array_map(fn ($v) => "posts.$v AS posts_$v", $columns);
+        return (int)$this->db->single("SELECT count(*) FROM {$this->postTable->name()}");
     }
 
     public function columnsStr(): string
     {
-        return implode(', ', $this->columns());
+        return implode(', ', $this->postTable->columns());
     }
 
     public function toPost(array $row): Post

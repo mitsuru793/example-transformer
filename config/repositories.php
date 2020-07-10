@@ -9,6 +9,7 @@ use Php\Infrastructure\Repositories\Domain\EasyDB\EasyDBTwitterAccessTokenReposi
 use Php\Infrastructure\Repositories\Domain\EasyDB\EasyDBUserRepository;
 use Php\Infrastructure\Repositories\Domain\EasyDB\ExtendedEasyDB;
 use Php\Infrastructure\Repositories\Domain\Eloquent\EloquentUIFacesUserRepository;
+use Php\Infrastructure\Tables\PostTable;
 use Php\Infrastructure\Tables\UserTable;
 
 return function (\League\Container\Container $c) {
@@ -18,6 +19,7 @@ return function (\League\Container\Container $c) {
 
     $c->add(PostRepository::class, EasyDBPostRepository::class)
         ->addArgument(ExtendedEasyDB::class)
+        ->addArgument(PostTable::class)
         ->addArgument(UserRepository::class);
 
     $c->add(\Php\Domain\Tag\TagRepository::class, EasyDBTagRepository::class)
