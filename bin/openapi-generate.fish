@@ -24,7 +24,7 @@ end
 openapi-generator generate \
   -i ./openapi/index.yml \
   -o $dist/javascript \
-  -g javascript 
+  -g javascript
 
 openapi-generator generate \
   -i ./openapi/index.yml \
@@ -34,13 +34,13 @@ openapi-generator generate \
 openapi-generator generate \
   -i ./openapi/index.yml \
   -o $dist/typescript-axios \
-  -g typescript-axios \
-  --type-mappings Date=string
+  -g typescript-axios
 
 openapi-generator generate \
   -i ./openapi/index.yml \
   -o $dist/typescript-fetch \
   -g typescript-fetch \
-  --additional-properties=typescriptThreePlus=true
+  --additional-properties=typescriptThreePlus=true \
+  --auth hoge
 
 # vi: ft=fish
