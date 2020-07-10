@@ -11,12 +11,12 @@ $dotenv->load();
 
 $capsule = new \Illuminate\Database\Capsule\Manager();
 $capsule->addConnection([
-    'driver'    => 'mysql',
-    'host'      => getenv('TEST_DB_HOST'),
-    'database'  => getenv('TEST_DB_DATABASE'),
-    'username'  => getenv('TEST_DB_USER'),
-    'password'  => getenv('TEST_DB_PASS'),
-    'charset'   => 'utf8',
+    'driver' => 'mysql',
+    'host' => getenv('TEST_DB_HOST'),
+    'database' => getenv('TEST_DB_DATABASE'),
+    'username' => getenv('TEST_DB_USER'),
+    'password' => getenv('TEST_DB_PASS'),
+    'charset' => 'utf8',
     'collation' => 'utf8_unicode_ci',
 ]);
 $capsule->setAsGlobal();

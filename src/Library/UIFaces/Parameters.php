@@ -76,7 +76,7 @@ final class Parameters
 
         foreach ($values as $value) {
             if (!in_array($value, self::GENDERS)) {
-                $message = sprintf("Gender must be one of [%s]." . implode(', ', self::GENDERS));
+                $message = sprintf('Gender must be one of [%s].' . implode(', ', self::GENDERS));
                 throw new \InvalidArgumentException($message);
             }
         }
@@ -131,4 +131,3 @@ final class Parameters
         }
     }
 }
-

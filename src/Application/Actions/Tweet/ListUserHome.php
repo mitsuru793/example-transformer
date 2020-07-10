@@ -26,7 +26,7 @@ final class ListUserHome extends TweetAction
         $name = $this->resolveArg('name');
         $userToken = $this->accessTokenRepo->findByScreenName($name);
         $this->twitter->setOauthToken($userToken->token, $userToken->secret);
-        $tweets = $this->twitter->get("statuses/home_timeline", ["count" => 25, "exclude_replies" => true]);
+        $tweets = $this->twitter->get('statuses/home_timeline', ['count' => 25, 'exclude_replies' => true]);
 
         $this->renderView($this->response, 'debug/dump', [
             'loginUser' => $this->loginUser, 'data' => compact('tweets')

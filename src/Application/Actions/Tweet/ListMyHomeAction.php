@@ -19,7 +19,7 @@ final class ListMyHomeAction extends TweetAction
 
     protected function action(): Response
     {
-        $tweets = $this->client->get("statuses/home_timeline", ["count" => 25, "exclude_replies" => true]);
+        $tweets = $this->client->get('statuses/home_timeline', ['count' => 25, 'exclude_replies' => true]);
         $this->renderView($this->response, 'debug/dump', [
             'loginUser' => $this->loginUser, 'data' => compact('tweets')
         ]);

@@ -33,7 +33,7 @@ final class HttpCacheTest extends TestBase
 
     public function testStoreRequestAndResponse()
     {
-        $request = $this->createRequest('GET', 'http://example.com/', [] );
+        $request = $this->createRequest('GET', 'http://example.com/', []);
 
         try {
             $this->resRepo->findByRequest($request);

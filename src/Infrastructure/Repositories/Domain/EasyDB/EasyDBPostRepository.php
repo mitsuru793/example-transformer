@@ -68,10 +68,10 @@ final class EasyDBPostRepository implements PostRepository
         WHERE post_id = ?
         SQL, $postId);
 
-        $existedIds = array_map(fn($row) => (int)$row['tag_id'], $rows);
+        $existedIds = array_map(fn ($row) => (int)$row['tag_id'], $rows);
 
-        $newTags = array_filter($tags, fn(Tag $tag) => !in_array($tag->id, $existedIds));
-        $data = array_map(fn(Tag $tag) => [
+        $newTags = array_filter($tags, fn (Tag $tag) => !in_array($tag->id, $existedIds));
+        $data = array_map(fn (Tag $tag) => [
             'post_id' => $postId,
             'tag_id' => $tag->id,
         ], $newTags);
@@ -80,8 +80,8 @@ final class EasyDBPostRepository implements PostRepository
             $this->db->insertMany('posts_tags', $data);
         }
 
-        $newTagIds = array_map(fn($tag) => $tag->id, $tags);
-        $removeTagIds = array_filter($existedIds, fn(int $existedId) => !in_array($existedId, $newTagIds));
+        $newTagIds = array_map(fn ($tag) => $tag->id, $tags);
+        $removeTagIds = array_filter($existedIds, fn (int $existedId) => !in_array($existedId, $newTagIds));
         if (!empty($removeTagIds)) {
             $statement = EasyStatement::open()->in('tag_id IN (?*)', $removeTagIds);
             $this->db->delete('posts_tags', $statement);
@@ -112,7 +112,7 @@ final class EasyDBPostRepository implements PostRepository
     public function columns(): array
     {
         $columns = ['id', 'author_id', 'title', 'content', 'year', 'viewable_user_ids'];
-        return array_map(fn($v) => "posts.$v AS posts_$v", $columns);
+        return array_map(fn ($v) => "posts.$v AS posts_$v", $columns);
     }
 
     public function columnsStr(): string

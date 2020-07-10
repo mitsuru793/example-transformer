@@ -35,13 +35,13 @@ final class EasyDBTagRepository implements TagRepository
         WHERE $inNames
         SQL, ...$inNames->values());
 
-        $existedNames = array_map(fn($row) => $row['tags_name'], $existedRows);
-        $newNames = array_filter($names, fn($name) => !in_array($name, $existedNames));
+        $existedNames = array_map(fn ($row) => $row['tags_name'], $existedRows);
+        $newNames = array_filter($names, fn ($name) => !in_array($name, $existedNames));
 
-        $newTagMap = array_map(fn($n) => ['name' => $n], $newNames);
+        $newTagMap = array_map(fn ($n) => ['name' => $n], $newNames);
         $newTagMap = array_values($newTagMap);
         if (empty($newTagMap)) {
-            return array_map(fn($row) => $this->toTag($row), $existedRows);
+            return array_map(fn ($row) => $this->toTag($row), $existedRows);
         }
         $this->db->insertMany('tags', $newTagMap);
 
@@ -50,7 +50,7 @@ final class EasyDBTagRepository implements TagRepository
         FROM tags
         WHERE $inNames
         SQL, ...$inNames->values());
-        return array_map(fn($row) => $this->toTag($row), $rows);
+        return array_map(fn ($row) => $this->toTag($row), $rows);
     }
 
     public function findRandoms(int $count): array
@@ -62,7 +62,7 @@ final class EasyDBTagRepository implements TagRepository
             LIMIT $count
             SQL
         );
-        return array_map(fn($row) => $this->toTag($row), $rows);
+        return array_map(fn ($row) => $this->toTag($row), $rows);
     }
 
     public function findByPostId(int $postId): array
@@ -74,7 +74,7 @@ final class EasyDBTagRepository implements TagRepository
             WHERE posts_tags.post_id = $postId
             SQL
         );
-        return array_map(fn($row) => $this->toTag($row), $rows);
+        return array_map(fn ($row) => $this->toTag($row), $rows);
     }
 
     /**
@@ -87,7 +87,7 @@ final class EasyDBTagRepository implements TagRepository
             return [];
         }
 
-        $postIds = array_map(fn(Post $p) => $p->id, $posts);
+        $postIds = array_map(fn (Post $p) => $p->id, $posts);
         $postIdsStr = implode(', ', $postIds);
         $rows = $this->db->run(<<<SQL
             SELECT {$this->columnsStr()}, posts_tags.post_id as post_id
@@ -103,7 +103,7 @@ final class EasyDBTagRepository implements TagRepository
             $tags[$postId] ??= [];
             array_push($tags[$postId], $this->toTag($row));
         }
-        return array_map(fn(Post $p) => $p->addTags($tags[$p->id] ?? []), $posts);
+        return array_map(fn (Post $p) => $p->addTags($tags[$p->id] ?? []), $posts);
     }
 
     public function findByPost(Post $post): Post
@@ -114,7 +114,7 @@ final class EasyDBTagRepository implements TagRepository
     public function columns(): array
     {
         $columns = ['id', 'name'];
-        return array_map(fn($v) => "tags.$v AS tags_$v", $columns);
+        return array_map(fn ($v) => "tags.$v AS tags_$v", $columns);
     }
 
     public function columnsStr(): string

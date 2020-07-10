@@ -12,7 +12,7 @@ final class LogoutAction extends AuthAction
     {
         return $this->response
             ->withAddedHeader('Set-Cookie', sprintf(
-                "%s=deleted; expires=Thu, 01-Jan-1970 00:00:01 GMT; Max-Age=0;",
+                '%s=deleted; expires=Thu, 01-Jan-1970 00:00:01 GMT; Max-Age=0;',
                 LoginAuth::SESSION_KEY,
             ))
             ->withAddedHeader('Location', $this->request->getServerParams()['HTTP_REFERER'])

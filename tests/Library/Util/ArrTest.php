@@ -9,7 +9,7 @@ final class ArrTest extends TestBase
 {
     public function testSortDeepByKey()
     {
-        $v = fn(string $s) => (time() . ":$s");
+        $v = fn (string $s) => (time() . ":$s");
         $input = [
             'd' => [
                 'f' => $v('f'),

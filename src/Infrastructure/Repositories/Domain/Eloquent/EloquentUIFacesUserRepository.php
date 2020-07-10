@@ -11,7 +11,7 @@ final class EloquentUIFacesUserRepository implements UIFacesUserRepository
 {
     public function createMany(array $users): void
     {
-        $data = array_map(fn(UIFacesUser $user) => [
+        $data = array_map(fn (UIFacesUser $user) => [
             'name' => $user->name,
             'email' => $user->email,
             'position' => $user->position,

@@ -23,6 +23,6 @@ final class EloquentHttpRequestHistoryRepository implements HttpRequestHistoryRe
     {
         $offset = ($page - 1) * $perPage;
         return HttpRequestHistoryModel::offset($offset)->limit($perPage)
-            ->get()->map(fn(Domainable $m) => $m->toDomain())->toArray();
+            ->get()->map(fn (Domainable $m) => $m->toDomain())->toArray();
     }
 }

@@ -73,7 +73,7 @@ final class EasyDBTwitterAccessTokenRepository implements AccessTokenRepository
     public function columns(): array
     {
         $columns = ['id', 'twitter_user_id', 'screen_name', 'token', 'secret'];
-        return array_map(fn($v) => "twitter_oauth_access_tokens.$v AS twitter_oauth_access_tokens_$v", $columns);
+        return array_map(fn ($v) => "twitter_oauth_access_tokens.$v AS twitter_oauth_access_tokens_$v", $columns);
     }
 
     public function columnsStr(): string

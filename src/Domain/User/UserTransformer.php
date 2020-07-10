@@ -10,9 +10,9 @@ final class UserTransformer extends TransformerAbstract
     public function transform(User $author): array
     {
         return [
-            'id'    => (int) $author->id,
+            'id' => (int) $author->id,
             'name' => $author->name,
-            'links'   => [
+            'links' => [
                 [
                     'rel' => 'self',
                     'uri' => '/users/'.$author->id,
