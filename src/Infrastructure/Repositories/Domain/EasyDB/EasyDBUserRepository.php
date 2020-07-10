@@ -5,23 +5,23 @@ namespace Php\Infrastructure\Repositories\Domain\EasyDB;
 
 use Php\Domain\User\User;
 use Php\Domain\User\UserRepository;
+use Php\Infrastructure\Tables\UserTable;
 
 final class EasyDBUserRepository implements UserRepository
 {
-    /** @var ExtendedEasyDB */
-    private $db;
+    private ExtendedEasyDB $db;
 
-    public function __construct(ExtendedEasyDB $db)
+    private UserTable $table;
+
+    public function __construct(ExtendedEasyDB $db, UserTable $table)
     {
         $this->db = $db;
+        $this->table = $table;
     }
 
     public function find(int $id): ?User
     {
-        $row = $this->db->row(
-            "SELECT {$this->columnsStr()} FROM users WHERE users.id = ?",
-            $id,
-        );
+        $row = $this->db->find($this->table, $id);
         if (!$row) {
             return null;
         }

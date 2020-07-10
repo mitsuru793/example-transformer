@@ -4,6 +4,7 @@ declare(strict_types=1);
 namespace Php\Infrastructure\Repositories\Domain\EasyDB;
 
 use ParagonIE\EasyDB\EasyDB;
+use Php\Infrastructure\Tables\Table;
 
 final class ExtendedEasyDB extends EasyDB
 {
@@ -17,6 +18,16 @@ final class ExtendedEasyDB extends EasyDB
             }
             $this->run($sql);
         }
+    }
+
+    public function find(Table $table, int $id): ?array
+    {
+        $columns = implode(', ', $table->columns());
+        $row = $this->row(
+            "SELECT {$columns} FROM {$table->name()} WHERE {$table->name()}.id = ?",
+            $id,
+        );
+        return $row ? $row : null;
     }
 
     public function insertModel($models): void
