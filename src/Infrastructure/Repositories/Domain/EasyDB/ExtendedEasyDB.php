@@ -29,30 +29,4 @@ final class ExtendedEasyDB extends EasyDB
         );
         return $row ? $row : null;
     }
-
-    public function insertModel($models): void
-    {
-        if (!is_array($models)) {
-            $models = [$models];
-        }
-
-        $table = $this->tableName($models[0]);
-
-        foreach ($models as $model) {
-            $this->insert($table);
-        }
-    }
-
-    private function tableName($model): string
-    {
-        $class = strtolower(get_class($model)) . 's';
-        return substr(strrchr($class, "\\"), 1);
-    }
-
-    private function foreignKey($model): string
-    {
-        $fullClass = strtolower(get_class($model));
-        $class = substr(strrchr($fullClass, "\\"), 1);
-        return $class . '_id';
-    }
 }
