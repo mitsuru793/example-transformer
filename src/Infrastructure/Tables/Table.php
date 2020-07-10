@@ -3,24 +3,12 @@ declare(strict_types=1);
 
 namespace Php\Infrastructure\Tables;
 
-abstract class Table
+interface Table
 {
-    public const TABLE = '';
+    public function name(): string;
 
-    public const COLUMNS = [];
-
-    public function name(): string
-    {
-        return static::TABLE;
-    }
-
-    public function columns(): array
-    {
-        return array_map(fn ($column) => sprintf("%s.$column AS %s_$column ", static::TABLE, static::TABLE), static::COLUMNS);
-    }
-
-    public function columnsStr(): string
-    {
-        return implode(',', $this->columns());
-    }
+    /**
+     * @return string[]
+     */
+    public function columns(): array;
 }

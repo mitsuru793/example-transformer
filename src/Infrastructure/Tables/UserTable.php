@@ -3,7 +3,7 @@ declare(strict_types=1);
 
 namespace Php\Infrastructure\Tables;
 
-final class UserTable extends Table
+final class UserTable extends TableBase
 {
     public const TABLE = 'users';
 
