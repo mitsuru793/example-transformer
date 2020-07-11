@@ -7,6 +7,7 @@ use ParagonIE\EasyDB\EasyStatement;
 use Php\Domain\Post\Post;
 use Php\Domain\Post\PostRepository;
 use Php\Domain\Tag\Tag;
+use Php\Domain\Tag\TagRepository;
 use Php\Domain\User\UserRepository;
 use Php\Infrastructure\Tables\PostTable;
 
@@ -18,11 +19,14 @@ final class EasyDBPostRepository implements PostRepository
 
     private UserRepository $userRepo;
 
-    public function __construct(ExtendedEasyDB $db, PostTable $postTable, UserRepository $userRepo)
+    private TagRepository $tagRepo;
+
+    public function __construct(ExtendedEasyDB $db, PostTable $postTable, UserRepository $userRepo, TagRepository $tagRepo)
     {
         $this->db = $db;
         $this->postTable = $postTable;
         $this->userRepo = $userRepo;
+        $this->tagRepo = $tagRepo;
     }
 
     public function create(Post $post): Post
@@ -43,6 +47,9 @@ final class EasyDBPostRepository implements PostRepository
         $this->db->update($this->postTable->name(), [
             'title' => $post->title,
             'content' => $post->content,
+            'year' => $post->year,
+            'author_id' => $post->author->id,
+            'viewable_user_ids' => json_encode($post->viewableUserIds),
         ], [
             'id' => $post->id,
         ]);
@@ -75,6 +82,10 @@ final class EasyDBPostRepository implements PostRepository
         $existedIds = array_map(fn ($row) => (int)$row['tag_id'], $rows);
 
         $newTags = array_filter($tags, fn (Tag $tag) => !in_array($tag->id, $existedIds));
+        foreach ($newTags as $newTag) {
+            // TODO replace createMany
+            $this->tagRepo->create($newTag);
+        }
         $data = array_map(fn (Tag $tag) => [
             'post_id' => $postId,
             'tag_id' => $tag->id,
