@@ -1,7 +1,6 @@
 <?php
 declare(strict_types=1);
 
-use Faker\Factory;
 use Php\Infrastructure\Repositories\Domain\EasyDB\ExtendedEasyDB;
 
 require_once __DIR__ . '/../vendor/autoload.php';
@@ -21,6 +20,9 @@ $capsule->addConnection([
 ]);
 $capsule->setAsGlobal();
 $capsule->bootEloquent();
+
+$loader = new Nelmio\Alice\Loader\NativeLoader();
+$objectSet = $loader->loadFile(__DIR__ . '/fixtures.yml');
 
 $db = new ExtendedEasyDB($capsule->getConnection()->getPdo());
 $db->runSqlFile(__DIR__ . '/../config/create_tables.sql');

@@ -34,7 +34,8 @@
         "symfony/var-dumper": "^4.2",
         "friendsofphp/php-cs-fixer": "^2.16",
         "fzaninotto/faker": "^1.9",
-        "phpstan/phpstan": "^0.12.32"
+        "phpstan/phpstan": "^0.12.32",
+        "nelmio/alice": "^3.7"
     },
     "autoload": {
         "psr-4": {

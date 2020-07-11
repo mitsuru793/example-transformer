@@ -1,0 +1,20 @@
+Php\Domain\User\User:
+  user{1..10}:
+    __construct:
+      id: null
+      name: '<username()>'
+
+Php\Domain\Post\Post:
+  post{1..10}:
+    __construct:
+      id: null
+      author: '@user<numberBetween(1, 10)>'
+      title: '<title()>'
+      content: '<text()>'
+      year: '<intval(year())>'
+
+Php\Domain\Tag\Tag:
+  tag{1..10}:
+    __construct:
+      id: null
+      name: '<word()>'
