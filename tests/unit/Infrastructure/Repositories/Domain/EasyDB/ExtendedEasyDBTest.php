@@ -28,5 +28,11 @@ final class ExtendedEasyDBTest extends TestCase
         $row = $this->db->find($table, 2);
         $this->assertSame(2, $row['id']);
         $this->assertSame('n2', $row['name']);
+
+        $row = $this->db->find($table, 2, fn ($row) => [
+            '_id' => $row['id'], '_name' => $row['name']
+        ]);
+        $this->assertSame(2, $row['_id']);
+        $this->assertSame('n2', $row['_name']);
     }
 }

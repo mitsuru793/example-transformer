@@ -21,11 +21,7 @@ final class EasyDBUserRepository implements UserRepository
 
     public function find(int $id): ?User
     {
-        $row = $this->db->find($this->table, $id);
-        if (!$row) {
-            return null;
-        }
-        return $this->toUser($row);
+        return $this->db->find($this->table, $id, [$this, 'toUser']);
     }
 
     public function paging(int $page, int $perPage): array

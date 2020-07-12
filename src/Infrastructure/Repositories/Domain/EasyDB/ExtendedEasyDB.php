@@ -20,13 +20,22 @@ final class ExtendedEasyDB extends EasyDB
         }
     }
 
-    public function find(Table $table, int $id): ?array
+    /**
+     * @return mixed|array|null
+     */
+    public function find(Table $table, int $id, callable $transformer = null)
     {
         $columns = implode(', ', $table->columns());
         $row = $this->row(
             "SELECT {$columns} FROM {$table->name()} WHERE {$table->name()}.id = ?",
             $id,
         );
-        return $row ? $row : null;
+        if (!$row) {
+            return null;
+        }
+        if (is_null($transformer)) {
+            return $row;
+        }
+        return $transformer($row);
     }
 }
