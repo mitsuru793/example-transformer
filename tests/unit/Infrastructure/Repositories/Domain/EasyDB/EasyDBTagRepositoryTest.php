@@ -38,8 +38,7 @@ class EasyDBTagRepositoryTest extends TestCase
 
     public function testCreate()
     {
-        // TODO replace find
-        $got = $this->db->find($this->tagTable, 1);
+        $got = $this->tagRepo->find(1);
         $this->assertNull($got);
 
         $tag = new Tag(null, 'tag1');
@@ -48,8 +47,8 @@ class EasyDBTagRepositoryTest extends TestCase
         $created = $this->tagRepo->create($tag);
         $this->assertNotNull($created->id);
 
-        $got = $this->db->find($this->tagTable, $created->id);
-        $this->assertSame('tag1', $got['tags_name']);
+        $got = $this->tagRepo->find($created->id);
+        $this->assertSame('tag1', $got->name);
     }
 
     public function testCreateMany()
