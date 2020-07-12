@@ -53,32 +53,39 @@ final class EasyDBTwitterAccessTokenRepository implements AccessTokenRepository
     {
         $found = $this->findByTwitterUserId($token->twitterUserId);
         if (!$found) {
-            $this->db->insert($this->table->name(), [
-                'twitter_user_id' => $token->twitterUserId,
-                'screen_name' => $token->screenName,
-                'token' => $token->token,
-                'secret' => $token->secret,
-            ]);
+            $this->db->insert($this->table->name(), $this->toRow($token));
             $token->id = (int)$this->db->lastInsertId();
             return $token;
         }
 
-        $this->db->update($this->table->name(), [
-            'screen_name' => $token->screenName,
-            'token' => $token->token,
-            'secret' => $token->secret,
-        ], [
+        $this->db->update($this->table->name(), $this->toRow($token), [
             'twitter_user_id' => $token->twitterUserId,
         ]);
         $token->id = $found->id;
         return $token;
     }
 
+    public function toRow(AccessToken $token): array
+    {
+        $row = [
+            'twitter_user_id' => $token->twitterUserId,
+            'screen_name' => $token->screenName,
+            'token' => $token->token,
+            'secret' => $token->secret,
+        ];
+        if (is_null($token->id)) {
+            return $row;
+        }
+
+        $row['id'] = $token->id;
+        return $row;
+    }
+
     public function toEntity(array $row): AccessToken
     {
         $table = $this->table->name();
         return new AccessToken(
-            (int)($row["{$table}_id"] ?? $this->db->lastInsertId()),
+            (int)$row["{$table}_id"],
             $row["{$table}_token"],
             $row["{$table}_secret"],
             (int)$row["{$table}_twitter_user_id"],
