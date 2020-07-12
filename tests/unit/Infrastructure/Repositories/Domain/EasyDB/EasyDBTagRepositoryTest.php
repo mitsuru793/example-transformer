@@ -68,6 +68,18 @@ class EasyDBTagRepositoryTest extends TestCase
         $this->assertSame($f['tag2']->name, $got[1]->name);
     }
 
+    public function testFind()
+    {
+        $f = $this->fixtures();
+        $this->tagRepo->createMany([
+            $f['tag1'], $f['tag2'],
+        ]);
+        $got = $this->tagRepo->find($f['tag1']->id);
+        $this->assertInstanceOf(Tag::class, $got);
+        $this->assertSame($f['tag1']->id, $got->id);
+        $this->assertSame($f['tag1']->name, $got->name);
+    }
+
     public function testFindOrCreateMany()
     {
         $this->db->insert($this->tagTable->name(), [

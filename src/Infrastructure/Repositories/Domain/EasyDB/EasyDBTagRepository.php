@@ -36,9 +36,6 @@ final class EasyDBTagRepository implements TagRepository
         );
     }
 
-    /**
-     * @todo test
-     */
     public function find(int $tagId): ?Tag
     {
         return $this->db->find($this->tagTable, $tagId, [$this, 'toTag']);
