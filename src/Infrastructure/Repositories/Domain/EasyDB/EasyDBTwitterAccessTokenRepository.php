@@ -31,7 +31,7 @@ final class EasyDBTwitterAccessTokenRepository implements AccessTokenRepository
         if (!$row) {
             return null;
         }
-        return $this->toAccessToken($row);
+        return $this->toEntity($row);
     }
 
     public function findByScreenName(string $name): ?AccessToken
@@ -46,7 +46,7 @@ final class EasyDBTwitterAccessTokenRepository implements AccessTokenRepository
         if (!$row) {
             return null;
         }
-        return $this->toAccessToken($row);
+        return $this->toEntity($row);
     }
 
     public function createOrUpdate(AccessToken $token): AccessToken
@@ -74,7 +74,7 @@ final class EasyDBTwitterAccessTokenRepository implements AccessTokenRepository
         return $token;
     }
 
-    public function toAccessToken(array $row): AccessToken
+    public function toEntity(array $row): AccessToken
     {
         $table = $this->table->name();
         return new AccessToken(
