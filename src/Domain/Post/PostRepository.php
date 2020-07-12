@@ -20,5 +20,8 @@ interface PostRepository
      */
     public function updateTags(int $postId, array $tags): void;
 
+    /**
+     * @return Post[]
+     */
     public function paging(int $page, int $perPage): array;
 }
