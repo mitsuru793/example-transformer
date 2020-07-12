@@ -32,7 +32,7 @@ final class EasyDBTagRepository implements TagRepository
     {
         $this->db->insertMany(
             $this->tagTable->name(),
-            array_map(fn ($tag) => $this->toRow($tag), $tags)
+            $this->toRows($tags),
         );
     }
 
@@ -59,7 +59,7 @@ final class EasyDBTagRepository implements TagRepository
         $newTagMap = array_map(fn ($n) => ['name' => $n], $newNames);
         $newTagMap = array_values($newTagMap);
         if (empty($newTagMap)) {
-            return array_map(fn ($row) => $this->toTag($row), $existedRows);
+            return $this->toTags($existedRows);
         }
         $this->db->insertMany('tags', $newTagMap);
 
@@ -68,7 +68,7 @@ final class EasyDBTagRepository implements TagRepository
         FROM tags
         WHERE $inNames
         SQL, ...$inNames->values());
-        return array_map(fn ($row) => $this->toTag($row), $rows);
+        return $this->toTags($rows);
     }
 
     public function findRandoms(int $count): array
@@ -80,7 +80,7 @@ final class EasyDBTagRepository implements TagRepository
             LIMIT $count
             SQL
         );
-        return array_map(fn ($row) => $this->toTag($row), $rows);
+        return $this->toTags($rows);
     }
 
     public function findByPostId(int $postId): array
@@ -92,7 +92,7 @@ final class EasyDBTagRepository implements TagRepository
             WHERE posts_tags.post_id = $postId
             SQL
         );
-        return array_map(fn ($row) => $this->toTag($row), $rows);
+        return $this->toTags($rows);
     }
 
     /**
@@ -142,7 +142,7 @@ final class EasyDBTagRepository implements TagRepository
             LIMIT $perPage OFFSET $offset
             SQL
         );
-        return array_map(fn ($row) => $this->toTag($row), $rows);
+        return $this->toTags($rows);
     }
 
     public function columnsStr(): string
@@ -155,11 +155,27 @@ final class EasyDBTagRepository implements TagRepository
         return new Tag((int)$row['tags_id'], $row['tags_name']);
     }
 
+    /**
+     * @return Tag[]
+     */
+    public function toTags(array $rows): array
+    {
+        return array_map([$this, 'toTag'], $rows);
+    }
+
     public function toRow(Tag $tag): array
     {
         return [
             'id' => $tag->id,
             'name' => $tag->name,
         ];
+    }
+
+    /**
+     * @param Tag[] $tags
+     */
+    public function toRows(array $tags): array
+    {
+        return array_map([$this, 'toRow'], $tags);
     }
 }

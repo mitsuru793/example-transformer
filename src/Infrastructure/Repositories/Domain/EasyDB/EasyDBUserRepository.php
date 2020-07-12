@@ -34,9 +34,7 @@ final class EasyDBUserRepository implements UserRepository
             LIMIT $perPage OFFSET $offset
             SQL
         );
-        return array_map(function ($row) {
-            return $this->toUser($row);
-        }, $rows);
+        return $this->toUsers($rows);
     }
 
     public function create(User $user): User
@@ -50,7 +48,7 @@ final class EasyDBUserRepository implements UserRepository
     {
         $this->db->insertMany(
             $this->table->name(),
-            array_map(fn ($user) => $this->toRow($user), $users)
+            $this->toRows($users),
         );
     }
 
@@ -76,11 +74,27 @@ final class EasyDBUserRepository implements UserRepository
         return new User($row['users_id'], $row['users_name']);
     }
 
+    /**
+     * @return User[]
+     */
+    public function toUsers(array $rows): array
+    {
+        return array_map(fn ($row) => $this->toUser($row), $rows);
+    }
+
     public function toRow(User $user): array
     {
         return [
             'id' => $user->id,
             'name' => $user->name,
         ];
+    }
+
+    /**
+     * @param User[] $users
+     */
+    public function toRows(array $users): array
+    {
+        return array_map(fn ($user) => $this->toRow($user), $users);
     }
 }

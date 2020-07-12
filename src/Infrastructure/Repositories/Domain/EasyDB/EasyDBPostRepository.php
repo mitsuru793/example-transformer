@@ -40,7 +40,7 @@ final class EasyDBPostRepository implements PostRepository
     {
         $this->db->insertMany(
             $this->postTable->name(),
-            array_map(fn ($post) => $this->toRow($post), $posts)
+            $this->toRows($posts),
         );
     }
 
@@ -116,9 +116,7 @@ final class EasyDBPostRepository implements PostRepository
             LIMIT $perPage OFFSET $offset
             SQL
         );
-        return array_map(function ($row) {
-            return $this->toPost($row);
-        }, $rows);
+        return $this->toPosts($rows);
     }
 
     public function count(): int
@@ -137,6 +135,14 @@ final class EasyDBPostRepository implements PostRepository
         return new Post((int)$row['posts_id'], $author, $row['posts_title'], $row['posts_content'], $row['posts_year'], json_decode($row['posts_viewable_user_ids']));
     }
 
+    /**
+     * @return Post[]
+     */
+    public function toPosts(array $rows): array
+    {
+        return array_map([$this, 'toPost'], $rows);
+    }
+
     public function toRow(Post $post): array
     {
         return [
@@ -147,5 +153,13 @@ final class EasyDBPostRepository implements PostRepository
             'author_id' => $post->author->id,
             'viewable_user_ids' => json_encode($post->viewableUserIds),
         ];
+    }
+
+    /**
+     * @param Post[] $posts
+     */
+    public function toRows(array $posts): array
+    {
+        return array_map([$this, 'toRow'], $posts);
     }
 }
