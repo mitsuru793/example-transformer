@@ -3,7 +3,7 @@ declare(strict_types=1);
 
 namespace Php\Infrastructure\Repositories;
 
-abstract class TestCase extends \PHPUnit\Framework\TestCase
+abstract class TestCase extends \Php\TestCase
 {
     protected \PDO $pdo;
 

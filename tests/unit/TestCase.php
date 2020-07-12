@@ -3,17 +3,19 @@ declare(strict_types=1);
 
 namespace Php;
 
+use Nelmio\Alice\ObjectSet;
+
 abstract class TestCase extends \PHPUnit\Framework\TestCase
 {
-    public function fixtures()
+    protected function fixtures(): array
     {
-        static $objectSet;
-        if (!$objectSet) {
-            return $objectSet;
+        static $data;
+        if ($data) {
+            return $data;
         }
 
         $loader = new \Nelmio\Alice\Loader\NativeLoader();
-        $objectSet = $loader->loadFile(__DIR__ . '/../fixtures.yml');
-        return $objectSet;
+        $data = $loader->loadFile(__DIR__ . '/../fixtures.yml')->getObjects();
+        return $data;
     }
 }
