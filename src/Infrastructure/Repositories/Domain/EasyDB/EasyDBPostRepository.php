@@ -10,6 +10,7 @@ use Php\Domain\Tag\Tag;
 use Php\Domain\Tag\TagRepository;
 use Php\Domain\User\UserRepository;
 use Php\Infrastructure\Tables\PostTable;
+use Php\Infrastructure\Tables\UserTable;
 
 final class EasyDBPostRepository implements PostRepository
 {
@@ -17,14 +18,17 @@ final class EasyDBPostRepository implements PostRepository
 
     private PostTable $postTable;
 
+    private UserTable $userTable;
+
     private UserRepository $userRepo;
 
     private TagRepository $tagRepo;
 
-    public function __construct(ExtendedEasyDB $db, PostTable $postTable, UserRepository $userRepo, TagRepository $tagRepo)
+    public function __construct(ExtendedEasyDB $db, PostTable $postTable, UserTable $userTable, UserRepository $userRepo, TagRepository $tagRepo)
     {
         $this->db = $db;
         $this->postTable = $postTable;
+        $this->userTable = $userTable;
         $this->userRepo = $userRepo;
         $this->tagRepo = $tagRepo;
     }
@@ -60,7 +64,7 @@ final class EasyDBPostRepository implements PostRepository
     public function find(int $postId): ?Post
     {
         $row = $this->db->row(<<<SQL
-            SELECT {$this->columnsStr()}, {$this->userRepo->columnsStr()}
+            SELECT {$this->postTable->columnsStr()}, {$this->userTable->columnsStr()}
             FROM posts
             INNER JOIN users ON users.id = posts.author_id
             WHERE posts.id = ?
@@ -109,7 +113,7 @@ final class EasyDBPostRepository implements PostRepository
     {
         $offset = ($page - 1) * $perPage;
         $rows = $this->db->run(<<<SQL
-            SELECT {$this->columnsStr()}, {$this->userRepo->columnsStr()}
+            SELECT {$this->postTable->columnsStr()}, {$this->userTable->columnsStr()}
             FROM posts
             INNER JOIN users ON users.id = posts.author_id
             ORDER BY posts_id ASC
@@ -122,11 +126,6 @@ final class EasyDBPostRepository implements PostRepository
     public function count(): int
     {
         return (int)$this->db->single("SELECT count(*) FROM {$this->postTable->name()}");
-    }
-
-    public function columnsStr(): string
-    {
-        return implode(', ', $this->postTable->columns());
     }
 
     public function toPost(array $row): Post

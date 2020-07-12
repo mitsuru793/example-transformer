@@ -28,7 +28,7 @@ final class EasyDBUserRepository implements UserRepository
     {
         $offset = ($page - 1) * $perPage;
         $rows = $this->db->run(<<<SQL
-            SELECT {$this->columnsStr()}
+            SELECT {$this->table->columnsStr()}
             FROM users
             ORDER BY users_id ASC
             LIMIT $perPage OFFSET $offset
@@ -56,17 +56,6 @@ final class EasyDBUserRepository implements UserRepository
     {
         $this->db->delete('posts', ['author_id' => $id]);
         $this->db->delete('users', ['id' => $id]);
-    }
-
-    public function columns(): array
-    {
-        $columns = ['id', 'name'];
-        return array_map(fn ($v) => "users.$v AS users_$v ", $columns);
-    }
-
-    public function columnsStr(): string
-    {
-        return implode(',', $this->columns());
     }
 
     public function toUser(array $row): User

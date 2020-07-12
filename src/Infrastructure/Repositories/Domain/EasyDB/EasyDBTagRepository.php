@@ -48,7 +48,7 @@ final class EasyDBTagRepository implements TagRepository
     {
         $inNames = EasyStatement::open()->in('tags.name IN (?*)', $names);
         $existedRows = $this->db->run(<<<SQL
-        SELECT {$this->columnsStr()}
+        SELECT {$this->tagTable->columnsStr()}
         FROM tags
         WHERE $inNames
         SQL, ...$inNames->values());
@@ -64,7 +64,7 @@ final class EasyDBTagRepository implements TagRepository
         $this->db->insertMany('tags', $newTagMap);
 
         $rows = $this->db->run(<<<SQL
-        SELECT {$this->columnsStr()}
+        SELECT {$this->tagTable->columnsStr()}
         FROM tags
         WHERE $inNames
         SQL, ...$inNames->values());
@@ -74,7 +74,7 @@ final class EasyDBTagRepository implements TagRepository
     public function findRandoms(int $count): array
     {
         $rows = $this->db->run(<<<SQL
-            SELECT {$this->columnsStr()}
+            SELECT {$this->tagTable->columnsStr()}
             FROM tags
             ORDER BY RAND()
             LIMIT $count
@@ -86,7 +86,7 @@ final class EasyDBTagRepository implements TagRepository
     public function findByPostId(int $postId): array
     {
         $rows = $this->db->run(<<<SQL
-            SELECT {$this->columnsStr()}
+            SELECT {$this->tagTable->columnsStr()}
             FROM tags
             INNER JOIN posts_tags ON posts_tags.tag_id = tags.id
             WHERE posts_tags.post_id = $postId
@@ -108,7 +108,7 @@ final class EasyDBTagRepository implements TagRepository
         $postIds = array_map(fn (Post $p) => $p->id, $posts);
         $postIdsStr = implode(', ', $postIds);
         $rows = $this->db->run(<<<SQL
-            SELECT {$this->columnsStr()}, posts_tags.post_id as post_id
+            SELECT {$this->tagTable->columnsStr()}, posts_tags.post_id as post_id
             FROM tags
             INNER JOIN posts_tags ON posts_tags.tag_id = tags.id
             WHERE post_id IN ($postIdsStr)
@@ -136,18 +136,13 @@ final class EasyDBTagRepository implements TagRepository
     {
         $offset = ($page - 1) * $perPage;
         $rows = $this->db->run(<<<SQL
-            SELECT {$this->columnsStr()}
+            SELECT {$this->tagTable->columnsStr()}
             FROM {$this->tagTable->name()}
             ORDER BY tags_id ASC
             LIMIT $perPage OFFSET $offset
             SQL
         );
         return $this->toTags($rows);
-    }
-
-    public function columnsStr(): string
-    {
-        return implode(',', $this->tagTable->columns());
     }
 
     public function toTag(array $row): Tag

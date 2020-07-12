@@ -33,7 +33,7 @@ class EasyDBTagRepositoryTest extends TestCase
         $this->tagTable = new TagTable();
         $this->tagRepo = new EasyDBTagRepository($this->db, $this->tagTable);
         $this->postTable = new PostTable();
-        $this->postRepo = new EasyDBPostRepository($this->db, $this->postTable, $this->userRepo, $this->tagRepo);
+        $this->postRepo = new EasyDBPostRepository($this->db, $this->postTable, $this->userTable, $this->userRepo, $this->tagRepo);
     }
 
     public function testCreate()

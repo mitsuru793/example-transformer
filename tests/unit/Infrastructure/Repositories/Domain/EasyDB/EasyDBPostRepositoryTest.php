@@ -29,7 +29,8 @@ final class EasyDBPostRepositoryTest extends TestCase
         $this->userTable = new UserTable();
         $this->userRepo = new EasyDBUserRepository($this->db, $this->userTable);
         $tagRepo = new EasyDBTagRepository($this->db, new TagTable());
-        $this->postRepo = new EasyDBPostRepository($this->db, $this->postTable, $this->userRepo, $tagRepo);
+        $userTable = new UserTable();
+        $this->postRepo = new EasyDBPostRepository($this->db, $this->postTable, $userTable, $this->userRepo, $tagRepo);
     }
 
     public function testCreate()
