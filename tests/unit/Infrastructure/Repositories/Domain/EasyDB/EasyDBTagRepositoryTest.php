@@ -17,7 +17,7 @@ class EasyDBTagRepositoryTest extends TestCase
     {
         parent::setUp();
         $this->tagTable = new TagTable();
-        $this->tagRepo = new EasyDBTagRepository($this->db);
+        $this->tagRepo = new EasyDBTagRepository($this->db, $this->tagTable);
     }
 
     public function testCreate()

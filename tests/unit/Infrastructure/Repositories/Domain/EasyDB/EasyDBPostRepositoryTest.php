@@ -9,6 +9,7 @@ use Php\Domain\Tag\Tag;
 use Php\Domain\User\User;
 use Php\Domain\User\UserRepository;
 use Php\Infrastructure\Tables\PostTable;
+use Php\Infrastructure\Tables\TagTable;
 use Php\Infrastructure\Tables\UserTable;
 
 final class EasyDBPostRepositoryTest extends TestCase
@@ -27,7 +28,7 @@ final class EasyDBPostRepositoryTest extends TestCase
         $this->postTable = new PostTable();
         $this->userTable = new UserTable();
         $this->userRepo = new EasyDBUserRepository($this->db, $this->userTable);
-        $tagRepo = new EasyDBTagRepository($this->db);
+        $tagRepo = new EasyDBTagRepository($this->db, new TagTable());
         $this->postRepo = new EasyDBPostRepository($this->db, $this->postTable, $this->userRepo, $tagRepo);
     }
 

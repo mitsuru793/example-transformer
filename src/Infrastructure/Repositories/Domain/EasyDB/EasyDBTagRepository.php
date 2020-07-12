@@ -7,14 +7,18 @@ use ParagonIE\EasyDB\EasyStatement;
 use Php\Domain\Post\Post;
 use Php\Domain\Tag\Tag;
 use Php\Domain\Tag\TagRepository;
+use Php\Infrastructure\Tables\TagTable;
 
 final class EasyDBTagRepository implements TagRepository
 {
     private ExtendedEasyDB $db;
 
-    public function __construct(ExtendedEasyDB $db)
+    private TagTable $tagTable;
+
+    public function __construct(ExtendedEasyDB $db, TagTable $tagTable)
     {
         $this->db = $db;
+        $this->tagTable = $tagTable;
     }
 
     public function create(Tag $tag): Tag
@@ -111,15 +115,9 @@ final class EasyDBTagRepository implements TagRepository
         return $this->findByPosts([$post])[0];
     }
 
-    public function columns(): array
-    {
-        $columns = ['id', 'name'];
-        return array_map(fn ($v) => "tags.$v AS tags_$v", $columns);
-    }
-
     public function columnsStr(): string
     {
-        return implode(',', $this->columns());
+        return implode(',', $this->tagTable->columns());
     }
 
     public function toTag(array $row): Tag
