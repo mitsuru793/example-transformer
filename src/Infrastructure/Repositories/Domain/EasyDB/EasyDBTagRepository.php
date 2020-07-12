@@ -93,6 +93,7 @@ final class EasyDBTagRepository implements TagRepository
     }
 
     /**
+     * @todo test
      * @param Post[] $posts
      * @return Post[]
      */
@@ -121,6 +122,9 @@ final class EasyDBTagRepository implements TagRepository
         return array_map(fn (Post $p) => $p->addTags($tags[$p->id] ?? []), $posts);
     }
 
+    /**
+     * @todo test
+     */
     public function findByPost(Post $post): Post
     {
         return $this->findByPosts([$post])[0];
