@@ -45,11 +45,17 @@ final class EasyDBUserRepository implements UserRepository
 
     public function create(User $user): User
     {
-        $this->db->insert('users', [
-            'name' => $user->name,
-        ]);
+        $this->db->insert('users', $this->toRow($user));
         $user->id = (int)$this->db->lastInsertId();
         return $user;
+    }
+
+    public function createMany(array $users): void
+    {
+        $this->db->insertMany(
+            $this->table->name(),
+            array_map(fn ($user) => $this->toRow($user), $users)
+        );
     }
 
     public function delete(int $id): void
@@ -72,5 +78,13 @@ final class EasyDBUserRepository implements UserRepository
     public function toUser(array $row): User
     {
         return new User($row['users_id'], $row['users_name']);
+    }
+
+    public function toRow(User $user): array
+    {
+        return [
+            'id' => $user->id,
+            'name' => $user->name,
+        ];
     }
 }

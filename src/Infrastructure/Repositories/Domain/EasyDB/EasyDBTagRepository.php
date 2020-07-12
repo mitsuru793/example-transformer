@@ -23,11 +23,17 @@ final class EasyDBTagRepository implements TagRepository
 
     public function create(Tag $tag): Tag
     {
-        $this->db->insert('tags', [
-            'name' => $tag->name,
-        ]);
+        $this->db->insert('tags', $this->toRow($tag));
         $tag->id = (int)$this->db->lastInsertId();
         return $tag;
+    }
+
+    public function createMany(array $tags): void
+    {
+        $this->db->insertMany(
+            $this->tagTable->name(),
+            array_map(fn ($tag) => $this->toRow($tag), $tags)
+        );
     }
 
     public function findOrCreateMany(array $names): array
@@ -123,5 +129,13 @@ final class EasyDBTagRepository implements TagRepository
     public function toTag(array $row): Tag
     {
         return new Tag((int)$row['tags_id'], $row['tags_name']);
+    }
+
+    public function toRow(Tag $tag): array
+    {
+        return [
+            'id' => $tag->id,
+            'name' => $tag->name,
+        ];
     }
 }

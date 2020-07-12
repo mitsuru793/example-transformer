@@ -31,15 +31,17 @@ final class EasyDBPostRepository implements PostRepository
 
     public function create(Post $post): Post
     {
-        $this->db->insert($this->postTable->name(), [
-            'title' => $post->title,
-            'content' => $post->content,
-            'year' => $post->year,
-            'author_id' => $post->author->id,
-            'viewable_user_ids' => json_encode($post->viewableUserIds),
-        ]);
+        $this->db->insert($this->postTable->name(), $this->toRow($post));
         $post->id = (int)$this->db->lastInsertId();
         return $post;
+    }
+
+    public function createMany(array $posts): void
+    {
+        $this->db->insertMany(
+            $this->postTable->name(),
+            array_map(fn ($post) => $this->toRow($post), $posts)
+        );
     }
 
     public function store(Post $post): void
@@ -133,5 +135,17 @@ final class EasyDBPostRepository implements PostRepository
     {
         $author = $this->userRepo->toUser($row);
         return new Post((int)$row['posts_id'], $author, $row['posts_title'], $row['posts_content'], $row['posts_year'], json_decode($row['posts_viewable_user_ids']));
+    }
+
+    public function toRow(Post $post): array
+    {
+        return [
+            'id' => $post->id,
+            'title' => $post->title,
+            'content' => $post->content,
+            'year' => $post->year,
+            'author_id' => $post->author->id,
+            'viewable_user_ids' => json_encode($post->viewableUserIds),
+        ];
     }
 }

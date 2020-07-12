@@ -10,6 +10,11 @@ interface TagRepository
     public function create(Tag $tag): Tag;
 
     /**
+     * @param Tag[] $tag
+     */
+    public function createMany(array $tag): void;
+
+    /**
      * @param string $tagNames
      * @return Tag[]
      */

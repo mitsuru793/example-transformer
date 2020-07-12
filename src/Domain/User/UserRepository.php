@@ -11,5 +11,10 @@ interface UserRepository
 
     public function create(User $user): User;
 
+    /**
+     * @param User[] $users
+     */
+    public function createMany(array $users): void;
+
     public function delete(int $id);
 }
