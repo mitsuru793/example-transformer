@@ -74,7 +74,7 @@ final class EasyDBPostRepository implements PostRepository
         if (!$row) {
             return null;
         }
-        return $this->toPost($row);
+        return $this->toEntity($row);
     }
 
     public function updateTags(int $postId, array $tags): void
@@ -120,7 +120,7 @@ final class EasyDBPostRepository implements PostRepository
             LIMIT $perPage OFFSET $offset
             SQL
         );
-        return $this->toPosts($rows);
+        return $this->toEntities($rows);
     }
 
     public function count(): int
@@ -128,18 +128,18 @@ final class EasyDBPostRepository implements PostRepository
         return (int)$this->db->single("SELECT count(*) FROM {$this->postTable->name()}");
     }
 
-    public function toPost(array $row): Post
+    public function toEntity(array $row): Post
     {
-        $author = $this->userRepo->toUser($row);
+        $author = $this->userRepo->toEntity($row);
         return new Post((int)$row['posts_id'], $author, $row['posts_title'], $row['posts_content'], $row['posts_year'], json_decode($row['posts_viewable_user_ids']));
     }
 
     /**
      * @return Post[]
      */
-    public function toPosts(array $rows): array
+    public function toEntities(array $rows): array
     {
-        return array_map([$this, 'toPost'], $rows);
+        return array_map([$this, 'toEntity'], $rows);
     }
 
     public function toRow(Post $post): array

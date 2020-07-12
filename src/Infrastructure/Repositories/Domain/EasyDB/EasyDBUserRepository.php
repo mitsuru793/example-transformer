@@ -21,7 +21,7 @@ final class EasyDBUserRepository implements UserRepository
 
     public function find(int $id): ?User
     {
-        return $this->db->find($this->table, $id, [$this, 'toUser']);
+        return $this->db->find($this->table, $id, [$this, 'toEntity']);
     }
 
     public function paging(int $page, int $perPage): array
@@ -34,7 +34,7 @@ final class EasyDBUserRepository implements UserRepository
             LIMIT $perPage OFFSET $offset
             SQL
         );
-        return $this->toUsers($rows);
+        return $this->toEntities($rows);
     }
 
     public function create(User $user): User
@@ -58,7 +58,7 @@ final class EasyDBUserRepository implements UserRepository
         $this->db->delete('users', ['id' => $id]);
     }
 
-    public function toUser(array $row): User
+    public function toEntity(array $row): User
     {
         return new User($row['users_id'], $row['users_name']);
     }
@@ -66,9 +66,9 @@ final class EasyDBUserRepository implements UserRepository
     /**
      * @return User[]
      */
-    public function toUsers(array $rows): array
+    public function toEntities(array $rows): array
     {
-        return array_map(fn ($row) => $this->toUser($row), $rows);
+        return array_map(fn ($row) => $this->toEntity($row), $rows);
     }
 
     public function toRow(User $user): array

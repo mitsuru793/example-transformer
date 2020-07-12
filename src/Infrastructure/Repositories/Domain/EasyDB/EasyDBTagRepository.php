@@ -38,7 +38,7 @@ final class EasyDBTagRepository implements TagRepository
 
     public function find(int $tagId): ?Tag
     {
-        return $this->db->find($this->tagTable, $tagId, [$this, 'toTag']);
+        return $this->db->find($this->tagTable, $tagId, [$this, 'toEntity']);
     }
 
     public function findOrCreateMany(array $names): array
@@ -56,7 +56,7 @@ final class EasyDBTagRepository implements TagRepository
         $newTagMap = array_map(fn ($n) => ['name' => $n], $newNames);
         $newTagMap = array_values($newTagMap);
         if (empty($newTagMap)) {
-            return $this->toTags($existedRows);
+            return $this->toEntities($existedRows);
         }
         $this->db->insertMany('tags', $newTagMap);
 
@@ -65,7 +65,7 @@ final class EasyDBTagRepository implements TagRepository
         FROM tags
         WHERE $inNames
         SQL, ...$inNames->values());
-        return $this->toTags($rows);
+        return $this->toEntities($rows);
     }
 
     public function findRandoms(int $count): array
@@ -77,7 +77,7 @@ final class EasyDBTagRepository implements TagRepository
             LIMIT $count
             SQL
         );
-        return $this->toTags($rows);
+        return $this->toEntities($rows);
     }
 
     public function findByPostId(int $postId): array
@@ -89,7 +89,7 @@ final class EasyDBTagRepository implements TagRepository
             WHERE posts_tags.post_id = $postId
             SQL
         );
-        return $this->toTags($rows);
+        return $this->toEntities($rows);
     }
 
     /**
@@ -117,7 +117,7 @@ final class EasyDBTagRepository implements TagRepository
         foreach ($rows as $row) {
             $postId = $row['post_id'];
             $tags[$postId] ??= [];
-            array_push($tags[$postId], $this->toTag($row));
+            array_push($tags[$postId], $this->toEntity($row));
         }
         return array_map(fn (Post $p) => $p->addTags($tags[$p->id] ?? []), $posts);
     }
@@ -143,10 +143,10 @@ final class EasyDBTagRepository implements TagRepository
             LIMIT $perPage OFFSET $offset
             SQL
         );
-        return $this->toTags($rows);
+        return $this->toEntities($rows);
     }
 
-    public function toTag(array $row): Tag
+    public function toEntity(array $row): Tag
     {
         return new Tag((int)$row['tags_id'], $row['tags_name']);
     }
@@ -154,9 +154,9 @@ final class EasyDBTagRepository implements TagRepository
     /**
      * @return Tag[]
      */
-    public function toTags(array $rows): array
+    public function toEntities(array $rows): array
     {
-        return array_map([$this, 'toTag'], $rows);
+        return array_map([$this, 'toEntity'], $rows);
     }
 
     public function toRow(Tag $tag): array
