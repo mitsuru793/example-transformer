@@ -1,13 +1,13 @@
 Php\Domain\User\User:
   user{1..10}:
     __construct:
-      id: null
+      id: '<intval(<current()>)>'
       name: '<username()>'
 
 Php\Domain\Post\Post:
   post{1..10}:
     __construct:
-      id: null
+      id: '<intval(<current()>)>'
       author: '@user<numberBetween(1, 10)>'
       title: '<title()>'
       content: '<text()>'
@@ -16,5 +16,14 @@ Php\Domain\Post\Post:
 Php\Domain\Tag\Tag:
   tag{1..10}:
     __construct:
-      id: null
+      id: '<intval(<current()>)>'
       name: '<word()>'
+
+Php\Domain\Twitter\AccessToken\AccessToken:
+  accessToken{1..5}:
+    __construct:
+      id: '<intval(<current()>)>'
+      token: '<word()>'
+      secret: '<word()>'
+      twitterUserId: '<($current + 1000)>'
+      screenName: '<username()>'
