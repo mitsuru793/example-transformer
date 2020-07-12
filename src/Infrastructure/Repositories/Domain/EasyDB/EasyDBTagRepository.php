@@ -36,6 +36,18 @@ final class EasyDBTagRepository implements TagRepository
         );
     }
 
+    /**
+     * @todo test
+     */
+    public function find(int $tagId): ?Tag
+    {
+        $row = $this->db->find($this->tagTable, $tagId);
+        if (!$row) {
+            return null;
+        }
+        return $this->toTag($row);
+    }
+
     public function findOrCreateMany(array $names): array
     {
         $inNames = EasyStatement::open()->in('tags.name IN (?*)', $names);
@@ -119,6 +131,22 @@ final class EasyDBTagRepository implements TagRepository
     public function findByPost(Post $post): Post
     {
         return $this->findByPosts([$post])[0];
+    }
+
+    /**
+     * @todo test
+     */
+    public function paging(int $page, int $perPage): array
+    {
+        $offset = ($page - 1) * $perPage;
+        $rows = $this->db->run(<<<SQL
+            SELECT {$this->columnsStr()}
+            FROM {$this->tagTable->name()}
+            ORDER BY tags_id ASC
+            LIMIT $perPage OFFSET $offset
+            SQL
+        );
+        return array_map(fn ($row) => $this->toTag($row), $rows);
     }
 
     public function columnsStr(): string

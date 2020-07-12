@@ -14,6 +14,8 @@ interface TagRepository
      */
     public function createMany(array $tag): void;
 
+    public function find(int $tagId): ?Tag;
+
     /**
      * @param string $tagNames
      * @return Tag[]
@@ -37,4 +39,9 @@ interface TagRepository
     public function findByPosts(array $posts): array;
 
     public function findByPost(Post $post): Post;
+
+    /**
+     * @return Tag[]
+     */
+    public function paging(int $page, int $perPage): array;
 }

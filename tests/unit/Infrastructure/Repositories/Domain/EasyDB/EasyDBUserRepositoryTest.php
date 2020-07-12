@@ -74,6 +74,23 @@ class EasyDBUserRepositoryTest extends TestCase
         $this->assertSame('n1', $got->name);
     }
 
+    public function testCreateMany()
+    {
+        $f = $this->fixtures();
+
+        $got = $this->userRepo->find($f['user1']->id);
+        $this->assertNull($got);
+        $got = $this->userRepo->find($f['user2']->id);
+        $this->assertNull($got);
+
+        $this->userRepo->createMany([$f['user1'], $f['user2']]);
+
+        $got = $this->userRepo->paging(1, 3);
+        $this->assertCount(2, $got);
+        $this->assertSame($f['user1']->name, $got[0]->name);
+        $this->assertSame($f['user2']->name, $got[1]->name);
+    }
+
     public function testDelete()
     {
         $this->db->insert($this->userTable->name(), [

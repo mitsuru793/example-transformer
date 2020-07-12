@@ -53,6 +53,31 @@ final class EasyDBPostRepositoryTest extends TestCase
         $this->assertSame('name1', $got->author->name);
     }
 
+    public function testCreateMany()
+    {
+        $f = $this->fixtures();
+
+        $got = $this->postRepo->find($f['post1']->id);
+        $this->assertNull($got);
+        $got = $this->postRepo->find($f['post2']->id);
+        $this->assertNull($got);
+
+        $this->userRepo->create($f['post1']->author);
+        $this->userRepo->create($f['post2']->author);
+
+        $this->postRepo->createMany([$f['post1'], $f['post2']]);
+
+        $got = $this->postRepo->paging(1, 3);
+        $this->assertCount(2, $got);
+        $this->assertSame($f['post1']->title, $got[0]->title);
+        $this->assertSame($f['post1']->content, $got[0]->content);
+        $this->assertSame($f['post1']->year, $got[0]->year);
+        $this->assertSame($f['post1']->viewableUserIds, $got[0]->viewableUserIds);
+        $this->assertSame($f['post1']->author->name, $got[0]->author->name);
+
+        $this->assertSame($f['post2']->title, $got[1]->title);
+    }
+
     public function testStore()
     {
         $author = new User(null, 'name1');
