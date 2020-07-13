@@ -10,5 +10,6 @@ final class UserTable extends TableBase
     public const COLUMNS = [
         'id',
         'name',
+        'password',
     ];
 }

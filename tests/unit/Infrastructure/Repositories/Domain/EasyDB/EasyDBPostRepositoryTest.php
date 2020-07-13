@@ -38,7 +38,7 @@ final class EasyDBPostRepositoryTest extends TestCase
         $got = $this->postRepo->find(1);
         $this->assertNull($got);
 
-        $author = new User(null, 'name1');
+        $author = new User(null, 'name1', 'pass1');
         $author = $this->userRepo->create($author);
         $post = new Post(null, $author, 'title1', 'content1', 2010, [2, 3]);
         $this->assertNull($post->id);
@@ -85,12 +85,12 @@ final class EasyDBPostRepositoryTest extends TestCase
 
     public function testStore()
     {
-        $author = new User(null, 'name1');
+        $author = new User(null, 'name1', 'pass1');
         $author = $this->userRepo->create($author);
         $post = new Post(null, $author, 'title1', 'content1', 2010, [2, 3]);
         $this->assertNull($post->id);
 
-        $author = new User(null, 'name2');
+        $author = new User(null, 'name2', 'pass2');
         $author = $this->userRepo->create($author);
         $created = $this->postRepo->create($post);
         $created->author = $author;
@@ -110,7 +110,7 @@ final class EasyDBPostRepositoryTest extends TestCase
 
     public function testFind()
     {
-        $this->db->insert($this->userTable->name(), ['id' => 1, 'name' => 'mike']);
+        $this->db->insert($this->userTable->name(), ['id' => 1, 'name' => 'mike', 'password' => 'pass']);
         $rows = array_map(fn ($i) => ['id' => $i, 'title' => "t$i", 'content' => "c$i", 'year' => 2010 + $i, 'author_id' => 1, 'viewable_user_ids' => '[]'], range(1, 3));
         $this->db->insertMany($this->postTable->name(), $rows);
 
@@ -126,14 +126,5 @@ final class EasyDBPostRepositoryTest extends TestCase
 
         $got = $this->postRepo->find(999);
         $this->assertNull($got);
-    }
-
-    public function testUpdateTags()
-    {
-        $this->db->insert($this->userTable->name(), ['id' => 1, 'name' => 'mike']);
-        $rows = array_map(fn ($i) => ['id' => $i, 'title' => "t$i", 'content' => "c$i", 'year' => 2010 + $i, 'author_id' => 1, 'viewable_user_ids' => '[]'], range(1, 3));
-        $this->db->insertMany($this->postTable->name(), $rows);
-
-        $this->postRepo->updateTags(1, [new Tag(null, 'tag1'), new Tag(null, 'tag2')]);
     }
 }

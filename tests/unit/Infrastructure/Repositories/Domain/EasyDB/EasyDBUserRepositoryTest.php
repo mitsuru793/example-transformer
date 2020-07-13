@@ -113,6 +113,9 @@ class EasyDBUserRepositoryTest extends TestCase
 
         $value = $this->getValue($expected, 'name', 'name');
         $this->assertSame($value, $actual->name);
+
+        $value = $this->getValue($expected, 'password', 'password');
+        $this->assertSame($value, $actual->password);
     }
 
     private function getValue($model, string $snakeCaseProp, string $camelCaseProp)

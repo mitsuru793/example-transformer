@@ -5,6 +5,7 @@ CREATE TABLE IF NOT EXISTS users
 (
     id   INTEGER AUTO_INCREMENT,
     name VARCHAR(50),
+    password VARCHAR(50),
     PRIMARY KEY (id)
 );
 

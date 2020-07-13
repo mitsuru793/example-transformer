@@ -63,7 +63,7 @@ final class EasyDBUserRepository implements UserRepository
 
     public function toEntity(array $row): User
     {
-        return new User($row['users_id'], $row['users_name']);
+        return new User($row['users_id'], $row['users_name'], $row['users_password']);
     }
 
     /**
@@ -79,6 +79,7 @@ final class EasyDBUserRepository implements UserRepository
         return [
             'id' => $user->id,
             'name' => $user->name,
+            'password' => $user->password,
         ];
     }
 
