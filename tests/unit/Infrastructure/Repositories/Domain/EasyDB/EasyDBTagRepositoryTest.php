@@ -85,6 +85,11 @@ class EasyDBTagRepositoryTest extends TestCase
 
     public function testFindByNames()
     {
+        $got = $this->tagRepo->findByNames([]);
+        $this->assertSame([], $got);
+        $got = $this->tagRepo->findByNames(['tag1']);
+        $this->assertSame([], $got);
+
         $f = new AliceFixture($this->fixtures());
         $this->tagRepo->createMany($f->get('tag{1..3}', true));
         $got = $this->tagRepo->findByNames($f->get('tag{1..2}.name'));

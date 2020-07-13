@@ -46,6 +46,10 @@ final class EasyDBTagRepository implements TagRepository
 
     public function findByNames(array $names): array
     {
+        if (empty($names)) {
+            return [];
+        }
+
         $in = EasyStatement::open()->in("{$this->tagTable->name()}.name IN (?*)", $names);
         $rows = $this->db->run(<<<SQL
         SELECT {$this->tagTable->columnsStr()} FROM {$this->tagTable->name()} WHERE $in
