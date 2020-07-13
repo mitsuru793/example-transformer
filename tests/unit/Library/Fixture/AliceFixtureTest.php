@@ -24,6 +24,9 @@ class AliceFixtureTest extends TestCase
         $this->assertSame('name2', $got['user2']);
         $this->assertSame('name5', $got['user5']);
 
+        $got = $fixture->get('user2');
+        $this->assertSame('name2', $got);
+
         $got = $fixture->get('user{2..4}');
         $this->assertCount(3, $got);
         $this->assertSame('name2', $got['user2']);
