@@ -62,4 +62,24 @@ class AliceFixtureTest extends TestCase
         $got = $fixture->get('user{1..2}.id');
         $this->assertSame([1, 2], $got);
     }
+
+    public function testGetReIndex()
+    {
+        $fixture = new AliceFixture([
+            'user1' => 'name1',
+            'user2' => 'name2',
+        ]);
+
+        $got = $fixture->get();
+        $this->assertSame(['user1', 'user2'], array_keys($got));
+
+        $got = $fixture->get('user{1..2}');
+        $this->assertSame(['user1', 'user2'], array_keys($got));
+
+        $got = $fixture->get(null, true);
+        $this->assertSame([0, 1], array_keys($got));
+
+        $got = $fixture->get('user{1..2}', true);
+        $this->assertSame([0, 1], array_keys($got));
+    }
 }

@@ -15,10 +15,13 @@ final class AliceFixture
     /**
      * @return mixed
      */
-    public function get(string $key = null)
+    public function get(string $key = null, bool $reIndex = false)
     {
         if (is_null($key)) {
-            return $this->fixtures;
+            if (!$reIndex) {
+                return $this->fixtures;
+            }
+            return array_values($this->fixtures);
         }
 
         $regexp = '/^.+\{(\d+)\.{2}(\d+)}/';
@@ -48,7 +51,11 @@ final class AliceFixture
             $regexp = '/\{(\d+)\.{2}(\d+)}/';
             $keys = array_map(fn ($i) => preg_replace($regexp, $i, $key), range($start, $end));
             foreach ($keys as $k) {
-                $collected[$k] = $this->fixtures[$k];
+                if ($reIndex) {
+                    $collected[] = $this->fixtures[$k];
+                } else {
+                    $collected[$k] = $this->fixtures[$k];
+                }
             }
         } else {
             $regexp = '/\{(\d+)\.{2}(\d+)}.+/';
