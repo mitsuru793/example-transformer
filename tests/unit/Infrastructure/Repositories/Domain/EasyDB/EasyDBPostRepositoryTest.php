@@ -140,6 +140,10 @@ final class EasyDBPostRepositoryTest extends TestCase
         $this->userRepo->createMany($authors);
         $this->postRepo->createMany($f->get('post{1..3}', true));
 
+        $this->postRepo->updateTags($f->get('post1.id'), []);
+        $got = $this->tagRepo->findByPostId($f->get('post1.id'));
+        $this->assertCount(0, $got);
+
         $this->postRepo->updateTags($f->get('post1.id'), [new Tag(null, 'tag1'), new Tag(null, 'tag2')]);
         $got = $this->tagRepo->findByPostId($f->get('post1.id'));
         $this->assertCount(2, $got);

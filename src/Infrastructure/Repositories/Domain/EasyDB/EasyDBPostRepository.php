@@ -83,6 +83,10 @@ final class EasyDBPostRepository implements PostRepository
 
     public function updateTags(int $postId, array $tags): void
     {
+        if (empty($tags)) {
+            return;
+        }
+
         $newTags = array_values(array_filter($tags, fn (Tag $tag) => is_null($tag->id)));
         $this->tagRepo->createMany($newTags);
         $names = array_map(fn ($t) => $t->name, $newTags);
