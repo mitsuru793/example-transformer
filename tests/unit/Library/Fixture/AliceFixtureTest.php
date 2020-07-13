@@ -32,11 +32,34 @@ class AliceFixtureTest extends TestCase
         $this->assertSame('name2', $got['user2']);
         $this->assertSame('name3', $got['user3']);
         $this->assertSame('name4', $got['user4']);
+    }
 
+    public function testGetPlucksValue()
+    {
         $fixture = new AliceFixture([
             'user1' => ['id' => 1, 'name' => 'name1']
         ]);
         $got = $fixture->get('user1.id');
         $this->assertSame(1, $got);
+
+        $fixture = new AliceFixture([
+            'user1' => (object)['id' => 1, 'name' => 'name1']
+        ]);
+        $got = $fixture->get('user1.id');
+        $this->assertSame(1, $got);
+
+        $fixture = new AliceFixture([
+            'user1' => ['id' => 1, 'name' => 'name1'],
+            'user2' => ['id' => 2, 'name' => 'name2'],
+        ]);
+        $got = $fixture->get('user{1..2}.id');
+        $this->assertSame([1, 2], $got);
+
+        $fixture = new AliceFixture([
+            'user1' => (object)['id' => 1, 'name' => 'name1'],
+            'user2' => (object)['id' => 2, 'name' => 'name2'],
+        ]);
+        $got = $fixture->get('user{1..2}.id');
+        $this->assertSame([1, 2], $got);
     }
 }
