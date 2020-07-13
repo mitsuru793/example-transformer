@@ -10,6 +10,7 @@ use Php\Domain\User\UserRepository;
 use Php\Infrastructure\Tables\PostTable;
 use Php\Infrastructure\Tables\TagTable;
 use Php\Infrastructure\Tables\UserTable;
+use Php\Library\Fixture\AliceFixture;
 
 class EasyDBTagRepositoryTest extends TestCase
 {
@@ -57,31 +58,29 @@ class EasyDBTagRepositoryTest extends TestCase
         $got = $this->tagRepo->paging(1, 3);
         $this->assertCount(0, $got);
 
-        $f = $this->fixtures();
+        $f = new AliceFixture($this->fixtures());
 
-        $got = $this->tagRepo->find($f['tag1']->id);
+        $got = $this->tagRepo->find($f->get('tag1.id'));
         $this->assertNull($got);
-        $got = $this->tagRepo->find($f['tag2']->id);
+        $got = $this->tagRepo->find($f->get('tag2.id'));
         $this->assertNull($got);
 
-        $this->tagRepo->createMany([$f['tag1'], $f['tag2']]);
+        $this->tagRepo->createMany($f->get('tag{1..2}', true));
 
         $got = $this->tagRepo->paging(1, 3);
         $this->assertCount(2, $got);
-        $this->assertSame($f['tag1']->name, $got[0]->name);
-        $this->assertSame($f['tag2']->name, $got[1]->name);
+        $this->assertSame($f->get('tag1.name'), $got[0]->name);
+        $this->assertSame($f->get('tag2.name'), $got[1]->name);
     }
 
     public function testFind()
     {
-        $f = $this->fixtures();
-        $this->tagRepo->createMany([
-            $f['tag1'], $f['tag2'],
-        ]);
-        $got = $this->tagRepo->find($f['tag1']->id);
+        $f = new AliceFixture($this->fixtures());
+        $this->tagRepo->createMany($f->get('tag{1..2}', true));
+        $got = $this->tagRepo->find($f->get('tag1.id'));
         $this->assertInstanceOf(Tag::class, $got);
-        $this->assertSame($f['tag1']->id, $got->id);
-        $this->assertSame($f['tag1']->name, $got->name);
+        $this->assertSame($f->get('tag1.id'), $got->id);
+        $this->assertSame($f->get('tag1.name'), $got->name);
     }
 
     public function testFindOrCreateMany()
@@ -100,15 +99,12 @@ class EasyDBTagRepositoryTest extends TestCase
 
     public function testFindRandoms()
     {
-        $this->db->insertMany($this->tagTable->name(), [
-            ['id' => 1, 'name' => 'tag1'],
-            ['id' => 2, 'name' => 'tag2'],
-            ['id' => 3, 'name' => 'tag3'],
-        ]);
+        $f = new AliceFixture($this->fixturesRow());
+        $this->db->insertMany($this->tagTable->name(), $f->get('tag{1..3}', true));
 
         $got = $this->tagRepo->findRandoms(2);
         $this->assertCount(2, $got);
-        $expected = ['tag1', 'tag2', 'tag3'];
+        $expected = $f->get('tag{1..3}.name');
         $this->assertContains($got[0]->name, $expected);
         $expected = array_diff($expected, [$got[0]->name]);
         $this->assertContains($got[1]->name, $expected);
@@ -119,20 +115,20 @@ class EasyDBTagRepositoryTest extends TestCase
 
     public function testFindByPostId()
     {
-        $f = $this->fixtures();
-        $this->tagRepo->createMany([$f['tag1'], $f['tag2'], $f['tag3']]);
-        $this->userRepo->createMany([$f['post1']->author, $f['post2']->author]);
-        $this->postRepo->createMany([$f['post1'], $f['post2']]);
+        $f = new AliceFixture($this->fixtures());
+        $this->tagRepo->createMany($f->get('tag{1..3}', true));
+        $this->userRepo->createMany($f->get('post{1..2}.author', true));
+        $this->postRepo->createMany($f->get('post{1..2}', true));
         $this->db->insertMany('posts_tags', [
-            ['post_id' => $f['post1']->id, 'tag_id' => $f['tag1']->id],
-            ['post_id' => $f['post1']->id, 'tag_id' => $f['tag2']->id],
-            ['post_id' => $f['post2']->id, 'tag_id' => $f['tag3']->id],
+            ['post_id' => $f->get('post1.id'), 'tag_id' => $f->get('tag1.id')],
+            ['post_id' => $f->get('post1.id'), 'tag_id' => $f->get('tag2.id')],
+            ['post_id' => $f->get('post2.id'), 'tag_id' => $f->get('tag3.id')],
         ]);
 
-        $got = $this->tagRepo->findByPostId($f['post1']->id);
+        $got = $this->tagRepo->findByPostId($f->get('post1.id'));
         $this->assertCount(2, $got);
-        $this->assertSame($f['tag1']->id, $got[0]->id);
-        $this->assertSame($f['tag2']->id, $got[1]->id);
+        $this->assertSame($f->get('tag1.id'), $got[0]->id);
+        $this->assertSame($f->get('tag2.id'), $got[1]->id);
 
         $got = $this->tagRepo->findByPostId(999);
         $this->assertSame([], $got);
