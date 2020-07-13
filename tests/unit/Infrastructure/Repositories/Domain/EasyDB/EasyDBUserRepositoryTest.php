@@ -22,16 +22,15 @@ class EasyDBUserRepositoryTest extends TestCase
 
     public function testFind()
     {
+        $f = $this->fixturesRow();
         $this->db->insertMany($this->userTable->name(), [
-            ['id' => 1, 'name' => 'n1'],
-            ['id' => 2, 'name' => 'n2'],
-            ['id' => 3, 'name' => 'n3'],
+            $f['user1'], $f['user2'],
         ]);
 
-        $user = $this->userRepo->find(2);
+        $user = $this->userRepo->find($f['user1']['id']);
         $this->assertInstanceOf(User::class, $user);
-        $this->assertSame(2, $user->id);
-        $this->assertSame('n2', $user->name);
+        $this->assertSame($f['user1']['id'], $user->id);
+        $this->assertSame($f['user1']['name'], $user->name);
 
         $user = $this->userRepo->find(999);
         $this->assertNull($user);
