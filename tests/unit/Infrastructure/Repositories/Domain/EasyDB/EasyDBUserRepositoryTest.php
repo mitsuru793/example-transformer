@@ -27,32 +27,31 @@ class EasyDBUserRepositoryTest extends TestCase
             $f['user1'], $f['user2'],
         ]);
 
-        $user = $this->userRepo->find($f['user1']['id']);
-        $this->assertInstanceOf(User::class, $user);
-        $this->assertSame($f['user1']['id'], $user->id);
-        $this->assertSame($f['user1']['name'], $user->name);
+        $got = $this->userRepo->find($f['user1']['id']);
+        $this->assertInstanceOf(User::class, $got);
+        $this->assertEqualsUser($f['user1'], $got);
 
-        $user = $this->userRepo->find(999);
-        $this->assertNull($user);
+        $got = $this->userRepo->find(999);
+        $this->assertNull($got);
     }
 
     public function testPaging()
     {
-        $rows = array_map(
-            fn ($i) => ['id' => $i, 'name' => "n{$i}"],
-            range(1, 10)
+        $f = $this->fixturesRow();
+        $this->db->insertMany(
+            $this->userTable->name(),
+            array_map(fn ($i) => $f["user{$i}"], range(1, 10)),
         );
-        $this->db->insertMany($this->userTable->name(), $rows);
 
         $users = $this->userRepo->paging(3, 3);
         $this->assertCount(3, $users);
-        $this->assertSame(9, end($users)->id);
-        $this->assertSame('n9', end($users)->name);
+        $this->assertSame($f['user9']['id'], end($users)->id);
+        $this->assertSame($f['user9']['name'], end($users)->name);
 
         $users = $this->userRepo->paging(4, 3);
         $this->assertCount(1, $users);
-        $this->assertSame(10, end($users)->id);
-        $this->assertSame('n10', end($users)->name);
+        $this->assertSame($f['user10']['id'], end($users)->id);
+        $this->assertSame($f['user10']['name'], end($users)->name);
 
         $users = $this->userRepo->paging(100, 3);
         $this->assertCount(0, $users);
@@ -63,14 +62,14 @@ class EasyDBUserRepositoryTest extends TestCase
         $got = $this->userRepo->find(1);
         $this->assertNull($got);
 
-        $user = new User(null, 'n1');
-        $this->assertNull($user->id);
+        $newUser = $this->fixtures()['user1'];
+        $newUser->id = null;
 
-        $created = $this->userRepo->create($user);
+        $created = $this->userRepo->create($newUser);
         $this->assertNotNull($created->id);
 
         $got = $this->userRepo->find($created->id);
-        $this->assertSame('n1', $got->name);
+        $this->assertSame($newUser->name, $got->name);
     }
 
     public function testCreateMany()
@@ -103,5 +102,29 @@ class EasyDBUserRepositoryTest extends TestCase
         $this->userRepo->delete(1);
         $got = $this->userRepo->find(1);
         $this->assertNull($got);
+    }
+    /**
+     * @param array|User $expected
+     */
+    private function assertEqualsUser($expected, User $actual): void
+    {
+        $value = $this->getValue($expected, 'id', 'id');
+        $this->assertSame($value, $actual->id);
+
+        $value = $this->getValue($expected, 'name', 'name');
+        $this->assertSame($value, $actual->name);
+    }
+
+    private function getValue($model, string $snakeCaseProp, string $camelCaseProp)
+    {
+        if (is_array($model)) {
+            $t = $this->userTable->name();
+            return $model[$snakeCaseProp] ?? $model["{$t}_$snakeCaseProp"];
+        }
+        if ($model instanceof User) {
+            return $model->{$camelCaseProp};
+        }
+        $err = sprintf('Type of $model must be array of entity, but %s.', get_class($model));
+        throw new \LogicException($err);
     }
 }
