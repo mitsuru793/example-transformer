@@ -46,6 +46,9 @@ final class EasyDBUserRepository implements UserRepository
 
     public function createMany(array $users): void
     {
+        if (empty($users)) {
+            return;
+        }
         $this->db->insertMany(
             $this->table->name(),
             $this->toRows($users),

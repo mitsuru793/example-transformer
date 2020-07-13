@@ -53,6 +53,10 @@ class EasyDBTagRepositoryTest extends TestCase
 
     public function testCreateMany()
     {
+        $this->tagRepo->createMany([]);
+        $got = $this->tagRepo->paging(1, 3);
+        $this->assertCount(0, $got);
+
         $f = $this->fixtures();
 
         $got = $this->tagRepo->find($f['tag1']->id);

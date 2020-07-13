@@ -56,6 +56,10 @@ final class EasyDBPostRepositoryTest extends TestCase
 
     public function testCreateMany()
     {
+        $this->postRepo->createMany([]);
+        $got = $this->postRepo->paging(1, 3);
+        $this->assertCount(0, $got);
+
         $f = $this->fixtures();
 
         $got = $this->postRepo->find($f['post1']->id);

@@ -30,6 +30,9 @@ final class EasyDBTagRepository implements TagRepository
 
     public function createMany(array $tags): void
     {
+        if (empty($tags)) {
+            return;
+        }
         $this->db->insertMany(
             $this->tagTable->name(),
             $this->toRows($tags),

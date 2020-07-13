@@ -75,6 +75,10 @@ class EasyDBUserRepositoryTest extends TestCase
 
     public function testCreateMany()
     {
+        $this->userRepo->createMany([]);
+        $got = $this->userRepo->paging(1, 3);
+        $this->assertCount(0, $got);
+
         $f = $this->fixtures();
 
         $got = $this->userRepo->find($f['user1']->id);

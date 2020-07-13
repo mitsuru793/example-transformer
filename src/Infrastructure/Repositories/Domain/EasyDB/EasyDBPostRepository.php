@@ -42,6 +42,9 @@ final class EasyDBPostRepository implements PostRepository
 
     public function createMany(array $posts): void
     {
+        if (empty($posts)) {
+            return;
+        }
         $this->db->insertMany(
             $this->postTable->name(),
             $this->toRows($posts),
