@@ -32,5 +32,11 @@ class AliceFixtureTest extends TestCase
         $this->assertSame('name2', $got['user2']);
         $this->assertSame('name3', $got['user3']);
         $this->assertSame('name4', $got['user4']);
+
+        $fixture = new AliceFixture([
+            'user1' => ['id' => 1, 'name' => 'name1']
+        ]);
+        $got = $fixture->get('user1.id');
+        $this->assertSame(1, $got);
     }
 }

@@ -24,6 +24,10 @@ final class AliceFixture
         $regexp = '/\{(\d+)\.{2}(\d+)}/';
         preg_match($regexp, $key, $match);
         if (!$match) {
+            if (strpos($key, '.') !== false) {
+                [$k, $prop] = explode('.', $key);
+                return $this->fixtures[$k][$prop];
+            }
             return $this->fixtures[$key];
         }
 
