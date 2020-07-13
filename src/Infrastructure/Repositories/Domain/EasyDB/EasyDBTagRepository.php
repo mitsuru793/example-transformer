@@ -44,6 +44,15 @@ final class EasyDBTagRepository implements TagRepository
         return $this->db->find($this->tagTable, $tagId, [$this, 'toEntity']);
     }
 
+    public function findByNames(array $names): array
+    {
+        $in = EasyStatement::open()->in("{$this->tagTable->name()}.name IN (?*)", $names);
+        $rows = $this->db->run(<<<SQL
+        SELECT {$this->tagTable->columnsStr()} FROM {$this->tagTable->name()} WHERE $in
+        SQL, ...$in->values());
+        return $this->toEntities($rows);
+    }
+
     public function findOrCreateMany(array $names): array
     {
         $inNames = EasyStatement::open()->in('tags.name IN (?*)', $names);

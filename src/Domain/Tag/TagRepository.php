@@ -17,6 +17,12 @@ interface TagRepository
     public function find(int $tagId): ?Tag;
 
     /**
+     * @param string[] $names
+     * @return Tag[]
+     */
+    public function findByNames(array $names): array;
+
+    /**
      * @param string $tagNames
      * @return Tag[]
      */

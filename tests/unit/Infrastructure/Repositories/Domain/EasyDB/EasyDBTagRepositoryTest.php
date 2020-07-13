@@ -83,6 +83,16 @@ class EasyDBTagRepositoryTest extends TestCase
         $this->assertSame($f->get('tag1.name'), $got->name);
     }
 
+    public function testFindByNames()
+    {
+        $f = new AliceFixture($this->fixtures());
+        $this->tagRepo->createMany($f->get('tag{1..3}', true));
+        $got = $this->tagRepo->findByNames($f->get('tag{1..2}.name'));
+        $this->assertCount(2, $got);
+        $this->assertSame($f->get('tag1.name'), $got[0]->name);
+        $this->assertSame($f->get('tag2.name'), $got[1]->name);
+    }
+
     public function testFindOrCreateMany()
     {
         $this->db->insert($this->tagTable->name(), [
