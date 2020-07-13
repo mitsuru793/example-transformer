@@ -11,6 +11,7 @@ use Php\Domain\Tag\TagRepository;
 use Php\Domain\User\UserRepository;
 use Php\Infrastructure\Tables\PostTable;
 use Php\Infrastructure\Tables\UserTable;
+use Tightenco\Collect\Support\Arr;
 
 final class EasyDBPostRepository implements PostRepository
 {
@@ -82,34 +83,24 @@ final class EasyDBPostRepository implements PostRepository
 
     public function updateTags(int $postId, array $tags): void
     {
-        $rows = $this->db->run(<<<SQL
-        SELECT tag_id
-        FROM posts_tags 
-        WHERE post_id = ?
-        SQL, $postId);
+        $newTags = array_values(array_filter($tags, fn (Tag $tag) => is_null($tag->id)));
+        $this->tagRepo->createMany($newTags);
+        $names = array_map(fn ($t) => $t->name, $newTags);
+        $newTags = $this->tagRepo->findByNames($names);
 
-        $existedIds = array_map(fn ($row) => (int)$row['tag_id'], $rows);
-
-        $newTags = array_filter($tags, fn (Tag $tag) => !in_array($tag->id, $existedIds));
-        foreach ($newTags as $newTag) {
-            // TODO replace createMany
-            $this->tagRepo->create($newTag);
-        }
-        $data = array_map(fn (Tag $tag) => [
+        $newData = array_map(fn (Tag $tag) => [
             'post_id' => $postId,
             'tag_id' => $tag->id,
         ], $newTags);
-        $data = array_values($data);
-        if (!empty($data)) {
-            $this->db->insertMany('posts_tags', $data);
+        $newData = array_values($newData);
+        if (!empty($newData)) {
+            $this->db->insertMany('posts_tags', $newData);
         }
 
-        $newTagIds = array_map(fn ($tag) => $tag->id, $tags);
-        $removeTagIds = array_filter($existedIds, fn (int $existedId) => !in_array($existedId, $newTagIds));
-        if (!empty($removeTagIds)) {
-            $statement = EasyStatement::open()->in('tag_id IN (?*)', $removeTagIds);
-            $this->db->delete('posts_tags', $statement);
-        }
+        $existedTags = array_filter($tags, fn (Tag $tag) => !is_null($tag->id));
+        $allIds = collect($newTags)->merge($existedTags)->pluck('id')->values()->toArray();
+        $in = EasyStatement::open()->in('tag_id NOT IN (?*)', $allIds);
+        $this->db->delete('posts_tags', $in);
     }
 
     public function paging(int $page, int $perPage): array

@@ -6,17 +6,21 @@ namespace Php\Infrastructure\Repositories\Domain\EasyDB;
 use Php\Domain\Post\Post;
 use Php\Domain\Post\PostRepository;
 use Php\Domain\Tag\Tag;
+use Php\Domain\Tag\TagRepository;
 use Php\Domain\User\User;
 use Php\Domain\User\UserRepository;
 use Php\Infrastructure\Tables\PostTable;
 use Php\Infrastructure\Tables\TagTable;
 use Php\Infrastructure\Tables\UserTable;
+use Php\Library\Fixture\AliceFixture;
 
 final class EasyDBPostRepositoryTest extends TestCase
 {
     private PostTable $postTable;
 
     private PostRepository $postRepo;
+
+    private TagRepository $tagRepo;
 
     private UserTable $userTable;
 
@@ -28,9 +32,9 @@ final class EasyDBPostRepositoryTest extends TestCase
         $this->postTable = new PostTable();
         $this->userTable = new UserTable();
         $this->userRepo = new EasyDBUserRepository($this->db, $this->userTable);
-        $tagRepo = new EasyDBTagRepository($this->db, new TagTable());
+        $this->tagRepo = new EasyDBTagRepository($this->db, new TagTable());
         $userTable = new UserTable();
-        $this->postRepo = new EasyDBPostRepository($this->db, $this->postTable, $userTable, $this->userRepo, $tagRepo);
+        $this->postRepo = new EasyDBPostRepository($this->db, $this->postTable, $userTable, $this->userRepo, $this->tagRepo);
     }
 
     public function testCreate()
@@ -126,5 +130,27 @@ final class EasyDBPostRepositoryTest extends TestCase
 
         $got = $this->postRepo->find(999);
         $this->assertNull($got);
+    }
+
+    public function testUpdateTags()
+    {
+        $f = new AliceFixture($this->fixtures());
+        $posts = $f->get('post{1..3}', true);
+        $authors = array_map(fn ($p) => $p->author, $posts);
+        $this->userRepo->createMany($authors);
+        $this->postRepo->createMany($f->get('post{1..3}', true));
+
+        $this->postRepo->updateTags($f->get('post1.id'), [new Tag(null, 'tag1'), new Tag(null, 'tag2')]);
+        $got = $this->tagRepo->findByPostId($f->get('post1.id'));
+        $this->assertCount(2, $got);
+        $this->assertSame('tag1', $got[0]->name);
+        $this->assertSame('tag2', $got[1]->name);
+
+        $tag2 = $this->tagRepo->findByNames(['tag2'])[0];
+        $this->postRepo->updateTags($f->get('post1.id'), [$tag2, new Tag(null, 'tag3')]);
+        $got = $this->tagRepo->findByPostId($f->get('post1.id'));
+        $this->assertCount(2, $got);
+        $this->assertSame('tag2', $got[0]->name);
+        $this->assertSame('tag3', $got[1]->name);
     }
 }
