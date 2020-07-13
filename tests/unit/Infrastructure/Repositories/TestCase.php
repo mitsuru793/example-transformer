@@ -9,6 +9,7 @@ abstract class TestCase extends \Php\TestCase
 
     protected function setUp(): void
     {
+        parent::setUp();
         $this->pdo = new \PDO(
             sprintf('mysql:host=%s;dbname=%s', getenv('TEST_DB_HOST'), getenv('TEST_DB_DATABASE')),
             getenv('TEST_DB_USER'),
