@@ -6,6 +6,7 @@ namespace Php\Infrastructure\Repositories\Domain\EasyDB;
 use Php\Domain\User\User;
 use Php\Domain\User\UserRepository;
 use Php\Infrastructure\Tables\UserTable;
+use Php\Library\Fixture\AliceFixture;
 
 class EasyDBUserRepositoryTest extends TestCase
 {
@@ -32,6 +33,24 @@ class EasyDBUserRepositoryTest extends TestCase
         $this->assertEqualsUser($f['user1'], $got);
 
         $got = $this->userRepo->find(999);
+        $this->assertNull($got);
+    }
+
+    public function testFindByNameAndPassword()
+    {
+        $f = new AliceFixture($this->fixturesRow());
+        $this->db->insertMany($this->userTable->name(), $f->get('user{1..2}', true));
+
+        $f = new AliceFixture($this->fixtures());
+        /** @var User $user1 */
+        $user1 = $f->get('user1');
+
+        $got = $this->userRepo->findByNameAndPassword($user1->name, $user1->password);
+        $this->assertEqualsUser($user1, $got);
+
+        $got = $this->userRepo->findByNameAndPassword($user1->name, 'invalid');
+        $this->assertNull($got);
+        $got = $this->userRepo->findByNameAndPassword('invalid', $user1->password);
         $this->assertNull($got);
     }
 

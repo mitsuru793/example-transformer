@@ -24,6 +24,20 @@ final class EasyDBUserRepository implements UserRepository
         return $this->db->find($this->table, $id, [$this, 'toEntity']);
     }
 
+    public function findByNameAndPassword(string $name, string $password): ?User
+    {
+        $row = $this->db->row(<<<SQL
+            SELECT {$this->table->columnsStr()}
+            FROM {$this->table->name()}
+            WHERE users.name = "$name"
+                AND users.password = "$password"
+        SQL);
+        if (empty($row)) {
+            return null;
+        }
+        return $this->toEntity($row);
+    }
+
     public function paging(int $page, int $perPage): array
     {
         $offset = ($page - 1) * $perPage;
