@@ -1,0 +1,24 @@
+<?php
+/**
+ * @var \League\Plates\Template $v
+ * @var \Php\Domain\User\User|null $loginUser
+ */
+?>
+<?php if (is_null($loginUser)): ?>
+    <form action="/login" method="post" class="form-inline">
+        <label class="sr-only" for="loginUserName">Username</label>
+        <div class="input-group mb-2 mr-sm-2">
+            <input type="text" class="form-control" id="loginUserName" placeholder="Username" name="userName">
+        </div>
+        <label class="sr-only" for="loginPassword">Password</label>
+        <div class="input-group mb-2 mr-sm-2">
+            <input type="text" class="form-control" id="loginPassword" placeholder="Password" name="password">
+        </div>
+        <button class="btn btn-primary" type="submit">Log in</button>
+    </form>
+<?php else: ?>
+    <p>login user: <?= $loginUser->name ?></p>
+    <form action="/logout" method="post">
+        <button class="btn btn-primary mb-2" type="submit">Logout</button>
+    </form>
+<?php endif ?>
