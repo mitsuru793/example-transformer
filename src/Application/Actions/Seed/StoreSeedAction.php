@@ -40,7 +40,7 @@ final class StoreSeedAction extends SeedAction
 
         $users = [];
         for ($i = 0; $i < 30; $i++) {
-            $user = new User(null, $faker->name, $faker->password);
+            $user = new User(null, $faker->name, $faker->word);
             $users[] = $this->userRepository->create($user);
         }
 

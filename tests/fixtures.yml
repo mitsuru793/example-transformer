@@ -3,7 +3,7 @@ Php\Domain\User\User:
     __construct:
       id: '<intval(<current()>)>'
       name: '<username()>'
-      password: '<password()>'
+      password: '<word()>'
 
 Php\Domain\Post\Post:
   post{1..10}:
