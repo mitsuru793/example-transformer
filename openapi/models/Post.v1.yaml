@@ -5,6 +5,7 @@ properties:
   id:
     type: integer
     format: int64
+    minimum: 1
   author:
     $ref: ./User.v1.yaml
   tags:
@@ -23,6 +24,7 @@ properties:
     type: integer
     format: int32
     multipleOf: 0
+    minimum: 1
 required:
   - author
   - title
