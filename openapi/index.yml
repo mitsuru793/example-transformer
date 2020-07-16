@@ -21,7 +21,7 @@ paths:
               schema:
                 type: array
                 items:
-                  $ref: ../models/User.v1.yaml
+                  $ref: ./models/User.v1.yaml
       operationId: get-users
     post:
       summary: ''
@@ -32,12 +32,12 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/User'
+                $ref: ./models/User.v1.yaml
       requestBody:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/User'
+              $ref: ./models/User.v1.yaml
         description: ''
     parameters: []
   '/users/{userId}':
@@ -50,7 +50,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: ../models/User.v1.yaml
+                $ref: ./models/User.v1.yaml
       operationId: get-users-userId
     parameters:
       - schema:
