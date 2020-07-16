@@ -59,5 +59,98 @@ paths:
         in: path
         required: true
         description: ''
+    put:
+      summary: ''
+      operationId: put-users-userId
+      responses:
+        '200':
+          description: OK
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: ./models/User.v1.yaml
+    delete:
+      summary: ''
+      operationId: delete-users-userId
+      responses:
+        '200':
+          description: OK
+  /posts:
+    get:
+      summary: list-posts
+      tags: []
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: ./models/Post.v1.yaml
+      operationId: get-posts
+    post:
+      summary: create-posts
+      tags: []
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: ./models/Post.v1.yaml
+      operationId: post-posts
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: ./models/Post.v1.yaml
+  '/posts/{postId}':
+    parameters:
+      - schema:
+          type: string
+        name: postId
+        in: path
+        required: true
+    get:
+      summary: show-post
+      tags: []
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: ./models/Post.v1.yaml
+      operationId: get-posts-postId
+    put:
+      summary: update-post
+      tags: []
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: ./models/Post.v1.yaml
+      operationId: put-posts-postId
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: ./models/Post.v1.yaml
+          application/xml:
+            schema:
+              type: object
+              properties: {}
+        description: ''
+    delete:
+      summary: delete-post
+      tags: []
+      responses:
+        '200':
+          description: OK
+      operationId: delete-posts-postId
 components:
   schemas: {}
