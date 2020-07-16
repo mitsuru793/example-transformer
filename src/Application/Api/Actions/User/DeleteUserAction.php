@@ -8,13 +8,6 @@ use Psr\Http\Message\ResponseInterface as Response;
 
 final class DeleteUserAction extends UserAction
 {
-    private UserRepository $userRepo;
-
-    public function __construct(UserRepository $userRepo)
-    {
-        $this->userRepo = $userRepo;
-    }
-
     protected function action(): Response
     {
         $id = (int)$this->resolveArg('userId');

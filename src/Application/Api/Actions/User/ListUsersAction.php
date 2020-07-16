@@ -8,13 +8,6 @@ use Psr\Http\Message\ResponseInterface as Response;
 
 final class ListUsersAction extends UserAction
 {
-    private UserRepository $userRepo;
-
-    public function __construct(UserRepository $userRepo)
-    {
-        $this->userRepo = $userRepo;
-    }
-
     protected function action(): Response
     {
         $users = $this->userRepo->paging(1, 5);
