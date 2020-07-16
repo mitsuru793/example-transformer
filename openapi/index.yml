@@ -13,8 +13,8 @@ servers:
 paths:
   /users:
     get:
-      summary: Returns a list of users.
-      description: ''
+      summary: List users
+      description: List users
       responses:
         '200':
           description: OK
@@ -24,10 +24,12 @@ paths:
                 type: array
                 items:
                   $ref: ./models/User.v1.yaml
-      operationId: get-users
+      operationId: list-users
+      tags:
+        - users
     post:
-      summary: ''
-      operationId: post-users
+      summary: Create user
+      operationId: create-user
       responses:
         '200':
           description: OK
@@ -41,11 +43,15 @@ paths:
             schema:
               $ref: ./models/User.v1.yaml
         description: ''
+      description: Create user
+      tags:
+        - users
     parameters: []
   '/users/{userId}':
     get:
-      summary: Your GET endpoint
-      tags: []
+      summary: Show user by id
+      tags:
+        - users
       responses:
         '200':
           description: OK
@@ -53,7 +59,8 @@ paths:
             application/json:
               schema:
                 $ref: ./models/User.v1.yaml
-      operationId: get-users-userId
+      operationId: show-user-by-id
+      description: Show user by id
     parameters:
       - schema:
           type: integer
@@ -62,8 +69,8 @@ paths:
         required: true
         description: ''
     put:
-      summary: ''
-      operationId: put-users-userId
+      summary: Update user by id
+      operationId: update-user-by-id
       responses:
         '200':
           description: OK
@@ -72,16 +79,21 @@ paths:
           application/json:
             schema:
               $ref: ./models/User.v1.yaml
+      description: Update user by id
+      tags:
+        - users
     delete:
-      summary: ''
-      operationId: delete-users-userId
+      summary: Delete user by id
+      operationId: delete-user-by-id
       responses:
         '200':
           description: OK
+      description: Delete user by id
+      tags:
+        - users
   /posts:
     get:
-      summary: list-posts
-      tags: []
+      summary: List posts
       responses:
         '200':
           description: OK
@@ -91,10 +103,14 @@ paths:
                 type: array
                 items:
                   $ref: ./models/Post.v1.yaml
-      operationId: get-posts
+      operationId: list-posts
+      description: List posts
+      tags:
+        - posts
     post:
-      summary: create-posts
-      tags: []
+      summary: Create post by id
+      tags:
+        - posts
       responses:
         '200':
           description: OK
@@ -102,12 +118,13 @@ paths:
             application/json:
               schema:
                 $ref: ./models/Post.v1.yaml
-      operationId: post-posts
+      operationId: create-post-by-id
       requestBody:
         content:
           application/json:
             schema:
               $ref: ./models/Post.v1.yaml
+      description: Create post by id
   '/posts/{postId}':
     parameters:
       - schema:
@@ -116,8 +133,9 @@ paths:
         in: path
         required: true
     get:
-      summary: show-post
-      tags: []
+      summary: Show post
+      tags:
+        - posts
       responses:
         '200':
           description: OK
@@ -125,10 +143,12 @@ paths:
             application/json:
               schema:
                 $ref: ./models/Post.v1.yaml
-      operationId: get-posts-postId
+      operationId: show-post-by-id
+      description: Show post
     put:
-      summary: update-post
-      tags: []
+      summary: Update post by id
+      tags:
+        - posts
       responses:
         '200':
           description: OK
@@ -136,7 +156,7 @@ paths:
             application/json:
               schema:
                 $ref: ./models/Post.v1.yaml
-      operationId: put-posts-postId
+      operationId: update-post-by-id
       requestBody:
         content:
           application/json:
@@ -147,12 +167,18 @@ paths:
               type: object
               properties: {}
         description: ''
+      description: Update post by id
     delete:
-      summary: delete-post
-      tags: []
+      summary: Delete post by id
+      tags:
+        - posts
       responses:
         '200':
           description: OK
-      operationId: delete-posts-postId
+      operationId: delete-post-by-id
+      description: Delete post by id
 components:
   schemas: {}
+tags:
+  - name: posts
+  - name: users
