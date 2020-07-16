@@ -47,7 +47,8 @@
     },
     "autoload-dev": {
         "psr-4": {
-            "Php\\": "tests/unit/"
+            "Php\\": "tests/unit/",
+            "Helper\\": "tests/helper/"
         }
     }
 }

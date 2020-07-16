@@ -3,8 +3,12 @@ declare(strict_types=1);
 
 namespace Php;
 
+use Helper\FixtureTrait;
+
 abstract class TestCase extends \PHPUnit\Framework\TestCase
 {
+    use FixtureTrait;
+
     private \Php\Library\Fixture\Loader $loader;
 
     protected function setUp(): void
@@ -13,13 +17,8 @@ abstract class TestCase extends \PHPUnit\Framework\TestCase
         $this->loader = new \Php\Library\Fixture\Loader(__DIR__ . '/../fixtures.yml');
     }
 
-    protected function fixtures(): array
+    public function loader(): \Php\Library\Fixture\Loader
     {
-        return $this->loader->fixtures();
-    }
-
-    protected function fixturesRow(): array
-    {
-        return $this->loader->fixturesRow();
+        return $this->loader;
     }
 }
