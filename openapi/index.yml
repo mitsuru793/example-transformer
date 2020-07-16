@@ -3,6 +3,8 @@ info:
   title: Sample API
   description: 'Optional multiline or single-line description in [CommonMark](http://commonmark.org/help/) or HTML.'
   version: 0.0.1
+  contact:
+    name: mitsuru793
 servers:
   - url: 'http://api.myapp.net/v1'
     description: 'Optional server description, e.g. Main (production) server'
