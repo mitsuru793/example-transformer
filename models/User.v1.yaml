@@ -1,0 +1,12 @@
+title: User
+type: object
+properties:
+  id:
+    type: integer
+    format: int64
+  name:
+    type: string
+  password:
+    type: string
+required:
+  - name

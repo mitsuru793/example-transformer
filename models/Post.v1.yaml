@@ -1,0 +1,31 @@
+title: Post
+type: object
+x-examples: {}
+properties:
+  id:
+    type: integer
+    format: int64
+  author:
+    $ref: ./User.v1.yaml
+  tags:
+    type: array
+    items:
+      $ref: ./Tag.v1.yaml
+  title:
+    type: string
+  content:
+    type: string
+  viewableUsers:
+    type: array
+    items:
+      $ref: ./User.v1.yaml
+  year:
+    type: integer
+    format: int32
+    multipleOf: 0
+required:
+  - author
+  - title
+  - content
+  - viewableUsers
+  - year
