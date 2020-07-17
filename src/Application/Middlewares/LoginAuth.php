@@ -3,7 +3,7 @@ declare(strict_types=1);
 
 namespace Php\Application\Middlewares;
 
-use Php\Infrastructure\Repositories\Domain\EasyDB\EasyDBUserRepository;
+use Php\Domain\User\UserRepository;
 use Psr\Http\Message\ResponseInterface as Response;
 use Psr\Http\Message\ServerRequestInterface as Request;
 use Psr\Http\Server\MiddlewareInterface;
@@ -14,10 +14,10 @@ final class LoginAuth implements MiddlewareInterface
     public const SESSION_KEY = 'session_id';
     public const ATTRIBUTE_KEY = 'loginUser';
 
-    /**@var EasyDBUserRepository */
+    /**@var UserRepository */
     private $userRepository;
 
-    public function __construct(EasyDBUserRepository $userRepository)
+    public function __construct(UserRepository $userRepository)
     {
         $this->userRepository = $userRepository;
     }
