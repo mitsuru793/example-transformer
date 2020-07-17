@@ -3,20 +3,11 @@ declare(strict_types=1);
 
 namespace FunctionalTest\Http\Api\Users;
 
-use FunctionalTest\Http\Api\TestCase;
 use Php\Infrastructure\Tables\UserTable;
 use Php\Library\Fixture\AliceFixture;
 
 final class GetTest extends TestCase
 {
-    private UserTable $userTable;
-
-    protected function setUp(): void
-    {
-        parent::setUp();
-        $this->userTable = new UserTable();
-    }
-
     public function testGetUsers()
     {
         $f = new AliceFixture($this->fixturesRow());
@@ -39,11 +30,5 @@ final class GetTest extends TestCase
 
         $this->assertSame(200, $res->getStatusCode());
         $this->assertCount(0, $body);
-    }
-
-    private function assertEqualsUser(array $expected, array $actual)
-    {
-        $this->assertSame($expected['id'], $actual['id']);
-        $this->assertSame($expected['name'], $actual['name']);
     }
 }

@@ -52,6 +52,8 @@ abstract class TestCase extends \PHPUnit\Framework\TestCase
 
         if (strtolower($method) === 'get') {
             $request = $request->withQueryParams($params);
+        } else {
+            $request = $request->withParsedBody($params);
         }
 
         return $this->app->process($request);

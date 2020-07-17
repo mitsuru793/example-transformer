@@ -19,14 +19,16 @@ abstract class UserAction extends Action
     /**
      * @param User|User[] $user
      */
-    protected function transform($users): array
+    protected function transform($user): array
     {
-        if (!is_array($users)) {
-            $users = [$users];
-        }
-        return array_map(fn (User $user) => [
+        $transform = fn (User $user) => [
             'id' => $user->id,
             'name' => $user->name,
-        ], $users);
+        ];
+        if (!is_array($user)) {
+           return $transform($user) ;
+        }
+
+        return array_map($transform, $user);
     }
 }
