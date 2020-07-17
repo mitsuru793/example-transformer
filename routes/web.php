@@ -9,9 +9,7 @@ use Php\Application\Actions\Tweet;
 use Php\Application\Actions\Twitter;
 use Php\Application\Actions\UIFacesUser;
 
-global $container;
-
-return function (League\Route\Router $router) use ($container) {
+return function (League\Route\Router $router, \Psr\Container\ContainerInterface $container) {
     $router->get('/', Post\ListPostsAction::class);
 
     $router->post('/login', Auth\LoginAction::class);
@@ -45,5 +43,7 @@ return function (League\Route\Router $router) use ($container) {
     $router->group('/debug', function (\League\Route\RouteGroup $r) use ($container) {
         $templates = $container->get(\League\Plates\Engine::class);
         $r->get('/cors-request', new Debug\RenderStaticPageAction($templates, 'debug/cors-request'));
+
+        $r->get('/openapi-client', new Debug\RenderStaticPageAction($templates, 'debug/openapi-client'));
     });
 };

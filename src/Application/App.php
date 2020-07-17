@@ -37,7 +37,7 @@ final class App
         } else {
             $add = require_once \Php\Library\Util\Path::root() . '/routes/web.php';
         }
-        $add($router);
+        $add($router, $this->container);
 
         $request = $this->extendFormHttpMethod($request);
         return $router->dispatch($request);
