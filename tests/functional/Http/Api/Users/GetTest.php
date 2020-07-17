@@ -32,6 +32,15 @@ final class GetTest extends TestCase
         $this->assertEqualsUser($f->get('user2'), $body[1]);
     }
 
+    public function testGetEmpty()
+    {
+        $res = $this->http('GET', '/users');
+        $body = json_decode((string)$res->getBody(), true);
+
+        $this->assertSame(200, $res->getStatusCode());
+        $this->assertCount(0, $body);
+    }
+
     private function assertEqualsUser(array $expected, array $actual)
     {
         $this->assertSame($expected['id'], $actual['id']);

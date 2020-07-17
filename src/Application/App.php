@@ -31,9 +31,9 @@ final class App
 
         $regexp = sprintf('@^%s$@', \Php\Library\Util\Host::api());
         if (preg_match($regexp, $request->getUri()->getHost())) {
-            $add = require_once \Php\Library\Util\Path::root() . '/routes/api.php';
+            $add = require \Php\Library\Util\Path::root() . '/routes/api.php';
         } else {
-            $add = require_once \Php\Library\Util\Path::root() . '/routes/web.php';
+            $add = require \Php\Library\Util\Path::root() . '/routes/web.php';
         }
         $add($router, $this->container);
 

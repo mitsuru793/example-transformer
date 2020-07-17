@@ -62,10 +62,10 @@ abstract class TestCase extends \PHPUnit\Framework\TestCase
         $this->container = new \League\Container\Container;
         $this->container->delegate(new \League\Container\ReflectionContainer);
 
-        $add = require_once __DIR__ . '/../../../../config/dependencies.php';
+        $add = require __DIR__ . '/../../../../config/dependencies.php';
         $add($this->container);
 
-        $add = require_once __DIR__ . '/../../../../config/repositories.php';
+        $add = require __DIR__ . '/../../../../config/repositories.php';
         $add($this->container);
 
         return new \Php\Application\App($this->container);
