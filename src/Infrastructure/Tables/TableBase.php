@@ -9,6 +9,11 @@ abstract class TableBase implements Table
 
     public const COLUMNS = [];
 
+    public function __toString(): string
+    {
+        return static::TABLE;
+    }
+
     public function name(): string
     {
         return static::TABLE;
