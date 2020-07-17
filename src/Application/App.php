@@ -18,8 +18,6 @@ final class App
 
     public function process(ServerRequestInterface $request): ResponseInterface
     {
-        $this->bootEloquent();
-
         $strategy = (new \League\Route\Strategy\ApplicationStrategy);
         $strategy->setContainer($this->container);
 
@@ -41,22 +39,6 @@ final class App
 
         $request = $this->extendFormHttpMethod($request);
         return $router->dispatch($request);
-    }
-
-    private function bootEloquent()
-    {
-        $capsule = new \Illuminate\Database\Capsule\Manager();
-        $capsule->addConnection([
-            'driver' => 'mysql',
-            'host' => getenv('DB_HOST'),
-            'database' => getenv('DB_DATABASE'),
-            'username' => getenv('DB_USER'),
-            'password' => getenv('DB_PASS'),
-            'charset' => 'utf8',
-            'collation' => 'utf8_unicode_ci',
-        ]);
-        $capsule->setAsGlobal();
-        $capsule->bootEloquent();
     }
 
     private function extendFormHttpMethod(ServerRequestInterface $request): ServerRequestInterface
