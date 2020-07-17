@@ -11,6 +11,6 @@ final class ListUsersAction extends UserAction
     protected function action(): Response
     {
         $users = $this->userRepo->paging(1, 5);
-        return $this->respondWithData($users);
+        return $this->respondWithData($this->transform($users));
     }
 }
