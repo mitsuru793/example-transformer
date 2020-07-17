@@ -15,8 +15,6 @@ abstract class TestCase extends \PHPUnit\Framework\TestCase
 
     private \Php\Application\App $app;
 
-    private \Php\Library\Fixture\Loader $loader;
-
     protected ExtendedEasyDB $db;
 
     private ContainerInterface $container;
@@ -25,7 +23,6 @@ abstract class TestCase extends \PHPUnit\Framework\TestCase
     {
         parent::setUp();
         $this->app = $this->createApp();
-        $this->loader = new \Php\Library\Fixture\Loader(__DIR__ . '/../../../fixtures.yml');
 
         $this->db = $this->container->get(ExtendedEasyDB::class);
         $this->db->beginTransaction();
@@ -40,11 +37,16 @@ abstract class TestCase extends \PHPUnit\Framework\TestCase
 
     public function loader(): \Php\Library\Fixture\Loader
     {
-        return $this->loader;
+        return new \Php\Library\Fixture\Loader(__DIR__ . '/../../../fixtures.yml');
     }
 
-    protected function http(string $method, string $path, array $params = []): ResponseInterface
+    protected function http(string $method, string $path, $params = []): ResponseInterface
     {
+        if ($params instanceof \Illuminate\Support\Enumerable) {
+            $params = $params->toArray();
+        }
+        assert(is_array($params));
+
         $factory = new ServerRequestFactory();
         $request = $factory->createServerRequest($method, $path);
         $uri = $request->getUri()->withHost(\Php\Library\Util\Host::api());
