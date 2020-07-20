@@ -3,7 +3,7 @@ declare(strict_types=1);
 
 namespace Php\Application\Api\Actions\User;
 
-use Php\Domain\User\UserRepository;
+use Php\Application\ActionPayload;
 use Psr\Http\Message\ResponseInterface as Response;
 
 final class DeleteUserAction extends UserAction
@@ -11,7 +11,7 @@ final class DeleteUserAction extends UserAction
     protected function action(): Response
     {
         $id = (int)$this->resolveArg('userId');
-        $user = $this->userRepo->delete($id);
-        return $this->respondWithData($user);
+        $this->userRepo->delete($id);
+        return $this->respond(new ActionPayload(204));
     }
 }

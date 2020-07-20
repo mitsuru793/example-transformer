@@ -18,5 +18,5 @@ interface UserRepository
      */
     public function createMany(array $users): void;
 
-    public function delete(int $id);
+    public function delete(int $id): void;
 }
