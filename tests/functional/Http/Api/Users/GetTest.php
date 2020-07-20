@@ -3,7 +3,6 @@ declare(strict_types=1);
 
 namespace FunctionalTest\Http\Api\Users;
 
-use Php\Infrastructure\Tables\UserTable;
 use Php\Library\Fixture\AliceFixture;
 
 final class GetTest extends TestCase
