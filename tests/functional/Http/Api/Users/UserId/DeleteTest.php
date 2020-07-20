@@ -1,8 +1,9 @@
 <?php
 declare(strict_types=1);
 
-namespace FunctionalTest\Http\Api\Users;
+namespace FunctionalTest\Http\Api\Users\UserId;
 
+use FunctionalTest\Http\Api\Users\TestCase;
 use Php\Library\Fixture\AliceFixture;
 
 final class DeleteTest extends TestCase
