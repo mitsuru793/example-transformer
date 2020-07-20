@@ -17,5 +17,8 @@ final class DeleteTest extends TestCase
 
         $this->assertSame(204, $res->getStatusCode());
         $this->assertSame([], $body);
+
+        $row = $this->db->find($this->userTable, 1);
+        $this->assertNull($row);
     }
 }
