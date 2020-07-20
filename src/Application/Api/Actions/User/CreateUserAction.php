@@ -32,7 +32,7 @@ final class CreateUserAction extends UserAction
             $msg = $errors[$key][0];
             $err = new ActionError(ActionError::UNPROCESSABLE_ENTITY, $msg);
             $payload = new ActionPayload(422, null, $err);
-            return $this->respond($payload)->withStatus(422);
+            return $this->respond($payload);
         }
 
         $user = new User(null, $input['name'], $input['password']);
