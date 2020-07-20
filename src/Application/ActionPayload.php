@@ -70,6 +70,12 @@ class ActionPayload implements JsonSerializable
         } elseif ($this->error !== null) {
             $payload['error'] = $this->error;
             return $payload;
+        } elseif ($this->statusCode === 204) {
+            /**
+             * Not content
+             * @link https://developer.mozilla.org/ja/docs/Web/HTTP/Status/204
+             */
+            return [];
         }
         throw new \RuntimeException('Set either data or error of action payload. Both of them are null.');
     }
