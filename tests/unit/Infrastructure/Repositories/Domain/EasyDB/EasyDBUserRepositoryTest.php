@@ -112,6 +112,18 @@ class EasyDBUserRepositoryTest extends TestCase
         $this->assertSame($f['user2']->name, $got[1]->name);
     }
 
+    public function testUpdate()
+    {
+        $user = $this->fixturesRow()['user1'];
+        $this->db->insert($this->userTable->name(), $user);
+
+        $new = new User($user['id'], 'after name', 'after pass');
+        $this->userRepo->update($new);
+
+        $got = $this->userRepo->find($user['id']);
+        $this->assertEqualsUser($new, $got);
+    }
+
     public function testDelete()
     {
         $this->db->insert($this->userTable->name(), [

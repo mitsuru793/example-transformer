@@ -69,6 +69,16 @@ final class EasyDBUserRepository implements UserRepository
         );
     }
 
+    public function update(User $user): void
+    {
+        $this->db->update($this->table->name(), [
+            'name' => $user->name,
+            'password' => $user->password,
+        ], [
+            'id' => $user->id,
+        ]);
+    }
+
     public function delete(int $id): void
     {
         $this->db->delete('posts', ['author_id' => $id]);
