@@ -11,8 +11,8 @@ final class GetTest extends TestCase
 {
     public function testGetUserById()
     {
-        $f = new AliceFixture($this->fixturesRow());
-        $this->db->insertMany($this->userTable->name(), $f->get('user{1..2}', true));
+        $f = new AliceFixture($this->fixtures());
+        $this->userRepo->createMany($f->get('user{1..2}', true));
 
         $res = $this->http('GET', '/users/1');
         $body = json_decode((string)$res->getBody(), true);

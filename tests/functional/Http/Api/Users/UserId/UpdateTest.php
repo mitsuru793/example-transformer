@@ -22,13 +22,13 @@ final class UpdateTest extends TestCase
 
         $users[0]->name = 'after name';
         $this->assertSame(200, $res->getStatusCode());
-        $this->assertEqualsUser((array)$users[0], $body);
+        $this->assertEqualsUser($users[0], $body);
 
         $got = $this->userRepo->find($users[0]->id);
-        $this->assertEqualsStrictUser((array)$users[0], (array)$got);
+        $this->assertEqualsStrictUser($users[0], (array)$got);
 
         $got = $this->userRepo->find($users[1]->id);
-        $this->assertEqualsStrictUser((array)$users[1], (array)$got);
+        $this->assertEqualsStrictUser($users[1], (array)$got);
     }
 
     public function testNotUpdatePassword()
@@ -43,7 +43,7 @@ final class UpdateTest extends TestCase
 
         $got = $this->userRepo->find($user->id);
         $this->assertNotSame('after pass', $got->password);
-        $this->assertEqualsStrictUser((array)$user, (array)$got);
+        $this->assertEqualsStrictUser($user, (array)$got);
     }
 
     /**

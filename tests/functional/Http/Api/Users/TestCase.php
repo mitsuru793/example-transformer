@@ -3,6 +3,7 @@ declare(strict_types=1);
 
 namespace FunctionalTest\Http\Api\Users;
 
+use Php\Domain\User\User;
 use Php\Domain\User\UserRepository;
 use Php\Infrastructure\Repositories\Domain\EasyDB\EasyDBUserRepository;
 use Php\Infrastructure\Tables\UserTable;
@@ -21,17 +22,17 @@ abstract class TestCase extends \FunctionalTest\Http\Api\TestCase
         $this->userRepo = new EasyDBUserRepository($this->db, $this->userTable);
     }
 
-    protected function assertEqualsUser(array $expected, array $actual)
+    protected function assertEqualsUser(User $expected, array $actual)
     {
-        $this->assertSame($expected['id'], $actual['id']);
-        $this->assertSame($expected['name'], $actual['name']);
+        $this->assertSame($expected->id, $actual['id']);
+        $this->assertSame($expected->name, $actual['name']);
     }
 
-    protected function assertEqualsStrictUser(array $expected, array $actual)
+    protected function assertEqualsStrictUser(User $expected, array $actual)
     {
         $this->assertEqualsUser($expected, $actual);
 
-        $passA = $expected['password'] ?? null;
+        $passA = $expected->password;
         $passB = $actual['password'] ?? null;
         if ($passA || $passB) {
             $this->assertSame($passA ?? null, $passB ?? null);
