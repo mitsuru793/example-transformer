@@ -23,7 +23,8 @@ final class PostTest extends TestCase
     }
 
     /**
-     * @dataProvider validateInputProvider
+     * @dataProvider invalidNameProvider
+     * @dataProvider invalidPasswordProvider
      */
     public function testValidateInput(bool $success, $input)
     {
@@ -39,29 +40,5 @@ final class PostTest extends TestCase
             $this->assertSame(ActionError::UNPROCESSABLE_ENTITY, $error['type']);
             $this->assertNotEmpty($error['description']);
         }
-    }
-
-    public function validateInputProvider()
-    {
-        $f = new AliceFixture(self::fixturesRow());
-        $input = collect($f->get('user1'));
-
-        $repeat = fn ($count) => $input->merge(['name' => str_repeat('s', $count)]);
-        yield 'Name must be required' => [false, $input->merge([])->forget('name')];
-        yield 'Name must not empty' => [false, $repeat(0)];
-
-        yield 'Length of name must be grater than 2' => [false, $repeat(2)];
-        yield 'Length of name is grater than 2' => [true, $repeat(3)];
-        yield 'Length of name is less than 30' => [true, $repeat(30)];
-        yield 'Length of name must be less than 30' => [false, $repeat(31)];
-
-        $repeat = fn ($count) => $input->merge(['password' => str_repeat('s', $count)]);
-        yield 'Password must be required' => [false, $input->merge([])->forget('password')];
-        yield 'Password must not empty' => [false, $repeat(0)];
-
-        yield 'Length of password must be grater than 2' => [false, $repeat(7)];
-        yield 'Length of password is grater than 2' => [true, $repeat(8)];
-        yield 'Length of password is less than 31' => [true, $repeat(16)];
-        yield 'Length of password must be less than 31' => [false, $repeat(17)];
     }
 }
