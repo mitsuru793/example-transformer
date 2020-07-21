@@ -11,15 +11,15 @@ final class GetTest extends TestCase
 {
     public function testGetUserById()
     {
-        $f = new AliceFixture($this->fixtures());
-        $this->userRepo->createMany($f->get('user{1..2}', true));
+        $users = $this->f()->users('1..2');
+        $this->userRepo->createMany($users);
 
         $res = $this->http('GET', '/users/1');
         $body = json_decode((string)$res->getBody(), true);
 
         $this->assertSame(200, $res->getStatusCode());
         $this->assertArrayNotHasKey('password', $body);
-        $this->assertEqualsUser($f->get('user1'), $body);
+        $this->assertEqualsUser($users[0], $body);
     }
 
     public function testNotFound()

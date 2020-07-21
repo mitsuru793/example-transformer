@@ -11,8 +11,7 @@ final class UpdateTest extends TestCase
 {
     public function testUpdate()
     {
-        $f = new AliceFixture($this->fixtures());
-        $users = $f->get('user{1..2}', true);
+        $users = $this->f()->users('1..2');
         $this->userRepo->createMany($users);
 
         $res = $this->http('PUT', "/users/{$users[0]->id}", [
@@ -33,8 +32,7 @@ final class UpdateTest extends TestCase
 
     public function testNotUpdatePassword()
     {
-        $f = new AliceFixture($this->fixtures());
-        $user = $f->get('user1');
+        $user = $this->f()->user(1);
         $this->userRepo->create($user);
 
         $this->http('PUT', "/users/$user->id", [
@@ -51,8 +49,7 @@ final class UpdateTest extends TestCase
      */
     public function testValidateInput(bool $success, $input)
     {
-        $f = new AliceFixture($this->fixtures());
-        $user = $f->get('user1');
+        $user = $this->f()->user(1);
         $this->userRepo->create($user);
 
         $res = $this->http('PUT', "/users/$user->id", $input);

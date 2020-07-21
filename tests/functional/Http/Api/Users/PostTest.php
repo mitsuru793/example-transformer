@@ -11,9 +11,7 @@ final class PostTest extends TestCase
 {
     public function testCreateUser()
     {
-        $f = new AliceFixture($this->fixtures());
-        /** @var User $user */
-        $user = $f->get('user1');
+        $user = $this->f()->user(1);
 
         $res = $this->http('POST', '/users', [
             'name' => $user->name,

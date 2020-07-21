@@ -29,11 +29,10 @@ final class DeleteTest extends TestCase
 
     public function testDelete()
     {
-        $f = new AliceFixture($this->fixtures());
-        $posts = $f->get('post{1..2}', true);
+        $posts = $this->f()->posts('1..2');
         $authors = array_map(fn ($p) => $p->author, $posts);
         $this->userRepo->createMany($authors);
-        $this->postRepo->createMany($f->get('post{1..2}', true));
+        $this->postRepo->createMany($posts);
 
         $authorId = $authors[0]->id;
         $res = $this->http('DELETE', "/users/$authorId");

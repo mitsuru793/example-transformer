@@ -9,8 +9,8 @@ final class GetTest extends TestCase
 {
     public function testGetUsers()
     {
-        $f = new AliceFixture($this->fixtures());
-        $this->userRepo->createMany($f->get('user{1..2}', true));
+        $users = $this->f()->users('1..2');
+        $this->userRepo->createMany($users);
 
         $res = $this->http('GET', '/users');
         $body = json_decode((string)$res->getBody(), true);
@@ -18,8 +18,8 @@ final class GetTest extends TestCase
         $this->assertSame(200, $res->getStatusCode());
         $this->assertCount(2, $body);
         $this->assertArrayNotHasKey('password', $body[0]);
-        $this->assertEqualsUser($f->get('user1'), $body[0]);
-        $this->assertEqualsUser($f->get('user2'), $body[1]);
+        $this->assertEqualsUser($users[0], $body[0]);
+        $this->assertEqualsUser($users[1], $body[1]);
     }
 
     public function testGetEmpty()
