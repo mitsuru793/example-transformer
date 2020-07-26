@@ -3,7 +3,6 @@ declare(strict_types=1);
 
 namespace Php\Application\Api\Actions\User;
 
-use Php\Domain\User\User;
 use Psr\Http\Message\ResponseInterface as Response;
 
 final class UpdateUserAction extends UserAction
