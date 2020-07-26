@@ -17,5 +17,6 @@ $v->layout('layouts/default')
     <div class="form-group row">
         <textarea name="content" type="textarea" class="form-control" rows="5"><?= $post->content ?></textarea>
     </div>
+    <a href="/posts/<?= $post->id ?>" class="btn btn-secondary">Cancel</a>
     <button type="submit" class="btn btn-primary">Post</button>
 </form>
