@@ -23,8 +23,8 @@ final class EasyDBTwitterAccessTokenRepository implements AccessTokenRepository
     {
         $row = $this->db->row(<<<SQL
             SELECT {$this->table->columnsStr()}
-            FROM {$this->table->name()}
-            WHERE {$this->table->name()}.twitter_user_id = ?
+            FROM {$this->table}
+            WHERE {$this->table}.twitter_user_id = ?
             SQL,
             $userId,
         );
