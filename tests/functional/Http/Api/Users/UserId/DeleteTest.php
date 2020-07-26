@@ -10,7 +10,6 @@ use Php\Infrastructure\Repositories\Domain\EasyDB\EasyDBTagRepository;
 use Php\Infrastructure\Repositories\Domain\EasyDB\EasyDBUserRepository;
 use Php\Infrastructure\Tables\PostTable;
 use Php\Infrastructure\Tables\TagTable;
-use Php\Library\Fixture\AliceFixture;
 
 final class DeleteTest extends TestCase
 {
