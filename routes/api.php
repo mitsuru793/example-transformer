@@ -7,6 +7,7 @@ use Php\Application\Api\Actions\User\CreateUserAction;
 use Php\Application\Api\Actions\User\DeleteUserAction;
 use Php\Application\Api\Actions\User\ListUsersAction;
 use Php\Application\Api\Actions\User\ShowUserAction;
+use Php\Application\Api\Actions\User\UpdateUserAction;
 
 return function (\League\Route\Router $router) {
     $router->options('/{routes:.*}', Auth\PermitPreflightAction::class);
@@ -22,6 +23,7 @@ return function (\League\Route\Router $router) {
         $r->get('/', ListUsersAction::class);
         $r->post('/', CreateUserAction::class);
         $r->get('/{userId:\d+}', ShowUserAction::class);
+        $r->put('/{userId:\d+}', UpdateUserAction::class);
         $r->delete('/{userId:\d+}', DeleteUserAction::class);
     });
 };

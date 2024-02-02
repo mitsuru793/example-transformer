@@ -2,6 +2,6 @@
 
 echo http://localhost:11080
 docker run -p 11080:8080 \
-  -v (pwd)/openapi/index.yml:/usr/share/nginx/html/bundle.yml \
-  -e API_URL=bundle.yml \
+  -v (pwd)/openapi/index.yml:/usr/share/nginx/html/index.yml \
+  -e API_URL=index.yml \
   swaggerapi/swagger-ui

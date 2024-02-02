@@ -7,7 +7,7 @@ final class Path
 {
     public static function root(): string
     {
-        return __DIR__ . '/../../..';
+        return __DIR__ . '/../../../';
     }
 
     public static function webRoot(): string

@@ -38,4 +38,23 @@ final class ExtendedEasyDB extends EasyDB
         }
         return $transformer($row);
     }
+
+    /**
+     * @return mixed|array|null
+     */
+    public function findBy(Table $table, string $column, int $id, callable $transformer = null)
+    {
+        $columns = implode(', ', $table->columns());
+        $row = $this->row(
+            "SELECT {$columns} FROM {$table->name()} WHERE {$table->name()}.{$column} = ?",
+            $id,
+        );
+        if (!$row) {
+            return null;
+        }
+        if (is_null($transformer)) {
+            return $row;
+        }
+        return $transformer($row);
+    }
 }

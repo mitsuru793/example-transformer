@@ -29,7 +29,22 @@ paths:
 components:
   schemas:
     User:
-      $ref: ./models/User.v1.yaml
+      title: User
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int64
+          minimum: 1
+        name:
+          type: string
+        password:
+          type: string
+        createdAt:
+          type: string
+          format: date-time
+      required:
+        - name
     Users:
       type: array
       items:
@@ -42,7 +57,7 @@ components:
       properties:
         state:
           type: integer
-          description: 表示タイプ(0:Down,1:Keep,2:Up,3:New,4:PR)
+          description: '表示タイプ(0:Down,1:Keep,2:Up,3:New,4:PR)'
           format: int32
           enum:
             - 0
@@ -58,7 +73,7 @@ components:
             - PR
     Hoge:
       type: integer
-      description: >
+      description: |
         まとめの公開範囲
          * `-2` - 削除
          * `-1` - 運営による非公開
